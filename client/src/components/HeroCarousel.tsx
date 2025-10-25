@@ -78,8 +78,9 @@ export default function HeroCarousel() {
           </p>
           <Button
             variant="default"
+            size="sm"
             onClick={scrollToSubscriptions}
-            className="px-8 shadow-xl hover:shadow-2xl"
+            className="px-6 shadow-xl hover:shadow-2xl"
             data-testid="button-browse-plans"
           >
             View Plans
