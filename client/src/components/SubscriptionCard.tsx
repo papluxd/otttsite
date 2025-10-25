@@ -52,14 +52,12 @@ export default function SubscriptionCard({
           </div>
         </div>
 
-        <div className="flex items-baseline gap-2">
-          <div>
+        <div className="space-y-1">
+          <div className="flex items-baseline gap-2">
             <span className="text-3xl font-black text-foreground" data-testid={`text-price-${platform.toLowerCase().replace(/\s+/g, '-')}`}>₹{discountedPrice}</span>
-          </div>
-          <div className="flex flex-col">
             <span className="text-xs text-muted-foreground line-through">₹{originalPrice}</span>
-            <Badge variant="secondary" className="text-xs px-1.5 py-0">Save {savings}%</Badge>
           </div>
+          <Badge variant="secondary" className="text-xs px-1.5 py-0.5 bg-orange-500 hover:bg-orange-600 text-white border-0 w-fit">Save {savings}%</Badge>
         </div>
 
         <div className="border-t pt-3 space-y-1.5 flex-1">
