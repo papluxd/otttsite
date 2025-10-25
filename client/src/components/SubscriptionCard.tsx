@@ -1,7 +1,7 @@
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, Zap } from "lucide-react";
+import { Sparkles } from "lucide-react";
 
 interface SubscriptionCardProps {
   platform: string;
@@ -29,50 +29,54 @@ export default function SubscriptionCard({
     window.open(`https://wa.me/919443419022?text=${message}`, "_blank");
   };
 
+  const savings = Math.round(((originalPrice - discountedPrice) / originalPrice) * 100);
+
   return (
-    <Card className="relative overflow-visible hover-elevate transition-all duration-300 h-full flex flex-col">
+    <Card className={`relative overflow-visible hover-elevate transition-all duration-300 h-full flex flex-col group ${popular ? 'border-primary/50' : ''}`}>
       {popular && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-          <Badge variant="default" className="rounded-full">
-            <Zap className="h-3 w-3 mr-1" />
-            Most Popular
+        <div className="absolute -top-3 right-4">
+          <Badge variant="default" className="shadow-lg">
+            <Sparkles className="h-3 w-3 mr-1" />
+            Popular
           </Badge>
         </div>
       )}
-      <CardHeader className="text-center space-y-4 pb-4">
-        <div className="text-5xl mx-auto">{icon}</div>
-        <div>
-          <h3 className="text-2xl font-bold" data-testid={`text-platform-${platform.toLowerCase().replace(/\s+/g, '-')}`}>{platform}</h3>
-          <p className="text-muted-foreground">{duration}</p>
+      <CardContent className="p-8 flex flex-col h-full gap-6">
+        <div className="flex items-start justify-between">
+          <div>
+            <h3 className="text-2xl font-bold mb-1" data-testid={`text-platform-${platform.toLowerCase().replace(/\s+/g, '-')}`}>{platform}</h3>
+            <p className="text-sm text-muted-foreground">{duration}</p>
+          </div>
+          <div className="text-4xl">{icon}</div>
         </div>
-      </CardHeader>
-      <CardContent className="text-center space-y-4 flex-1">
-        <div>
-          <p className="text-muted-foreground line-through text-lg">₹{originalPrice}</p>
-          <p className="text-4xl font-bold text-primary" data-testid={`text-price-${platform.toLowerCase().replace(/\s+/g, '-')}`}>₹{discountedPrice}</p>
-          <Badge variant="secondary" className="mt-2">
-            Save ₹{originalPrice - discountedPrice}
-          </Badge>
+
+        <div className="flex items-baseline gap-3">
+          <div>
+            <span className="text-4xl font-black text-foreground" data-testid={`text-price-${platform.toLowerCase().replace(/\s+/g, '-')}`}>₹{discountedPrice}</span>
+          </div>
+          <div className="flex flex-col">
+            <span className="text-sm text-muted-foreground line-through">₹{originalPrice}</span>
+            <Badge variant="secondary" className="text-xs">Save {savings}%</Badge>
+          </div>
         </div>
-        <ul className="space-y-2 text-left">
+
+        <div className="border-t pt-4 space-y-2 flex-1">
           {features.map((feature, index) => (
-            <li key={index} className="flex items-start gap-2">
-              <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-              <span className="text-sm">{feature}</span>
-            </li>
+            <p key={index} className="text-sm text-muted-foreground">
+              {feature}
+            </p>
           ))}
-        </ul>
-      </CardContent>
-      <CardFooter className="pt-4">
+        </div>
+
         <Button
-          className="w-full rounded-full"
+          className="w-full group-hover:shadow-lg transition-all"
           size="lg"
           onClick={handleBuyNow}
           data-testid={`button-buy-${platform.toLowerCase().replace(/\s+/g, '-')}`}
         >
           Buy Now
         </Button>
-      </CardFooter>
+      </CardContent>
     </Card>
   );
 }

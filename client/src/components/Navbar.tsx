@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
-import logoImage from "@assets/generated_images/Next_Gen_Clicks_logo_f7a3e46b.png";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -15,39 +14,27 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b">
+    <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          <div className="flex items-center gap-3">
-            <img src={logoImage} alt="Next Gen Clicks" className="h-10 w-10 md:h-12 md:w-12" />
-            <span className="text-xl md:text-2xl font-bold text-foreground">Next Gen Clicks</span>
+        <div className="flex items-center justify-between h-20">
+          <div className="flex items-center">
+            <span className="text-2xl md:text-3xl font-black tracking-tight">
+              <span className="text-primary">NEXT GEN</span>
+              <span className="text-foreground"> CLICKS</span>
+            </span>
           </div>
 
-          <div className="hidden md:flex items-center gap-8">
-            <button
-              onClick={() => scrollToSection("home")}
-              className="text-foreground hover-elevate px-3 py-2 rounded-md font-medium"
-              data-testid="link-home"
-            >
-              Home
-            </button>
+          <div className="hidden md:flex items-center gap-2">
             <button
               onClick={() => scrollToSection("subscriptions")}
-              className="text-foreground hover-elevate px-3 py-2 rounded-md font-medium"
+              className="text-foreground hover-elevate px-4 py-2 rounded-lg font-medium transition-all"
               data-testid="link-subscriptions"
             >
-              Subscriptions
-            </button>
-            <button
-              onClick={() => scrollToSection("features")}
-              className="text-foreground hover-elevate px-3 py-2 rounded-md font-medium"
-              data-testid="link-features"
-            >
-              Features
+              Plans
             </button>
             <button
               onClick={() => scrollToSection("contact")}
-              className="text-foreground hover-elevate px-3 py-2 rounded-md font-medium"
+              className="text-foreground hover-elevate px-4 py-2 rounded-lg font-medium transition-all"
               data-testid="link-contact"
             >
               Contact
@@ -55,7 +42,7 @@ export default function Navbar() {
             <Button
               variant="default"
               onClick={() => scrollToSection("subscriptions")}
-              className="rounded-full"
+              className="ml-4"
               data-testid="button-get-started"
             >
               Get Started
@@ -73,39 +60,25 @@ export default function Navbar() {
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden border-t bg-background">
+        <div className="md:hidden border-t bg-background/95 backdrop-blur-lg">
           <div className="px-4 py-4 space-y-2">
             <button
-              onClick={() => scrollToSection("home")}
-              className="block w-full text-left px-3 py-2 rounded-md hover-elevate font-medium"
-              data-testid="link-home-mobile"
-            >
-              Home
-            </button>
-            <button
               onClick={() => scrollToSection("subscriptions")}
-              className="block w-full text-left px-3 py-2 rounded-md hover-elevate font-medium"
+              className="block w-full text-left px-4 py-3 rounded-lg hover-elevate font-medium transition-all"
               data-testid="link-subscriptions-mobile"
             >
-              Subscriptions
-            </button>
-            <button
-              onClick={() => scrollToSection("features")}
-              className="block w-full text-left px-3 py-2 rounded-md hover-elevate font-medium"
-              data-testid="link-features-mobile"
-            >
-              Features
+              Plans
             </button>
             <button
               onClick={() => scrollToSection("contact")}
-              className="block w-full text-left px-3 py-2 rounded-md hover-elevate font-medium"
+              className="block w-full text-left px-4 py-3 rounded-lg hover-elevate font-medium transition-all"
               data-testid="link-contact-mobile"
             >
               Contact
             </button>
             <Button
               variant="default"
-              className="w-full rounded-full mt-4"
+              className="w-full mt-4"
               onClick={() => scrollToSection("subscriptions")}
               data-testid="button-get-started-mobile"
             >
