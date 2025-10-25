@@ -91,15 +91,15 @@ const subscriptions = [
 
 export default function SubscriptionsSection() {
   return (
-    <section id="subscriptions" className="py-16 md:py-20 lg:py-24">
+    <section id="subscriptions" className="py-12 md:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 md:mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Choose Your Perfect Plan</h2>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Get premium subscriptions at prices that won't break the bank
+        <div className="text-center mb-10">
+          <h2 className="text-2xl md:text-3xl font-bold mb-2">Choose Your Plan</h2>
+          <p className="text-sm md:text-base text-muted-foreground max-w-2xl mx-auto">
+            Premium subscriptions at unbeatable prices
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {subscriptions.map((subscription, index) => (
             <SubscriptionCard key={index} {...subscription} />
           ))}

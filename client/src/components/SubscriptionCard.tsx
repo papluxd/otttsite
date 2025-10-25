@@ -34,37 +34,37 @@ export default function SubscriptionCard({
   return (
     <Card className={`relative overflow-visible hover-elevate transition-all duration-300 h-full flex flex-col group ${popular ? 'border-primary/50' : ''}`}>
       {popular && (
-        <div className="absolute -top-3 right-4">
-          <Badge variant="default" className="shadow-lg">
+        <div className="absolute -top-2 right-3">
+          <Badge variant="default" className="shadow-lg text-xs">
             <Sparkles className="h-3 w-3 mr-1" />
             Popular
           </Badge>
         </div>
       )}
-      <CardContent className="p-8 flex flex-col h-full gap-6">
+      <CardContent className="p-6 flex flex-col h-full gap-4">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <h3 className="text-2xl font-bold mb-1" data-testid={`text-platform-${platform.toLowerCase().replace(/\s+/g, '-')}`}>{platform}</h3>
-            <p className="text-sm text-muted-foreground">{duration}</p>
+            <h3 className="text-lg font-bold mb-0.5" data-testid={`text-platform-${platform.toLowerCase().replace(/\s+/g, '-')}`}>{platform}</h3>
+            <p className="text-xs text-muted-foreground">{duration}</p>
           </div>
-          <div className="w-16 h-16 flex items-center justify-center">
+          <div className="w-12 h-12 flex items-center justify-center">
             <img src={logo} alt={platform} className="w-full h-full object-contain" />
           </div>
         </div>
 
-        <div className="flex items-baseline gap-3">
+        <div className="flex items-baseline gap-2">
           <div>
-            <span className="text-4xl font-black text-foreground" data-testid={`text-price-${platform.toLowerCase().replace(/\s+/g, '-')}`}>₹{discountedPrice}</span>
+            <span className="text-3xl font-black text-foreground" data-testid={`text-price-${platform.toLowerCase().replace(/\s+/g, '-')}`}>₹{discountedPrice}</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-sm text-muted-foreground line-through">₹{originalPrice}</span>
-            <Badge variant="secondary" className="text-xs">Save {savings}%</Badge>
+            <span className="text-xs text-muted-foreground line-through">₹{originalPrice}</span>
+            <Badge variant="secondary" className="text-xs px-1.5 py-0">Save {savings}%</Badge>
           </div>
         </div>
 
-        <div className="border-t pt-4 space-y-2 flex-1">
+        <div className="border-t pt-3 space-y-1.5 flex-1">
           {features.map((feature, index) => (
-            <p key={index} className="text-sm text-muted-foreground">
+            <p key={index} className="text-xs text-muted-foreground">
               {feature}
             </p>
           ))}
@@ -72,7 +72,6 @@ export default function SubscriptionCard({
 
         <Button
           className="w-full group-hover:shadow-lg transition-all"
-          size="lg"
           onClick={handleBuyNow}
           data-testid={`button-buy-${platform.toLowerCase().replace(/\s+/g, '-')}`}
         >
