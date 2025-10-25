@@ -5,7 +5,7 @@ import { Sparkles } from "lucide-react";
 
 interface SubscriptionCardProps {
   platform: string;
-  icon: string;
+  logo: string;
   duration: string;
   originalPrice: number;
   discountedPrice: number;
@@ -15,7 +15,7 @@ interface SubscriptionCardProps {
 
 export default function SubscriptionCard({
   platform,
-  icon,
+  logo,
   duration,
   originalPrice,
   discountedPrice,
@@ -43,11 +43,13 @@ export default function SubscriptionCard({
       )}
       <CardContent className="p-8 flex flex-col h-full gap-6">
         <div className="flex items-start justify-between">
-          <div>
+          <div className="flex-1">
             <h3 className="text-2xl font-bold mb-1" data-testid={`text-platform-${platform.toLowerCase().replace(/\s+/g, '-')}`}>{platform}</h3>
             <p className="text-sm text-muted-foreground">{duration}</p>
           </div>
-          <div className="text-4xl">{icon}</div>
+          <div className="w-16 h-16 flex items-center justify-center">
+            <img src={logo} alt={platform} className="w-full h-full object-contain" />
+          </div>
         </div>
 
         <div className="flex items-baseline gap-3">

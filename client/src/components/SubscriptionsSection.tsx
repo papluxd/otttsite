@@ -1,10 +1,16 @@
 import SubscriptionCard from "./SubscriptionCard";
+import netflixLogo from "@assets/generated_images/Netflix_logo_34cd8c38.png";
+import primeLogo from "@assets/generated_images/Amazon_Prime_logo_dd129cd5.png";
+import hotstarLogo from "@assets/generated_images/Disney_Hotstar_logo_9eda79b4.png";
+import sonyLogo from "@assets/generated_images/Sony_LIV_logo_ad6026b8.png";
+import zee5Logo from "@assets/generated_images/Zee5_logo_7689ae0e.png";
+import youtubeLogo from "@assets/generated_images/YouTube_Premium_logo_74c4cc4a.png";
 
 //todo: remove mock functionality
 const subscriptions = [
   {
     platform: "Netflix",
-    icon: "🎬",
+    logo: netflixLogo,
     duration: "1 Month Premium",
     originalPrice: 649,
     discountedPrice: 199,
@@ -18,7 +24,7 @@ const subscriptions = [
   },
   {
     platform: "Amazon Prime",
-    icon: "📺",
+    logo: primeLogo,
     duration: "3 Months",
     originalPrice: 459,
     discountedPrice: 149,
@@ -31,7 +37,7 @@ const subscriptions = [
   },
   {
     platform: "Disney+ Hotstar",
-    icon: "🏰",
+    logo: hotstarLogo,
     duration: "1 Year Super",
     originalPrice: 899,
     discountedPrice: 299,
@@ -44,7 +50,7 @@ const subscriptions = [
   },
   {
     platform: "Sony LIV",
-    icon: "📱",
+    logo: sonyLogo,
     duration: "6 Months",
     originalPrice: 699,
     discountedPrice: 199,
@@ -57,7 +63,7 @@ const subscriptions = [
   },
   {
     platform: "Zee5",
-    icon: "🎭",
+    logo: zee5Logo,
     duration: "1 Year",
     originalPrice: 999,
     discountedPrice: 299,
@@ -70,7 +76,7 @@ const subscriptions = [
   },
   {
     platform: "YouTube Premium",
-    icon: "▶️",
+    logo: youtubeLogo,
     duration: "3 Months",
     originalPrice: 399,
     discountedPrice: 129,

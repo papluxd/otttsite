@@ -1,11 +1,12 @@
 import SubscriptionCard from "../SubscriptionCard";
+import netflixLogo from "@assets/generated_images/Netflix_logo_34cd8c38.png";
 
 export default function SubscriptionCardExample() {
   return (
     <div className="p-8 max-w-sm">
       <SubscriptionCard
         platform="Netflix"
-        icon="🎬"
+        logo={netflixLogo}
         duration="1 Month Premium"
         originalPrice={649}
         discountedPrice={199}
