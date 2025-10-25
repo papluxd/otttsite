@@ -44,7 +44,7 @@ export default function HeroCarousel() {
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
-    <div id="home" className="relative h-[70vh] min-h-[500px] overflow-hidden">
+    <div id="home" className="relative h-[60vh] md:h-[70vh] min-h-[450px] overflow-hidden">
       {slides.map((slide, index) => (
         <div
           key={index}
@@ -62,25 +62,25 @@ export default function HeroCarousel() {
       ))}
 
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="max-w-4xl mx-auto px-6 sm:px-8 lg:px-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/20 backdrop-blur-xl border border-primary/30 mb-6">
+        <div className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-10 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/20 backdrop-blur-xl border border-primary/30 mb-4 md:mb-6">
             <Sparkles className="h-3 w-3 text-primary" />
             <span className="text-xs font-semibold text-white">5000+ Customers</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-white mb-4 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-3 md:mb-4 leading-tight">
             {slides[currentSlide].title}
           </h1>
-          <p className="text-xl sm:text-2xl md:text-3xl font-bold text-primary mb-6">
+          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary mb-4 md:mb-6">
             {slides[currentSlide].subtitle}
           </p>
-          <p className="text-base md:text-lg text-white/90 mb-8 max-w-xl mx-auto font-light">
+          <p className="text-sm md:text-base lg:text-lg text-white/90 mb-6 md:mb-8 max-w-xl mx-auto font-light">
             Netflix • Prime • Hotstar • Sony LIV & More
           </p>
           <Button
             variant="default"
             size="sm"
             onClick={scrollToSubscriptions}
-            className="px-6 shadow-xl hover:shadow-2xl"
+            className="px-6 shadow-xl hover:shadow-2xl rounded-full"
             data-testid="button-browse-plans"
           >
             View Plans

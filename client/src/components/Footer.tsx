@@ -3,13 +3,13 @@ import { SiWhatsapp } from "react-icons/si";
 export default function Footer() {
   const handleWhatsApp = () => {
     const message = encodeURIComponent("Hi, I want to know more about your OTT subscriptions.");
-    window.open(`https://wa.me/919443419022?text=${message}`, "_blank");
+    window.open(`https://wa.me/919433419022?text=${message}`, "_blank");
   };
 
   return (
     <footer id="contact" className="bg-muted/30 border-t">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
+        <div className="text-center md:text-left grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
           <div>
             <h2 className="text-2xl md:text-3xl font-black mb-3">
               <span className="text-primary">NEXT GEN</span>
@@ -27,15 +27,13 @@ export default function Footer() {
             <h3 className="font-bold text-base mb-3">Contact Us</h3>
             <button
               onClick={handleWhatsApp}
-              className="flex items-center gap-3 hover-elevate p-3 rounded-lg w-full transition-all bg-card"
+              className="flex items-center justify-center md:justify-start gap-3 hover-elevate p-4 rounded-full w-full transition-all bg-primary text-primary-foreground shadow-lg hover:shadow-xl"
               data-testid="button-whatsapp-footer"
             >
-              <div className="bg-primary/10 p-2.5 rounded-full">
-                <SiWhatsapp className="h-5 w-5 text-primary" />
-              </div>
+              <SiWhatsapp className="h-5 w-5" />
               <div className="text-left">
-                <p className="font-semibold text-sm" data-testid="text-phone">+91 94434 19022</p>
-                <p className="text-xs text-muted-foreground" data-testid="text-whatsapp">WhatsApp Support</p>
+                <p className="font-semibold text-sm" data-testid="text-phone">+91 94334 19022</p>
+                <p className="text-xs opacity-90" data-testid="text-whatsapp">Message on WhatsApp</p>
               </div>
             </button>
           </div>

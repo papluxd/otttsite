@@ -26,7 +26,7 @@ export default function SubscriptionCard({
     const message = encodeURIComponent(
       `Hi! I want to buy ${platform} ${duration} subscription at ₹${discountedPrice}`
     );
-    window.open(`https://wa.me/919443419022?text=${message}`, "_blank");
+    window.open(`https://wa.me/919433419022?text=${message}`, "_blank");
   };
 
   const savings = Math.round(((originalPrice - discountedPrice) / originalPrice) * 100);
@@ -48,7 +48,7 @@ export default function SubscriptionCard({
             <p className="text-xs text-muted-foreground">{duration}</p>
           </div>
           <div className="w-12 h-12 flex items-center justify-center">
-            <img src={logo} alt={platform} className="w-full h-full object-contain" />
+            <img src={logo} alt={platform} className="w-full h-full object-contain rounded-lg" />
           </div>
         </div>
 
@@ -71,7 +71,7 @@ export default function SubscriptionCard({
         </div>
 
         <Button
-          className="w-full group-hover:shadow-lg transition-all"
+          className="w-full group-hover:shadow-lg transition-all rounded-full"
           onClick={handleBuyNow}
           data-testid={`button-buy-${platform.toLowerCase().replace(/\s+/g, '-')}`}
         >

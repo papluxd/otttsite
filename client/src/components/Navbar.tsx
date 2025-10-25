@@ -42,7 +42,7 @@ export default function Navbar() {
             <Button
               variant="default"
               onClick={() => scrollToSection("subscriptions")}
-              className="ml-2"
+              className="ml-2 rounded-full"
               size="sm"
               data-testid="button-get-started"
             >
@@ -79,7 +79,7 @@ export default function Navbar() {
             </button>
             <Button
               variant="default"
-              className="w-full mt-4"
+              className="w-full mt-4 rounded-full"
               onClick={() => scrollToSection("subscriptions")}
               data-testid="button-get-started-mobile"
             >
