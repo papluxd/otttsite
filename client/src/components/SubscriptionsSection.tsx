@@ -125,12 +125,22 @@ const subscriptions = [
   },
 ];
 
-export default function SubscriptionsSection() {
+interface SubscriptionsSectionProps {
+  searchQuery?: string;
+}
+
+export default function SubscriptionsSection({ searchQuery = "" }: SubscriptionsSectionProps) {
   const [selectedPeriod, setSelectedPeriod] = useState<string>("all");
 
-  const filteredSubscriptions = selectedPeriod === "all" 
+  let filteredSubscriptions = selectedPeriod === "all" 
     ? subscriptions 
     : subscriptions.filter(sub => sub.months === parseInt(selectedPeriod));
+
+  if (searchQuery) {
+    filteredSubscriptions = filteredSubscriptions.filter(sub => 
+      sub.platform.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }
 
   return (
     <section id="subscriptions" className="py-12 md:py-16">

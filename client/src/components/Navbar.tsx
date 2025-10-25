@@ -1,9 +1,17 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
-export default function Navbar() {
+interface NavbarProps {
+  onSearch: (query: string) => void;
+}
+
+export default function Navbar({ onSearch }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -11,6 +19,17 @@ export default function Navbar() {
       element.scrollIntoView({ behavior: "smooth" });
       setMobileMenuOpen(false);
     }
+  };
+
+  const handleSearch = () => {
+    onSearch(searchQuery.trim());
+    scrollToSection("subscriptions");
+    setSearchOpen(false);
+  };
+
+  const handleClearSearch = () => {
+    setSearchQuery("");
+    onSearch("");
   };
 
   return (
@@ -25,6 +44,13 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center gap-2">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="text-sm text-foreground hover-elevate p-2 rounded-lg font-medium transition-all"
+              data-testid="button-search"
+            >
+              <Search className="h-5 w-5" />
+            </button>
             <button
               onClick={() => scrollToSection("subscriptions")}
               className="text-sm text-foreground hover-elevate px-3 py-2 rounded-lg font-medium transition-all"
@@ -64,6 +90,17 @@ export default function Navbar() {
         <div className="md:hidden border-t bg-background/95 backdrop-blur-lg">
           <div className="px-4 py-4 space-y-2">
             <button
+              onClick={() => {
+                setSearchOpen(true);
+                setMobileMenuOpen(false);
+              }}
+              className="flex items-center gap-2 w-full text-left px-4 py-3 rounded-lg hover-elevate font-medium transition-all"
+              data-testid="button-search-mobile"
+            >
+              <Search className="h-5 w-5" />
+              Search
+            </button>
+            <button
               onClick={() => scrollToSection("subscriptions")}
               className="block w-full text-left px-4 py-3 rounded-lg hover-elevate font-medium transition-all"
               data-testid="link-subscriptions-mobile"
@@ -88,6 +125,32 @@ export default function Navbar() {
           </div>
         </div>
       )}
+
+      <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Search Subscriptions</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <div className="flex gap-2">
+              <Input
+                placeholder="Search for platforms..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                className="flex-1"
+                autoFocus
+              />
+              <Button onClick={handleSearch}>Search</Button>
+            </div>
+            {searchQuery && (
+              <Button variant="outline" onClick={handleClearSearch} className="w-full">
+                Clear Search
+              </Button>
+            )}
+          </div>
+        </DialogContent>
+      </Dialog>
     </nav>
   );
 }

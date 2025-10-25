@@ -47,6 +47,7 @@ export default function HeroCarousel() {
 
   const handleTouchStart = (e: React.TouchEvent) => {
     setTouchStart(e.targetTouches[0].clientX);
+    setTouchEnd(e.targetTouches[0].clientX);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -54,10 +55,10 @@ export default function HeroCarousel() {
   };
 
   const handleTouchEnd = () => {
-    if (touchStart - touchEnd > 75) {
+    const swipeDistance = touchStart - touchEnd;
+    if (swipeDistance > 75) {
       nextSlide();
-    }
-    if (touchStart - touchEnd < -75) {
+    } else if (swipeDistance < -75) {
       prevSlide();
     }
   };
