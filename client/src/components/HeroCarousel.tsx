@@ -25,6 +25,8 @@ const slides = [
 
 export default function HeroCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -43,8 +45,31 @@ export default function HeroCarousel() {
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStart - touchEnd > 75) {
+      nextSlide();
+    }
+    if (touchStart - touchEnd < -75) {
+      prevSlide();
+    }
+  };
+
   return (
-    <div id="home" className="relative h-[60vh] md:h-[70vh] min-h-[450px] overflow-hidden">
+    <div 
+      id="home" 
+      className="relative h-[60vh] md:h-[70vh] min-h-[450px] overflow-hidden"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       {slides.map((slide, index) => (
         <div
           key={index}
@@ -90,14 +115,14 @@ export default function HeroCarousel() {
 
       <button
         onClick={prevSlide}
-        className="absolute left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 backdrop-blur-xl text-white hover-elevate border border-white/20"
+        className="hidden md:block absolute left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 backdrop-blur-xl text-white hover-elevate border border-white/20"
         data-testid="button-prev-slide"
       >
         <ChevronLeft className="h-5 w-5" />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 backdrop-blur-xl text-white hover-elevate border border-white/20"
+        className="hidden md:block absolute right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 backdrop-blur-xl text-white hover-elevate border border-white/20"
         data-testid="button-next-slide"
       >
         <ChevronRight className="h-5 w-5" />
