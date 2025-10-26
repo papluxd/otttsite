@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Sparkles } from "lucide-react";
+import { Sparkles, ChevronDown } from "lucide-react";
 
 interface Plan {
   duration: string;
@@ -54,8 +54,9 @@ export default function SubscriptionCard({
           <div className="flex-1">
             <h3 className="text-lg font-bold mb-2" data-testid={`text-platform-${platform.toLowerCase().replace(/\s+/g, '-')}`}>{platform}</h3>
             <Select value={selectedPlanIndex.toString()} onValueChange={(value) => setSelectedPlanIndex(parseInt(value))}>
-              <SelectTrigger className="w-full text-xs h-9 px-3 rounded-full">
+              <SelectTrigger className="w-fit text-xs h-auto px-0 py-0 border-0 gap-1 hover:bg-transparent">
                 <SelectValue />
+                <ChevronDown className="h-3 w-3 opacity-50" />
               </SelectTrigger>
               <SelectContent>
                 {plans.map((plan, index) => (
