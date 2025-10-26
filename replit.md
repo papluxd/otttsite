@@ -67,8 +67,17 @@ Preferred communication style: Simple, everyday language.
 - Drizzle ORM with PostgreSQL dialect
 - Schema definitions in `shared/schema.ts`
 - User model with username/password fields
+- Product model with multi-duration pricing (1, 3, 6, 12 months) and category fields
 - Migration support via drizzle-kit
 - Storage interface abstraction for easy swapping between in-memory and database implementations
+
+**Telegram Bot Integration:**
+- Automated product management via Telegram bot
+- `/newpost` command workflow for adding new subscription products
+- Interactive flow: category selection → product name → description → image (URL or photo) → pricing for 4 durations
+- Pricing format: actualPrice_sellingPrice (e.g., 649_149)
+- Supported categories: Netflix, Prime, Hotstar, Sony LIV, YouTube Premium, Spotify, Others
+- Direct integration with backend storage via API
 
 ### Design Patterns
 
