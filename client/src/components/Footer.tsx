@@ -1,4 +1,4 @@
-import { SiWhatsapp, SiInstagram, SiFacebook, SiX } from "react-icons/si";
+import { SiWhatsapp, SiInstagram, SiFacebook } from "react-icons/si";
 import { Mail, Phone, MapPin, Clock, ShieldCheck } from "lucide-react";
 
 export default function Footer() {
@@ -15,7 +15,7 @@ export default function Footer() {
       <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-transparent to-transparent" />
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
           
           <div className="lg:col-span-1">
             <h2 className="text-2xl md:text-3xl font-black mb-4">
@@ -53,50 +53,7 @@ export default function Footer() {
               >
                 <SiFacebook className="h-5 w-5" />
               </a>
-              <a 
-                href="#" 
-                className="bg-white/10 hover:bg-primary hover:scale-110 p-3 rounded-full transition-all duration-300"
-                data-testid="link-twitter"
-              >
-                <SiX className="h-5 w-5" />
-              </a>
             </div>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-bold mb-6 text-white">Quick Links</h3>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-about">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-plans">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                  Our Plans
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-how-it-works">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                  How It Works
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-faq">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                  FAQ
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-terms">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                  Terms & Conditions
-                </a>
-              </li>
-            </ul>
           </div>
 
           <div>
