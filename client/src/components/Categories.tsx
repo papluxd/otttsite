@@ -1,5 +1,5 @@
 import subscriptionsIcon from "@assets/generated_images/Subscriptions_category_white_background_4f3b5d54.png";
-import comboPackIcon from "@assets/generated_images/Simple_Combo_Pack_text_only_1cc55646.png";
+import comboPackIcon from "@assets/generated_images/Combo_Pack_violet_ring_icon_2f2f8e22.png";
 import adultIcon from "@assets/generated_images/Red_18_plus_icon_12143b59.png";
 import musicIcon from "@assets/generated_images/Music_category_icon_0c07203d.png";
 import softwareIcon from "@assets/generated_images/Software_category_icon_a3fdff93.png";
