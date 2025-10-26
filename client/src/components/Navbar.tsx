@@ -104,32 +104,45 @@ export default function Navbar({ onSearch }: NavbarProps) {
       </div>
 
       {mobileMenuOpen && (
-        <div className="border-t bg-background/95 backdrop-blur-lg">
-          <div className="px-4 py-4 space-y-2">
-            <button
-              onClick={() => scrollToSection("subscriptions")}
-              className="block w-full text-left px-4 py-3 rounded-lg hover-elevate font-medium transition-all"
-              data-testid="link-subscriptions-mobile"
-            >
-              Plans
-            </button>
-            <button
-              onClick={() => scrollToSection("contact")}
-              className="block w-full text-left px-4 py-3 rounded-lg hover-elevate font-medium transition-all"
-              data-testid="link-contact-mobile"
-            >
-              Contact
-            </button>
-            <Button
-              variant="default"
-              className="w-full mt-4 rounded-full"
-              onClick={() => scrollToSection("subscriptions")}
-              data-testid="button-get-started-mobile"
-            >
-              Get Started
-            </Button>
+        <>
+          <div 
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 animate-in fade-in duration-200"
+            onClick={() => setMobileMenuOpen(false)}
+            data-testid="overlay-mobile-menu"
+          />
+          <div className="fixed left-0 top-0 bottom-0 w-64 bg-background border-r border-border z-50 animate-in slide-in-from-left duration-300">
+            <div className="px-4 py-6 space-y-2">
+              <div className="mb-6">
+                <span className="text-2xl font-black tracking-tight">
+                  <span className="text-primary">SUB</span>
+                  <span className="text-foreground">FLIX</span>
+                </span>
+              </div>
+              <button
+                onClick={() => scrollToSection("subscriptions")}
+                className="block w-full text-left px-4 py-3 rounded-lg hover:bg-muted font-medium transition-all"
+                data-testid="link-subscriptions-mobile"
+              >
+                Plans
+              </button>
+              <button
+                onClick={() => scrollToSection("contact")}
+                className="block w-full text-left px-4 py-3 rounded-lg hover:bg-muted font-medium transition-all"
+                data-testid="link-contact-mobile"
+              >
+                Contact
+              </button>
+              <Button
+                variant="default"
+                className="w-full mt-4 rounded-full"
+                onClick={() => scrollToSection("subscriptions")}
+                data-testid="button-get-started-mobile"
+              >
+                Get Started
+              </Button>
+            </div>
           </div>
-        </div>
+        </>
       )}
 
 <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
