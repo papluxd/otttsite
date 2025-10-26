@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogPortal, DialogOverlay } from "@/components/ui/dialog";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { platformsData } from "./SubscriptionsSection";
+import { useCart } from "@/context/CartContext";
+import { useLocation } from "wouter";
 
 interface NavbarProps {
   onSearch: (query: string) => void;
@@ -14,6 +16,9 @@ export default function Navbar({ onSearch }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const { getTotalItems } = useCart();
+  const [, setLocation] = useLocation();
+  const cartItemCount = getTotalItems();
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -83,11 +88,16 @@ export default function Navbar({ onSearch }: NavbarProps) {
               <Search className="h-5 w-5" />
             </button>
             <button
-              onClick={() => scrollToSection("subscriptions")}
+              onClick={() => setLocation("/cart")}
               className="p-2 hover:bg-muted rounded-lg transition-colors relative"
               data-testid="button-cart"
             >
               <ShoppingCart className="h-5 w-5" />
+              {cartItemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center" data-testid="text-cart-count">
+                  {cartItemCount}
+                </span>
+              )}
             </button>
           </div>
         </div>
