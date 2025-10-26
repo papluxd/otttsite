@@ -132,36 +132,12 @@ export function initTelegramBot(token: string) {
     }
     
     if (data === "add_options" && session?.step === "pricing") {
-      await bot.answerCallbackQuery(query.id);
-      
-      const durationKeyboard = {
-        reply_markup: {
-          inline_keyboard: [
-            [{ text: "1 Month", callback_data: "duration_1_month" }],
-            [{ text: "3 Months", callback_data: "duration_3_months" }],
-            [{ text: "6 Months", callback_data: "duration_6_months" }],
-            [{ text: "12 Months", callback_data: "duration_12_months" }]
-          ]
-        }
-      };
-      
-      bot.sendMessage(
-        chatId,
-        "Select duration to add pricing:",
-        durationKeyboard
-      );
-      return;
-    }
-    
-    if (data.startsWith("duration_") && session?.step === "pricing") {
-      const duration = data.replace("duration_", "");
-      session.currentDuration = duration;
-      session.step = `price_${duration}`;
+      session.step = "add_pricing";
       
       await bot.answerCallbackQuery(query.id);
       bot.sendMessage(
         chatId,
-        `Enter pricing for ${duration.replace("_", " ")} in format:\n${duration.replace("_", " ")}_actualPrice_sellingPrice\n\nExample: 1 Month_649_149`
+        "Please enter pricing in format:\nduration_actualPrice_sellingPrice\n\nExample: 1 Month_649_149\nExample: 3 Months_699_99"
       );
       return;
     }
@@ -509,58 +485,48 @@ Product ID: ${product.id}
         );
         break;
 
-      case "price_1_month":
-      case "price_3_months":
-      case "price_6_months":
-      case "price_12_months":
-        const expectedDuration = session.step.replace("price_", "").replace("_", " ");
+      case "add_pricing": {
         const parts = text.split("_");
         
         if (parts.length !== 3) {
           bot.sendMessage(
             chatId,
-            `Invalid format. Please use format:\n${expectedDuration}_actualPrice_sellingPrice\n\nExample: 1 Month_649_149`
+            "❌ Invalid format. Please use format:\nduration_actualPrice_sellingPrice\n\nExample: 1 Month_649_149"
           );
           return;
         }
 
-        const durationPart = parts[0].toLowerCase().trim();
+        const durationText = parts[0].trim();
         const actualPrice = Number(parts[1]);
         const sellingPrice = Number(parts[2]);
-        
-        const expectedLower = expectedDuration.toLowerCase().trim();
-        const normalizedInput = durationPart.replace(/\s+/g, " ");
-        const normalizedExpected = expectedLower.replace(/\s+/g, " ");
-        
-        if (normalizedInput !== normalizedExpected) {
-          bot.sendMessage(
-            chatId,
-            `Please enter pricing for ${expectedDuration}.\nFormat: ${expectedDuration}_actualPrice_sellingPrice\n\nExample: ${expectedDuration}_649_149`
-          );
-          return;
-        }
 
         if (isNaN(actualPrice) || isNaN(sellingPrice)) {
           bot.sendMessage(
             chatId,
-            `Invalid prices. Please use format:\n${expectedDuration}_actualPrice_sellingPrice\n\nExample: ${expectedDuration}_649_149`
+            "❌ Invalid prices. Please enter valid numbers.\n\nExample: 1 Month_649_149"
           );
           return;
         }
 
-        const duration = session.step.replace("price_", "");
-        if (duration === "1_month") {
+        const durationLower = durationText.toLowerCase();
+        if (durationLower.includes("1") && durationLower.includes("month") && !durationLower.includes("12")) {
           session.data.price1MonthActual = actualPrice;
           session.data.price1MonthSelling = sellingPrice;
-        } else if (duration === "3_months") {
+        } else if (durationLower.includes("3") && durationLower.includes("month")) {
           session.data.price3MonthActual = actualPrice;
           session.data.price3MonthSelling = sellingPrice;
-        } else if (duration === "6_months") {
+        } else if (durationLower.includes("6") && durationLower.includes("month")) {
           session.data.price6MonthActual = actualPrice;
           session.data.price6MonthSelling = sellingPrice;
-        } else if (duration === "12_months") {
+        } else if (durationLower.includes("12") && durationLower.includes("month")) {
           session.data.price12MonthActual = actualPrice;
           session.data.price12MonthSelling = sellingPrice;
+        } else {
+          bot.sendMessage(
+            chatId,
+            "⚠️ Unrecognized duration. Please use: 1 Month, 3 Months, 6 Months, or 12 Months"
+          );
+          return;
         }
 
         session.step = "pricing";
@@ -576,10 +542,11 @@ Product ID: ${product.id}
         
         bot.sendMessage(
           chatId,
-          `✅ Pricing added for ${duration.replace("_", " ")}!\n\nAdd more pricing options or click Done to create the product:`,
+          `✅ Pricing added for ${durationText}!\n\nAdd more pricing options or click Done to create the product:`,
           continueKeyboard
         );
         break;
+      }
 
       default:
         if (session.step.startsWith("editing_")) {
