@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogPortal, DialogOverlay } from "@/components/ui/dialog";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { platformsData } from "./SubscriptionsSection";
 
 interface NavbarProps {
@@ -140,67 +141,70 @@ export default function Navbar({ onSearch }: NavbarProps) {
         </div>
       )}
 
-{searchOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-md z-50" onClick={() => setSearchOpen(false)} />
-      )}
-
-      <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
-        <DialogContent className="sm:max-w-md backdrop-blur-xl z-[60]">
-          <DialogHeader>
-            <DialogTitle>Search Subscriptions</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="flex gap-2 relative">
-              <div className="flex-1 relative">
-                <Input
-                  placeholder="Search for platforms..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                  className="flex-1"
-                  autoFocus
-                />
-                {searchQuery && filteredSuggestions.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-background border rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
-                    {filteredSuggestions.map((suggestion) => (
+<Dialog open={searchOpen} onOpenChange={setSearchOpen}>
+        <DialogPortal>
+          <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/50 backdrop-blur-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+          <DialogPrimitive.Content className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-md translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 sm:rounded-lg">
+            <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+              <X className="h-4 w-4" />
+              <span className="sr-only">Close</span>
+            </DialogPrimitive.Close>
+            <DialogHeader>
+              <DialogTitle>Search Subscriptions</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="flex gap-2 relative">
+                <div className="flex-1 relative">
+                  <Input
+                    placeholder="Search for platforms..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                    className="flex-1"
+                    autoFocus
+                  />
+                  {searchQuery && filteredSuggestions.length > 0 && (
+                    <div className="absolute top-full left-0 right-0 mt-2 bg-background border rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
+                      {filteredSuggestions.map((suggestion) => (
+                        <button
+                          key={suggestion}
+                          onClick={() => handleSuggestionClick(suggestion)}
+                          className="w-full text-left px-4 py-2.5 hover:bg-muted/50 transition-colors text-sm border-b last:border-b-0"
+                        >
+                          {suggestion}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <Button onClick={handleSearch}>Search</Button>
+              </div>
+              
+              {!searchQuery && (
+                <div className="space-y-2">
+                  <p className="text-sm text-muted-foreground font-medium">Top Searches</p>
+                  <div className="flex flex-wrap gap-2">
+                    {topSearches.map((search) => (
                       <button
-                        key={suggestion}
-                        onClick={() => handleSuggestionClick(suggestion)}
-                        className="w-full text-left px-4 py-2.5 hover:bg-muted/50 transition-colors text-sm border-b last:border-b-0"
+                        key={search}
+                        onClick={() => handleSuggestionClick(search)}
+                        className="px-3 py-1.5 rounded-full bg-primary/10 hover:bg-primary/20 text-sm font-medium transition-colors"
                       >
-                        {suggestion}
+                        {search}
                       </button>
                     ))}
                   </div>
-                )}
-              </div>
-              <Button onClick={handleSearch}>Search</Button>
-            </div>
-            
-            {!searchQuery && (
-              <div className="space-y-2">
-                <p className="text-sm text-muted-foreground font-medium">Top Searches</p>
-                <div className="flex flex-wrap gap-2">
-                  {topSearches.map((search) => (
-                    <button
-                      key={search}
-                      onClick={() => handleSuggestionClick(search)}
-                      className="px-3 py-1.5 rounded-full bg-primary/10 hover:bg-primary/20 text-sm font-medium transition-colors"
-                    >
-                      {search}
-                    </button>
-                  ))}
                 </div>
-              </div>
-            )}
+              )}
 
-            {searchQuery && (
-              <Button variant="outline" onClick={handleClearSearch} className="w-full">
-                Clear Search
-              </Button>
-            )}
-          </div>
-        </DialogContent>
+              {searchQuery && (
+                <Button variant="outline" onClick={handleClearSearch} className="w-full">
+                  Clear Search
+                </Button>
+              )}
+            </div>
+          </DialogPrimitive.Content>
+        </DialogPortal>
       </Dialog>
     </nav>
   );
