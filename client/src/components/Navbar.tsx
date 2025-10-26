@@ -7,7 +7,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { platformsData } from "./SubscriptionsSection";
 import { useCart } from "@/context/CartContext";
 import { useLocation } from "wouter";
-import logoImage from "@assets/unnamed_1761490359361.jpg";
+import logoImage from "@assets/WhatsApp Image 2025-10-26 at 20.59.26_373950b3_1761492588549.jpg";
 
 interface NavbarProps {
   onSearch: (query: string) => void;
@@ -72,14 +72,13 @@ export default function Navbar({ onSearch }: NavbarProps) {
           </div>
 
           {/* Center - Logo */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 py-1">
+          <div className="absolute left-1/2 transform -translate-x-1/2">
             <img 
               src={logoImage} 
-              alt="SUBFLIX" 
-              className="h-20 md:h-24 w-auto object-contain"
+              alt="FLIX" 
+              className="h-10 md:h-12 w-auto object-contain"
               style={{ 
-                mixBlendMode: 'multiply',
-                filter: 'contrast(1.3) brightness(1.05)',
+                mixBlendMode: 'lighten',
                 imageRendering: '-webkit-optimize-contrast'
               }}
               data-testid="img-logo"
@@ -123,11 +122,10 @@ export default function Navbar({ onSearch }: NavbarProps) {
               <div className="mb-6">
                 <img 
                   src={logoImage} 
-                  alt="SUBFLIX" 
-                  className="h-20 w-auto object-contain"
+                  alt="FLIX" 
+                  className="h-12 w-auto object-contain"
                   style={{ 
-                    mixBlendMode: 'multiply',
-                    filter: 'contrast(1.3) brightness(1.05)',
+                    mixBlendMode: 'lighten',
                     imageRendering: '-webkit-optimize-contrast'
                   }}
                   data-testid="img-logo-mobile"
