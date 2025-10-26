@@ -63,7 +63,7 @@ export function initTelegramBot(token: string) {
     const session = sessions.get(chatId);
     if (!session) return;
 
-    if (data.startsWith("cat_")) {
+    if (data.startsWith("cat_") && session.step === "category") {
       const category = data.replace("cat_", "");
       session.data.category = category;
       session.step = "name";
@@ -117,11 +117,21 @@ export function initTelegramBot(token: string) {
         break;
 
       case "price_1_month":
+        if (text.toLowerCase() === "skip") {
+          session.data.price1MonthActual = 0;
+          session.data.price1MonthSelling = 0;
+          session.step = "price_3_month";
+          bot.sendMessage(
+            chatId,
+            "Enter 3 months pricing (format: actualPrice_sellingPrice, e.g., 1947_399) or type 'skip':"
+          );
+          return;
+        }
         const [actual1, selling1] = text.split("_").map(Number);
         if (isNaN(actual1) || isNaN(selling1)) {
           bot.sendMessage(
             chatId,
-            "Invalid format. Please use format: actualPrice_sellingPrice (e.g., 649_149)"
+            "Invalid format. Please use format: actualPrice_sellingPrice (e.g., 649_149) or type 'skip'"
           );
           return;
         }
@@ -130,16 +140,26 @@ export function initTelegramBot(token: string) {
         session.step = "price_3_month";
         bot.sendMessage(
           chatId,
-          "Enter 3 months pricing (format: actualPrice_sellingPrice, e.g., 1947_399):"
+          "Enter 3 months pricing (format: actualPrice_sellingPrice, e.g., 1947_399) or type 'skip':"
         );
         break;
 
       case "price_3_month":
+        if (text.toLowerCase() === "skip") {
+          session.data.price3MonthActual = 0;
+          session.data.price3MonthSelling = 0;
+          session.step = "price_6_month";
+          bot.sendMessage(
+            chatId,
+            "Enter 6 months pricing (format: actualPrice_sellingPrice, e.g., 3894_699) or type 'skip':"
+          );
+          return;
+        }
         const [actual3, selling3] = text.split("_").map(Number);
         if (isNaN(actual3) || isNaN(selling3)) {
           bot.sendMessage(
             chatId,
-            "Invalid format. Please use format: actualPrice_sellingPrice"
+            "Invalid format. Please use format: actualPrice_sellingPrice or type 'skip'"
           );
           return;
         }
@@ -148,16 +168,26 @@ export function initTelegramBot(token: string) {
         session.step = "price_6_month";
         bot.sendMessage(
           chatId,
-          "Enter 6 months pricing (format: actualPrice_sellingPrice, e.g., 3894_699):"
+          "Enter 6 months pricing (format: actualPrice_sellingPrice, e.g., 3894_699) or type 'skip':"
         );
         break;
 
       case "price_6_month":
+        if (text.toLowerCase() === "skip") {
+          session.data.price6MonthActual = 0;
+          session.data.price6MonthSelling = 0;
+          session.step = "price_12_month";
+          bot.sendMessage(
+            chatId,
+            "Enter 12 months pricing (format: actualPrice_sellingPrice, e.g., 7788_999) or type 'skip':"
+          );
+          return;
+        }
         const [actual6, selling6] = text.split("_").map(Number);
         if (isNaN(actual6) || isNaN(selling6)) {
           bot.sendMessage(
             chatId,
-            "Invalid format. Please use format: actualPrice_sellingPrice"
+            "Invalid format. Please use format: actualPrice_sellingPrice or type 'skip'"
           );
           return;
         }
@@ -166,24 +196,43 @@ export function initTelegramBot(token: string) {
         session.step = "price_12_month";
         bot.sendMessage(
           chatId,
-          "Enter 12 months pricing (format: actualPrice_sellingPrice, e.g., 7788_999):"
+          "Enter 12 months pricing (format: actualPrice_sellingPrice, e.g., 7788_999) or type 'skip':"
         );
         break;
 
       case "price_12_month":
-        const [actual12, selling12] = text.split("_").map(Number);
-        if (isNaN(actual12) || isNaN(selling12)) {
-          bot.sendMessage(
-            chatId,
-            "Invalid format. Please use format: actualPrice_sellingPrice"
-          );
-          return;
+        if (text.toLowerCase() === "skip") {
+          session.data.price12MonthActual = 0;
+          session.data.price12MonthSelling = 0;
+        } else {
+          const [actual12, selling12] = text.split("_").map(Number);
+          if (isNaN(actual12) || isNaN(selling12)) {
+            bot.sendMessage(
+              chatId,
+              "Invalid format. Please use format: actualPrice_sellingPrice or type 'skip'"
+            );
+            return;
+          }
+          session.data.price12MonthActual = actual12;
+          session.data.price12MonthSelling = selling12;
         }
-        session.data.price12MonthActual = actual12;
-        session.data.price12MonthSelling = selling12;
 
         try {
           const product = await storage.createProduct(session.data as InsertProduct);
+          
+          const pricingLines = [];
+          if (product.price1MonthActual > 0 && product.price1MonthSelling > 0) {
+            pricingLines.push(`• 1 Month: ₹${product.price1MonthActual} → ₹${product.price1MonthSelling}`);
+          }
+          if (product.price3MonthActual > 0 && product.price3MonthSelling > 0) {
+            pricingLines.push(`• 3 Months: ₹${product.price3MonthActual} → ₹${product.price3MonthSelling}`);
+          }
+          if (product.price6MonthActual > 0 && product.price6MonthSelling > 0) {
+            pricingLines.push(`• 6 Months: ₹${product.price6MonthActual} → ₹${product.price6MonthSelling}`);
+          }
+          if (product.price12MonthActual > 0 && product.price12MonthSelling > 0) {
+            pricingLines.push(`• 12 Months: ₹${product.price12MonthActual} → ₹${product.price12MonthSelling}`);
+          }
           
           const summary = `
 ✅ Product created successfully!
@@ -194,10 +243,7 @@ export function initTelegramBot(token: string) {
 • Description: ${product.description}
 
 💰 Pricing:
-• 1 Month: ₹${product.price1MonthActual} → ₹${product.price1MonthSelling}
-• 3 Months: ₹${product.price3MonthActual} → ₹${product.price3MonthSelling}
-• 6 Months: ₹${product.price6MonthActual} → ₹${product.price6MonthSelling}
-• 12 Months: ₹${product.price12MonthActual} → ₹${product.price12MonthSelling}
+${pricingLines.join('\n')}
 
 Product ID: ${product.id}
           `;
