@@ -31,6 +31,12 @@ Preferred communication style: Simple, everyday language.
 - Single-page application with home page and 404 handling
 - Hero carousel showcasing platform benefits
 - Subscription card grid with search/filter functionality
+- Out-of-stock management:
+  - Greyed out unavailable duration options
+  - "Out of Stock" labels displayed in grey
+  - Disabled selection and purchase of out-of-stock plans
+  - Automatic selection of first available plan
+  - Fallback message when all plans unavailable
 - WhatsApp integration for customer contact and purchases
 - FAQ accordion, testimonials, and feature highlights
 - Fully responsive navigation with mobile menu
@@ -67,7 +73,10 @@ Preferred communication style: Simple, everyday language.
 - Drizzle ORM with PostgreSQL dialect
 - Schema definitions in `shared/schema.ts`
 - User model with username/password fields
-- Product model with multi-duration pricing (1, 3, 6, 12 months) and category fields
+- Product model with:
+  - Multi-duration pricing (1, 3, 6, 12 months)
+  - Per-duration stock availability flags (inStock1Month, inStock3Month, inStock6Month, inStock12Month)
+  - Category and description fields
 - Migration support via drizzle-kit
 - Storage interface abstraction for easy swapping between in-memory and database implementations
 
@@ -75,7 +84,13 @@ Preferred communication style: Simple, everyday language.
 - Automated product management via Telegram bot
 - `/newpost` command workflow for adding new subscription products
 - Interactive flow: category selection → product name → description → image (URL or photo) → pricing for 4 durations
-- Pricing format: actualPrice_sellingPrice (e.g., 649_149)
+- Pricing format: Duration_actualPrice_sellingPrice (e.g., 1 Month_649_149)
+- Duration options presented as inline keyboard buttons
+- `/showall` command displays all products with edit and stock management interface
+- Product editing features:
+  - ✏️ Edit pricing for any duration
+  - ✅/🙅🏻‍♂️ Toggle stock availability per duration
+  - Stock status syncs with frontend in real-time
 - Supported categories: Subscriptions, Combo Pack, Adult, Music, Software, Other Items
 - Direct integration with backend storage via API
 
