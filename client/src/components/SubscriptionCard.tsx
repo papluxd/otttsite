@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerClose } from "@/components/ui/drawer";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Sparkles, ShoppingCart, X } from "lucide-react";
@@ -89,7 +89,7 @@ export default function SubscriptionCard({
           </div>
 
           <Button
-            className="w-full group-hover:shadow-lg transition-all rounded-lg bg-black hover:bg-black/90 text-white"
+            className="w-full group-hover:shadow-lg transition-all rounded-full"
             onClick={handleAddToCart}
             data-testid={`button-add-to-cart-${platform.toLowerCase().replace(/\s+/g, '-')}`}
           >
@@ -99,64 +99,66 @@ export default function SubscriptionCard({
         </CardContent>
       </Card>
 
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-bold">Choose One</DialogTitle>
-            <DialogClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+      <Drawer open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DrawerContent>
+          <DrawerHeader className="text-left">
+            <DrawerTitle className="text-xl font-bold">Choose One</DrawerTitle>
+            <DrawerClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>
-            </DialogClose>
-          </DialogHeader>
+            </DrawerClose>
+          </DrawerHeader>
           
-          <RadioGroup value={modalSelectedPlanIndex.toString()} onValueChange={(value) => setModalSelectedPlanIndex(parseInt(value))}>
-            <div className="space-y-3 mt-4">
-              {plans.map((plan, index) => {
-                const planSavings = Math.round(((plan.originalPrice - plan.discountedPrice) / plan.originalPrice) * 100);
-                return (
-                  <div key={index} className="relative">
-                    <RadioGroupItem
-                      value={index.toString()}
-                      id={`plan-${index}`}
-                      className="peer sr-only"
-                    />
-                    <Label
-                      htmlFor={`plan-${index}`}
-                      className="flex items-center justify-between p-4 rounded-lg border-2 cursor-pointer transition-all peer-data-[state=checked]:border-orange-500 peer-data-[state=checked]:bg-orange-50 dark:peer-data-[state=checked]:bg-orange-950/20 hover:bg-accent"
-                    >
-                      <div className="flex-1">
-                        <div className="font-semibold">{plan.duration}</div>
-                        <div className="flex items-baseline gap-2 mt-1">
-                          <span className="text-lg font-bold">₹{plan.discountedPrice}</span>
-                          <span className="text-sm text-muted-foreground line-through">₹{plan.originalPrice}</span>
+          <div className="px-4 pb-6">
+            <RadioGroup value={modalSelectedPlanIndex.toString()} onValueChange={(value) => setModalSelectedPlanIndex(parseInt(value))}>
+              <div className="space-y-3 mt-4">
+                {plans.map((plan, index) => {
+                  const planSavings = Math.round(((plan.originalPrice - plan.discountedPrice) / plan.originalPrice) * 100);
+                  return (
+                    <div key={index} className="relative">
+                      <RadioGroupItem
+                        value={index.toString()}
+                        id={`plan-${index}`}
+                        className="peer sr-only"
+                      />
+                      <Label
+                        htmlFor={`plan-${index}`}
+                        className="flex items-center justify-between p-4 rounded-lg border-2 cursor-pointer transition-all peer-data-[state=checked]:border-orange-500 peer-data-[state=checked]:bg-orange-50 dark:peer-data-[state=checked]:bg-orange-950/20 hover:bg-accent"
+                      >
+                        <div className="flex-1">
+                          <div className="font-semibold">{plan.duration}</div>
+                          <div className="flex items-baseline gap-2 mt-1">
+                            <span className="text-lg font-bold">₹{plan.discountedPrice}</span>
+                            <span className="text-sm text-muted-foreground line-through">₹{plan.originalPrice}</span>
+                          </div>
                         </div>
-                      </div>
-                      <div className="w-5 h-5 rounded-full border-2 border-gray-300 peer-data-[state=checked]:border-orange-500 peer-data-[state=checked]:border-[6px] transition-all" />
-                    </Label>
-                  </div>
-                );
-              })}
-            </div>
-          </RadioGroup>
+                        <div className="w-5 h-5 rounded-full border-2 border-gray-300 peer-data-[state=checked]:border-orange-500 peer-data-[state=checked]:border-[6px] transition-all" />
+                      </Label>
+                    </div>
+                  );
+                })}
+              </div>
+            </RadioGroup>
 
-          <div className="flex gap-3 mt-6">
-            <Button
-              variant="outline"
-              className="flex-1 rounded-lg border-2"
-              onClick={() => setIsModalOpen(false)}
-            >
-              Add To Cart
-            </Button>
-            <Button
-              className="flex-1 rounded-lg bg-red-600 hover:bg-red-700 text-white"
-              onClick={handleBuyNow}
-              data-testid={`button-buy-now-${platform.toLowerCase().replace(/\s+/g, '-')}`}
-            >
-              Buy Now
-            </Button>
+            <div className="flex gap-3 mt-6">
+              <Button
+                variant="outline"
+                className="flex-1 rounded-lg border-2"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Add To Cart
+              </Button>
+              <Button
+                className="flex-1 rounded-lg bg-red-600 hover:bg-red-700 text-white"
+                onClick={handleBuyNow}
+                data-testid={`button-buy-now-${platform.toLowerCase().replace(/\s+/g, '-')}`}
+              >
+                Buy Now
+              </Button>
+            </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
