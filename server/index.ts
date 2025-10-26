@@ -1,6 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { initTelegramBot } from "./telegram-bot";
 
 const app = express();
 
@@ -64,6 +65,17 @@ app.use((req, res, next) => {
     await setupVite(app, server);
   } else {
     serveStatic(app);
+  }
+
+  const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
+  if (telegramBotToken) {
+    try {
+      initTelegramBot(telegramBotToken);
+    } catch (error) {
+      log(`Failed to initialize Telegram bot: ${error}`);
+    }
+  } else {
+    log("TELEGRAM_BOT_TOKEN not set. Telegram bot will not be started.");
   }
 
   // ALWAYS serve the app on the port specified in the environment variable PORT
