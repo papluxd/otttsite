@@ -7,6 +7,7 @@ import PopularPlatforms from "@/components/PopularPlatforms";
 import HowItWorks from "@/components/HowItWorks";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,6 +21,7 @@ export default function Home() {
       <HowItWorks />
       <FAQ />
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 }

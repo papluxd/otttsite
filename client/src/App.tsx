@@ -7,7 +7,6 @@ import { CartProvider } from "@/context/CartContext";
 import Home from "@/pages/Home";
 import Cart from "@/pages/Cart";
 import NotFound from "@/pages/not-found";
-import WhatsAppButton from "@/components/WhatsAppButton";
 
 function Router() {
   return (
@@ -26,7 +25,6 @@ function App() {
         <TooltipProvider>
           <Toaster />
           <Router />
-          <WhatsAppButton />
         </TooltipProvider>
       </CartProvider>
     </QueryClientProvider>
