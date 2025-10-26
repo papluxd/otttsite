@@ -42,12 +42,12 @@ export default function FAQ() {
             Got questions? We've got answers
           </p>
         </div>
-        <Accordion type="single" collapsible className="space-y-4">
+        <Accordion type="single" collapsible className="space-y-6">
           {faqs.map((faq, index) => (
             <AccordionItem
               key={index}
               value={`item-${index}`}
-              className="bg-background px-6 rounded-lg"
+              className="border-0 border-b border-border/30 pb-4"
             >
               <AccordionTrigger className="text-left hover:no-underline" data-testid={`question-${index}`}>
                 {faq.question}
