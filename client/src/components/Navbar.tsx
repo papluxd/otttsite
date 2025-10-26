@@ -178,7 +178,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
                 </div>
               </div>
               
-              <div className="max-h-96 overflow-y-auto">
+              <div className="overflow-y-auto" style={{ maxHeight: 'calc(100vh - 140px)' }}>
                 {searchQuery && filteredSuggestions.length > 0 && (
                   <div className="border-t border-border/30">
                     {filteredSuggestions.map((suggestion) => (
@@ -213,6 +213,36 @@ export default function Navbar({ onSearch }: NavbarProps) {
                     </div>
                   </div>
                 )}
+
+                <div className="px-6 py-6 border-t border-border/30">
+                  <p className="text-xs font-semibold text-muted-foreground mb-4 uppercase tracking-wider">Recommended for you</p>
+                  <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+                    {platformsData.slice(0, 8).map((platform) => (
+                      <button
+                        key={platform.platform}
+                        onClick={() => handleSuggestionClick(platform.platform)}
+                        className="flex-shrink-0 w-40 group"
+                        data-testid={`recommended-${platform.platform.toLowerCase().replace(/\s+/g, '-')}`}
+                      >
+                        <div className="bg-muted/30 hover:bg-muted/50 rounded-xl p-4 transition-all border border-border/30 hover:border-primary/50 hover:scale-105">
+                          <div className="flex flex-col items-center gap-3">
+                            <div className="w-16 h-16 rounded-lg bg-background flex items-center justify-center overflow-hidden">
+                              <img 
+                                src={platform.logo} 
+                                alt={platform.platform}
+                                className="w-full h-full object-contain"
+                              />
+                            </div>
+                            <div className="text-center">
+                              <p className="text-sm font-semibold line-clamp-2">{platform.platform}</p>
+                              <p className="text-xs text-muted-foreground mt-1">₹{platform.monthlyPrice}/mo</p>
+                            </div>
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           </DialogPrimitive.Content>
