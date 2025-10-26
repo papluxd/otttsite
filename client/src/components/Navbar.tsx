@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Search } from "lucide-react";
+import { Menu, X, Search, Eraser } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogPortal, DialogOverlay } from "@/components/ui/dialog";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
@@ -165,7 +165,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
                       className="p-1 hover:bg-muted rounded-full transition-colors"
                       data-testid="button-clear-search"
                     >
-                      <X className="h-4 w-4" />
+                      <Eraser className="h-4 w-4" />
                     </button>
                   )}
                   <button
@@ -235,7 +235,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
                             </div>
                             <div className="text-center">
                               <p className="text-sm font-semibold line-clamp-2">{platform.platform}</p>
-                              <p className="text-xs text-muted-foreground mt-1">₹{platform.monthlyPrice}/mo</p>
+                              <p className="text-xs text-muted-foreground mt-1">₹{platform.plans[0].discountedPrice}/mo</p>
                             </div>
                           </div>
                         </div>
