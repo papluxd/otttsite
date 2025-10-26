@@ -73,8 +73,8 @@ export default function Navbar({ onSearch }: NavbarProps) {
           {/* Center - Logo */}
           <div className="absolute left-1/2 transform -translate-x-1/2">
             <span className="text-xl md:text-2xl font-black tracking-tight whitespace-nowrap">
-              <span className="text-primary">NEXT GEN</span>
-              <span className="text-foreground"> CLICKS</span>
+              <span className="text-primary">SUB</span>
+              <span className="text-foreground">FLIX</span>
             </span>
           </div>
 

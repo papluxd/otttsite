@@ -19,8 +19,8 @@ export default function Footer() {
           
           <div className="lg:col-span-1">
             <h2 className="text-2xl md:text-3xl font-black mb-4">
-              <span className="text-primary">NEXT GEN</span>
-              <span className="text-white"> CLICKS</span>
+              <span className="text-primary">SUB</span>
+              <span className="text-white">FLIX</span>
             </h2>
             <p className="text-slate-300 text-sm leading-relaxed mb-6">
               Your trusted partner for premium OTT subscriptions at unbeatable prices. Join 5000+ happy customers across India.
@@ -73,8 +73,8 @@ export default function Footer() {
                 <Mail className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
                 <div>
                   <p className="text-slate-300 text-sm">Email Us</p>
-                  <a href="mailto:info@nextgenclicks.com" className="text-white font-semibold hover:text-primary transition-colors break-all" data-testid="text-email">
-                    info@nextgenclicks.com
+                  <a href="mailto:info@subflix.com" className="text-white font-semibold hover:text-primary transition-colors break-all" data-testid="text-email">
+                    info@subflix.com
                   </a>
                 </div>
               </div>
@@ -95,7 +95,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-slate-400 text-sm text-center md:text-left">
-              © {currentYear} <span className="text-primary font-semibold">Next Gen Clicks</span>. All rights reserved.
+              © {currentYear} <span className="text-primary font-semibold">SubFlix</span>. All rights reserved.
             </p>
             <div className="flex items-center gap-6 text-sm text-slate-400">
               <a href="#" className="hover:text-primary transition-colors" data-testid="link-privacy">
