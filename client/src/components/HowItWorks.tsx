@@ -1,10 +1,10 @@
-import { MessageSquare, Tv } from "lucide-react";
+import { CheckSquare, Tv } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
 
 const steps = [
   {
     number: "01",
-    icon: MessageSquare,
+    icon: CheckSquare,
     title: "Choose Your Plan",
     description: "Browse our subscription plans and select the one that suits you best",
   },
