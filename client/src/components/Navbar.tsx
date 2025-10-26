@@ -76,7 +76,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
             <img 
               src={logoImage} 
               alt="SUBFLIX" 
-              className="h-10 md:h-12 w-auto object-contain"
+              className="h-12 md:h-14 w-auto object-contain"
               data-testid="img-logo"
             />
           </div>
@@ -119,7 +119,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
                 <img 
                   src={logoImage} 
                   alt="SUBFLIX" 
-                  className="h-12 w-auto object-contain"
+                  className="h-14 w-auto object-contain"
                   data-testid="img-logo-mobile"
                 />
               </div>
