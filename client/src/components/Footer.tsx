@@ -1,4 +1,5 @@
-import { SiWhatsapp } from "react-icons/si";
+import { SiWhatsapp, SiInstagram, SiFacebook, SiX } from "react-icons/si";
+import { Mail, Phone, MapPin, Clock, ShieldCheck } from "lucide-react";
 
 export default function Footer() {
   const handleWhatsApp = () => {
@@ -6,44 +7,194 @@ export default function Footer() {
     window.open(`https://wa.me/919433419022?text=${message}`, "_blank");
   };
 
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer id="contact" className="bg-muted/30 border-t">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
-        <div className="text-center md:text-left grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-          <div>
-            <h2 className="text-2xl md:text-3xl font-black mb-3">
+    <footer id="contact" className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+      <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:32px_32px]" />
+      <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-transparent to-transparent" />
+      
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+          
+          <div className="lg:col-span-1">
+            <h2 className="text-2xl md:text-3xl font-black mb-4">
               <span className="text-primary">NEXT GEN</span>
-              <span className="text-foreground"> CLICKS</span>
+              <span className="text-white"> CLICKS</span>
             </h2>
-            <p className="text-sm text-muted-foreground mb-2">
-              Premium OTT subscriptions at unbeatable prices.
+            <p className="text-slate-300 text-sm leading-relaxed mb-6">
+              Your trusted partner for premium OTT subscriptions at unbeatable prices. Join 5000+ happy customers across India.
             </p>
-            <p className="text-sm text-muted-foreground">
-              Trusted by 5000+ customers across India.
-            </p>
+            <div className="flex items-center gap-2 text-sm text-slate-300 mb-3">
+              <ShieldCheck className="h-4 w-4 text-primary" />
+              <span>100% Genuine Subscriptions</span>
+            </div>
+            <div className="flex gap-3 mt-6">
+              <a 
+                href="https://wa.me/919433419022" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-white/10 hover:bg-primary hover:scale-110 p-3 rounded-full transition-all duration-300"
+                data-testid="link-whatsapp"
+              >
+                <SiWhatsapp className="h-5 w-5" />
+              </a>
+              <a 
+                href="#" 
+                className="bg-white/10 hover:bg-primary hover:scale-110 p-3 rounded-full transition-all duration-300"
+                data-testid="link-instagram"
+              >
+                <SiInstagram className="h-5 w-5" />
+              </a>
+              <a 
+                href="#" 
+                className="bg-white/10 hover:bg-primary hover:scale-110 p-3 rounded-full transition-all duration-300"
+                data-testid="link-facebook"
+              >
+                <SiFacebook className="h-5 w-5" />
+              </a>
+              <a 
+                href="#" 
+                className="bg-white/10 hover:bg-primary hover:scale-110 p-3 rounded-full transition-all duration-300"
+                data-testid="link-twitter"
+              >
+                <SiX className="h-5 w-5" />
+              </a>
+            </div>
           </div>
 
-          <div className="space-y-3">
-            <h3 className="font-bold text-base mb-3">Contact Us</h3>
-            <button
-              onClick={handleWhatsApp}
-              className="flex items-center justify-center md:justify-start gap-3 hover-elevate p-4 rounded-full w-full transition-all bg-primary text-primary-foreground shadow-lg hover:shadow-xl"
-              data-testid="button-whatsapp-footer"
-            >
-              <SiWhatsapp className="h-5 w-5" />
-              <div className="text-left">
-                <p className="font-semibold text-sm" data-testid="text-phone">+91 94334 19022</p>
-                <p className="text-xs opacity-90" data-testid="text-whatsapp">Message on WhatsApp</p>
+          <div>
+            <h3 className="text-lg font-bold mb-6 text-white">Quick Links</h3>
+            <ul className="space-y-3">
+              <li>
+                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-about">
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-plans">
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  Our Plans
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-how-it-works">
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  How It Works
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-faq">
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  FAQ
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-terms">
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  Terms & Conditions
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-bold mb-6 text-white">Popular Services</h3>
+            <ul className="space-y-3">
+              <li>
+                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-netflix">
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  Netflix Subscriptions
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-prime">
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  Prime Video
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-hotstar">
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  Hotstar
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-sonyliv">
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  Sony LIV
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-spotify">
+                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  Spotify Premium
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-bold mb-6 text-white">Contact Info</h3>
+            <div className="space-y-4">
+              <div className="flex items-start gap-3 group">
+                <Phone className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="text-slate-300 text-sm">Call or WhatsApp</p>
+                  <a href="tel:+919433419022" className="text-white font-semibold hover:text-primary transition-colors" data-testid="text-phone">
+                    +91 94334 19022
+                  </a>
+                </div>
               </div>
-            </button>
+              
+              <div className="flex items-start gap-3 group">
+                <Mail className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="text-slate-300 text-sm">Email Us</p>
+                  <a href="mailto:info@nextgenclicks.com" className="text-white font-semibold hover:text-primary transition-colors break-all" data-testid="text-email">
+                    info@nextgenclicks.com
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3 group">
+                <Clock className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="text-slate-300 text-sm">Working Hours</p>
+                  <p className="text-white font-semibold">24/7 Available</p>
+                </div>
+              </div>
+
+              <button
+                onClick={handleWhatsApp}
+                className="mt-4 flex items-center gap-3 bg-gradient-to-r from-primary to-orange-600 hover:from-primary/90 hover:to-orange-600/90 px-6 py-3 rounded-full w-full transition-all shadow-lg hover:shadow-xl hover:scale-105"
+                data-testid="button-whatsapp-footer"
+              >
+                <SiWhatsapp className="h-5 w-5" />
+                <span className="font-semibold">Chat on WhatsApp</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-      <div className="border-t py-4">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-center text-muted-foreground text-xs">
-            © {new Date().getFullYear()} Next Gen Clicks. All rights reserved.
-          </p>
+
+      <div className="relative border-t border-white/10 bg-black/20 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-slate-400 text-sm text-center md:text-left">
+              © {currentYear} <span className="text-primary font-semibold">Next Gen Clicks</span>. All rights reserved.
+            </p>
+            <div className="flex items-center gap-6 text-sm text-slate-400">
+              <a href="#" className="hover:text-primary transition-colors" data-testid="link-privacy">
+                Privacy Policy
+              </a>
+              <span className="text-slate-600">|</span>
+              <a href="#" className="hover:text-primary transition-colors" data-testid="link-refund">
+                Refund Policy
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
