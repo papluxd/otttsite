@@ -131,6 +131,28 @@ export function initTelegramBot(token: string) {
       return;
     }
     
+    if (data === "add_options" && session?.step === "pricing") {
+      await bot.answerCallbackQuery(query.id);
+      
+      const durationKeyboard = {
+        reply_markup: {
+          inline_keyboard: [
+            [{ text: "1 Month", callback_data: "duration_1_month" }],
+            [{ text: "3 Months", callback_data: "duration_3_months" }],
+            [{ text: "6 Months", callback_data: "duration_6_months" }],
+            [{ text: "12 Months", callback_data: "duration_12_months" }]
+          ]
+        }
+      };
+      
+      bot.sendMessage(
+        chatId,
+        "Select duration to add pricing:",
+        durationKeyboard
+      );
+      return;
+    }
+    
     if (data.startsWith("duration_") && session?.step === "pricing") {
       const duration = data.replace("duration_", "");
       session.currentDuration = duration;
@@ -472,21 +494,18 @@ Product ID: ${product.id}
         session.data.image = text;
         session.step = "pricing";
         
-        const durationKeyboard = {
+        const addOptionsKeyboard = {
           reply_markup: {
             inline_keyboard: [
-              [{ text: "1 Month", callback_data: "duration_1_month" }],
-              [{ text: "3 Months", callback_data: "duration_3_months" }],
-              [{ text: "6 Months", callback_data: "duration_6_months" }],
-              [{ text: "12 Months", callback_data: "duration_12_months" }]
+              [{ text: "+ Add Options", callback_data: "add_options" }]
             ]
           }
         };
         
         bot.sendMessage(
           chatId,
-          "Select duration to add pricing (you can add multiple):",
-          durationKeyboard
+          "Click below to add pricing options:",
+          addOptionsKeyboard
         );
         break;
 
@@ -549,10 +568,7 @@ Product ID: ${product.id}
         const continueKeyboard = {
           reply_markup: {
             inline_keyboard: [
-              [{ text: "1 Month", callback_data: "duration_1_month" }],
-              [{ text: "3 Months", callback_data: "duration_3_months" }],
-              [{ text: "6 Months", callback_data: "duration_6_months" }],
-              [{ text: "12 Months", callback_data: "duration_12_months" }],
+              [{ text: "+ Add Options", callback_data: "add_options" }],
               [{ text: "✅ Done - Create Product", callback_data: "create_product" }]
             ]
           }
@@ -560,7 +576,7 @@ Product ID: ${product.id}
         
         bot.sendMessage(
           chatId,
-          `✅ Pricing added for ${duration.replace("_", " ")}!\n\nAdd more durations or click Done to create the product:`,
+          `✅ Pricing added for ${duration.replace("_", " ")}!\n\nAdd more pricing options or click Done to create the product:`,
           continueKeyboard
         );
         break;
@@ -652,21 +668,18 @@ Product ID: ${product.id}
     session.data.image = imageUrl;
     session.step = "pricing";
     
-    const durationKeyboard = {
+    const addOptionsKeyboard = {
       reply_markup: {
         inline_keyboard: [
-          [{ text: "1 Month", callback_data: "duration_1_month" }],
-          [{ text: "3 Months", callback_data: "duration_3_months" }],
-          [{ text: "6 Months", callback_data: "duration_6_months" }],
-          [{ text: "12 Months", callback_data: "duration_12_months" }]
+          [{ text: "+ Add Options", callback_data: "add_options" }]
         ]
       }
     };
     
     bot.sendMessage(
       chatId,
-      "Select duration to add pricing (you can add multiple):",
-      durationKeyboard
+      "Click below to add pricing options:",
+      addOptionsKeyboard
     );
   });
 
