@@ -1,4 +1,5 @@
-import { MessageSquare, CreditCard, Tv } from "lucide-react";
+import { MessageSquare, Tv } from "lucide-react";
+import { SiWhatsapp } from "react-icons/si";
 
 const steps = [
   {
@@ -9,7 +10,7 @@ const steps = [
   },
   {
     number: "02",
-    icon: CreditCard,
+    icon: SiWhatsapp,
     title: "Contact Us",
     description: "Click 'Buy Now' to send us a WhatsApp message with your chosen plan",
   },
