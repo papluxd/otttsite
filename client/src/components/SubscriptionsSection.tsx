@@ -28,7 +28,7 @@ export default function SubscriptionsSection({ searchQuery = "" }: Subscriptions
       { duration: "3 Months", months: 3, originalPrice: product.price3MonthActual, discountedPrice: product.price3MonthSelling },
       { duration: "6 Months", months: 6, originalPrice: product.price6MonthActual, discountedPrice: product.price6MonthSelling },
       { duration: "12 Months", months: 12, originalPrice: product.price12MonthActual, discountedPrice: product.price12MonthSelling },
-    ],
+    ].filter(plan => plan.originalPrice > 0 && plan.discountedPrice > 0),
   }));
 
   if (isLoading) {
