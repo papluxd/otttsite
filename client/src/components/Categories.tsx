@@ -46,7 +46,7 @@ export default function Categories({ onCategoryClick }: CategoriesProps) {
               className="flex flex-col items-center gap-3 group flex-shrink-0"
               data-testid={`category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
             >
-              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden transition-transform hover:scale-110 shadow-md hover:shadow-lg">
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden transition-transform hover:scale-110 shadow-md hover:shadow-lg bg-white">
                 <img 
                   src={category.icon} 
                   alt={category.name}
