@@ -1,4 +1,4 @@
-import subscriptionsIcon from "@assets/generated_images/Yellow_subscription_clapperboard_icon_51213d81.png";
+import subscriptionsIcon from "@assets/generated_images/Subscriptions_category_white_background_4f3b5d54.png";
 import comboPackIcon from "@assets/generated_images/Purple_combo_pack_text_2c47f1f8.png";
 import adultIcon from "@assets/generated_images/Red_18_plus_icon_12143b59.png";
 import musicIcon from "@assets/generated_images/Music_category_icon_0c07203d.png";
