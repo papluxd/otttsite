@@ -76,30 +76,27 @@ export default function Navbar({ onSearch }: NavbarProps) {
             </Button>
           </div>
 
-          <button
-            className="md:hidden"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            data-testid="button-mobile-menu"
-          >
-            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          <div className="md:hidden flex items-center gap-3">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="text-foreground"
+              data-testid="button-search-mobile-header"
+            >
+              <Search className="h-5 w-5" />
+            </button>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              data-testid="button-mobile-menu"
+            >
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
         </div>
       </div>
 
       {mobileMenuOpen && (
         <div className="md:hidden border-t bg-background/95 backdrop-blur-lg">
           <div className="px-4 py-4 space-y-2">
-            <button
-              onClick={() => {
-                setSearchOpen(true);
-                setMobileMenuOpen(false);
-              }}
-              className="flex items-center gap-2 w-full text-left px-4 py-3 rounded-lg hover-elevate font-medium transition-all"
-              data-testid="button-search-mobile"
-            >
-              <Search className="h-5 w-5" />
-              Search
-            </button>
             <button
               onClick={() => scrollToSection("subscriptions")}
               className="block w-full text-left px-4 py-3 rounded-lg hover-elevate font-medium transition-all"
