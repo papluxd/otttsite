@@ -76,7 +76,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
             <img 
               src={logoImage} 
               alt="SUBFLIX" 
-              className="h-12 md:h-14 w-auto object-contain mix-blend-darken dark:mix-blend-lighten"
+              className="h-16 md:h-20 w-auto object-contain mix-blend-darken dark:mix-blend-lighten"
               style={{ 
                 filter: 'brightness(1.1) contrast(1.2)',
                 imageRendering: 'crisp-edges'
@@ -123,7 +123,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
                 <img 
                   src={logoImage} 
                   alt="SUBFLIX" 
-                  className="h-14 w-auto object-contain mix-blend-darken dark:mix-blend-lighten"
+                  className="h-16 w-auto object-contain mix-blend-darken dark:mix-blend-lighten"
                   style={{ 
                     filter: 'brightness(1.1) contrast(1.2)',
                     imageRendering: 'crisp-edges'
