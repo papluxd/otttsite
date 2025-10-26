@@ -10,7 +10,23 @@ interface UserSession {
 const sessions = new Map<number, UserSession>();
 
 export function initTelegramBot(token: string) {
-  const bot = new TelegramBot(token, { polling: true });
+  const bot = new TelegramBot(token, { 
+    polling: {
+      interval: 300,
+      autoStart: true,
+      params: {
+        timeout: 10
+      }
+    }
+  });
+
+  bot.on('polling_error', (error: any) => {
+    if (error.code === 'ETELEGRAM' && error.message.includes('409')) {
+      console.log('Warning: Another bot instance is running. Stop other instances to use this bot.');
+    } else {
+      console.error('Polling error:', error);
+    }
+  });
 
   const categories = [
     "Subscriptions",
