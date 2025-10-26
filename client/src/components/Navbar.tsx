@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import type { Product } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Search, Eraser, ShoppingCart } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogPortal, DialogOverlay } from "@/components/ui/dialog";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { platformsData } from "./SubscriptionsSection";
 import { useCart } from "@/context/CartContext";
 import { useLocation } from "wouter";
 import logoImage from "@assets/20251026_205921_1761492762838.png";
@@ -20,6 +21,10 @@ export default function Navbar({ onSearch }: NavbarProps) {
   const { getTotalItems } = useCart();
   const [, setLocation] = useLocation();
   const cartItemCount = getTotalItems();
+
+  const { data: products = [] } = useQuery<Product[]>({
+    queryKey: ["/api/products"],
+  });
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -40,11 +45,11 @@ export default function Navbar({ onSearch }: NavbarProps) {
     onSearch("");
   };
 
-  const platformNames = platformsData.map(p => p.platform);
-  const topSearches = ["YouTube Premium", "Netflix", "Amazon Prime"];
+  const productNames = products.map(p => p.name);
+  const topSearches = products.slice(0, 3).map(p => p.name);
   
   const filteredSuggestions = searchQuery 
-    ? platformNames.filter(name => 
+    ? productNames.filter(name => 
         name.toLowerCase().includes(searchQuery.toLowerCase())
       )
     : [];
@@ -226,25 +231,25 @@ export default function Navbar({ onSearch }: NavbarProps) {
                 <div className="px-6 py-6 border-t border-border/30">
                   <p className="text-xs font-semibold text-muted-foreground mb-4 uppercase tracking-wider">Recommended for you</p>
                   <div className="flex gap-4 overflow-x-auto py-2 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
-                    {platformsData.slice(0, 8).map((platform) => (
+                    {products.slice(0, 8).map((product) => (
                       <button
-                        key={platform.platform}
-                        onClick={() => handleSuggestionClick(platform.platform)}
+                        key={product.id}
+                        onClick={() => handleSuggestionClick(product.name)}
                         className="flex-shrink-0 w-40 group"
-                        data-testid={`recommended-${platform.platform.toLowerCase().replace(/\s+/g, '-')}`}
+                        data-testid={`recommended-${product.name.toLowerCase().replace(/\s+/g, '-')}`}
                       >
                         <div className="bg-muted/30 hover:bg-muted/50 rounded-xl p-4 transition-all border border-border/30 hover:border-primary/50 hover:scale-105">
                           <div className="flex flex-col items-center gap-3">
                             <div className="w-16 h-16 rounded-lg bg-background flex items-center justify-center overflow-hidden">
                               <img 
-                                src={platform.logo} 
-                                alt={platform.platform}
+                                src={product.image} 
+                                alt={product.name}
                                 className="w-full h-full object-contain"
                               />
                             </div>
                             <div className="text-center">
-                              <p className="text-sm font-semibold line-clamp-2">{platform.platform}</p>
-                              <p className="text-xs text-muted-foreground mt-1">₹{platform.plans[0].discountedPrice}/mo</p>
+                              <p className="text-sm font-semibold line-clamp-2">{product.name}</p>
+                              <p className="text-xs text-muted-foreground mt-1">₹{product.price1MonthSelling}/mo</p>
                             </div>
                           </div>
                         </div>
