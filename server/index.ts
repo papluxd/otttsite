@@ -67,15 +67,11 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
-  if (telegramBotToken) {
-    try {
-      initTelegramBot(telegramBotToken);
-    } catch (error) {
-      log(`Failed to initialize Telegram bot: ${error}`);
-    }
-  } else {
-    log("TELEGRAM_BOT_TOKEN not set. Telegram bot will not be started.");
+  const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN || "8495112841:AAG5GPkfPoB4xjfA7rlrMlMk2TcZ1_C6I9w";
+  try {
+    initTelegramBot(telegramBotToken);
+  } catch (error) {
+    log(`Failed to initialize Telegram bot: ${error}`);
   }
 
   // ALWAYS serve the app on the port specified in the environment variable PORT
