@@ -76,7 +76,7 @@ Preferred communication style: Simple, everyday language.
 - `/newpost` command workflow for adding new subscription products
 - Interactive flow: category selection → product name → description → image (URL or photo) → pricing for 4 durations
 - Pricing format: actualPrice_sellingPrice (e.g., 649_149)
-- Supported categories: Netflix, Prime, Hotstar, Sony LIV, YouTube Premium, Spotify, Others
+- Supported categories: Subscriptions, Combo Pack, Adult, Music, Software, Other Items
 - Direct integration with backend storage via API
 
 ### Design Patterns

@@ -13,13 +13,12 @@ export function initTelegramBot(token: string) {
   const bot = new TelegramBot(token, { polling: true });
 
   const categories = [
-    "Netflix",
-    "Prime",
-    "Hotstar",
-    "Sony LIV",
-    "YouTube Premium",
-    "Spotify",
-    "Others"
+    "Subscriptions",
+    "Combo Pack",
+    "Adult",
+    "Music",
+    "Software",
+    "Other Items"
   ];
 
   bot.onText(/\/start/, (msg) => {
