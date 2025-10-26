@@ -1,5 +1,5 @@
 import subscriptionsIcon from "@assets/generated_images/Subscriptions_category_white_background_4f3b5d54.png";
-import comboPackIcon from "@assets/generated_images/Combo_pack_category_icon_d5a41e8f.png";
+import comboPackIcon from "@assets/generated_images/Combo_Pack_text_icon_bb058bba.png";
 import adultIcon from "@assets/generated_images/Red_18_plus_icon_12143b59.png";
 import musicIcon from "@assets/generated_images/Music_category_icon_0c07203d.png";
 import softwareIcon from "@assets/generated_images/Software_category_icon_a3fdff93.png";
@@ -46,11 +46,11 @@ export default function Categories({ onCategoryClick }: CategoriesProps) {
               className="flex flex-col items-center gap-3 group flex-shrink-0"
               data-testid={`category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
             >
-              <div className={`w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden transition-transform hover:scale-110 shadow-md hover:shadow-lg bg-white ${category.name === "Adult" ? "border-4 border-white" : ""}`}>
+              <div className={`w-20 h-20 md:w-24 md:h-24 rounded-full transition-transform hover:scale-110 shadow-md hover:shadow-lg bg-white flex items-center justify-center p-2 ${category.name === "Adult" ? "border-4 border-white" : ""}`}>
                 <img 
                   src={category.icon} 
                   alt={category.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                 />
               </div>
               <p className="text-sm md:text-base font-medium text-center group-hover:text-primary transition-colors">
