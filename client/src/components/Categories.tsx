@@ -1,9 +1,9 @@
-import subscriptionsIcon from "@assets/generated_images/Subscriptions_category_white_background_4f3b5d54.png";
-import comboPackIcon from "@assets/generated_images/Combo_Pack_thick_violet_ring_2dae5d3b.png";
-import adultIcon from "@assets/generated_images/Red_18_plus_icon_12143b59.png";
-import musicIcon from "@assets/generated_images/Music_category_icon_0c07203d.png";
-import softwareIcon from "@assets/generated_images/Software_category_icon_a3fdff93.png";
-import otherItemsIcon from "@assets/generated_images/Clean_green_bag_no_text_84a38612.png";
+import subscriptionsIcon from "@assets/WhatsApp Image 2025-10-26 at 08.19.58_fb1dc434_1761461124963.jpg";
+import comboPackIcon from "@assets/WhatsApp Image 2025-10-26 at 08.19.59_d77a2884_1761461132534.jpg";
+import adultIcon from "@assets/WhatsApp Image 2025-10-26 at 08.19.59_08f2cc8a_1761461142379.jpg";
+import musicIcon from "@assets/WhatsApp Image 2025-10-26 at 08.20.00_354c60ba_1761461166917.jpg";
+import softwareIcon from "@assets/WhatsApp Image 2025-10-26 at 08.19.59_86192320_1761461159045.jpg";
+import otherItemsIcon from "@assets/WhatsApp Image 2025-10-26 at 08.19.59_5d9de9b8_1761461150404.jpg";
 
 interface CategoriesProps {
   onCategoryClick: (category: string) => void;
@@ -38,23 +38,22 @@ export default function Categories({ onCategoryClick }: CategoriesProps) {
           <h2 className="text-2xl md:text-3xl font-bold">Categories</h2>
         </div>
         
-        <div className="flex overflow-x-auto gap-6 md:gap-8 pb-4 md:pb-0 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent md:grid md:grid-cols-6" style={{ scrollSnapType: 'x mandatory' }}>
+        <div className="flex justify-center items-center gap-6 md:gap-8 flex-wrap">
           {categories.map((category) => (
             <button
               key={category.name}
               onClick={() => handleCategoryClick(category.name)}
-              className="flex flex-col items-center gap-3 group flex-shrink-0 w-[30%] md:w-auto"
-              style={{ scrollSnapAlign: 'start' }}
+              className="flex flex-col items-center gap-3 group"
               data-testid={`category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
             >
-              <div className={`w-20 h-20 md:w-24 md:h-24 rounded-full transition-transform hover:scale-110 shadow-md hover:shadow-lg bg-white flex items-center justify-center overflow-hidden ${category.name === "Adult" ? "border-4 border-white" : ""}`}>
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full transition-transform hover:scale-110 shadow-lg overflow-hidden">
                 <img 
                   src={category.icon} 
                   alt={category.name}
-                  className="w-[85%] h-[85%] object-contain"
+                  className="w-full h-full object-cover"
                 />
               </div>
-              <p className="text-sm md:text-base font-medium text-center group-hover:text-primary transition-colors">
+              <p className="text-xs md:text-sm font-medium text-center group-hover:text-primary transition-colors">
                 {category.name}
               </p>
             </button>
