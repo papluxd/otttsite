@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Search, Eraser } from "lucide-react";
+import { Menu, X, Search, Eraser, ShoppingCart } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogPortal, DialogOverlay } from "@/components/ui/dialog";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
@@ -54,66 +54,47 @@ export default function Navbar({ onSearch }: NavbarProps) {
     <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
+          {/* Left - Menu Icon */}
           <div className="flex items-center">
-            <span className="text-xl md:text-2xl font-black tracking-tight">
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 hover:bg-muted rounded-lg transition-colors"
+              data-testid="button-mobile-menu"
+            >
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
+
+          {/* Center - Logo */}
+          <div className="absolute left-1/2 transform -translate-x-1/2">
+            <span className="text-xl md:text-2xl font-black tracking-tight whitespace-nowrap">
               <span className="text-primary">NEXT GEN</span>
               <span className="text-foreground"> CLICKS</span>
             </span>
           </div>
 
-          <div className="hidden md:flex items-center gap-2">
+          {/* Right - Search & Cart Icons */}
+          <div className="flex items-center gap-2">
             <button
               onClick={() => setSearchOpen(true)}
-              className="text-sm text-foreground hover-elevate p-2 rounded-lg font-medium transition-all"
+              className="p-2 hover:bg-muted rounded-lg transition-colors"
               data-testid="button-search"
             >
               <Search className="h-5 w-5" />
             </button>
             <button
               onClick={() => scrollToSection("subscriptions")}
-              className="text-sm text-foreground hover-elevate px-3 py-2 rounded-lg font-medium transition-all"
-              data-testid="link-subscriptions"
+              className="p-2 hover:bg-muted rounded-lg transition-colors relative"
+              data-testid="button-cart"
             >
-              Plans
-            </button>
-            <button
-              onClick={() => scrollToSection("contact")}
-              className="text-sm text-foreground hover-elevate px-3 py-2 rounded-lg font-medium transition-all"
-              data-testid="link-contact"
-            >
-              Contact
-            </button>
-            <Button
-              variant="default"
-              onClick={() => scrollToSection("subscriptions")}
-              className="ml-2 rounded-full"
-              size="sm"
-              data-testid="button-get-started"
-            >
-              Get Started
-            </Button>
-          </div>
-
-          <div className="md:hidden flex items-center gap-3">
-            <button
-              onClick={() => setSearchOpen(true)}
-              className="text-foreground"
-              data-testid="button-search-mobile-header"
-            >
-              <Search className="h-5 w-5" />
-            </button>
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              data-testid="button-mobile-menu"
-            >
-              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              <ShoppingCart className="h-5 w-5" />
             </button>
           </div>
         </div>
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden border-t bg-background/95 backdrop-blur-lg">
+        <div className="border-t bg-background/95 backdrop-blur-lg">
           <div className="px-4 py-4 space-y-2">
             <button
               onClick={() => scrollToSection("subscriptions")}
