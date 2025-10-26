@@ -29,10 +29,9 @@ export default function SubscriptionCard({
   features,
   popular = false,
 }: SubscriptionCardProps) {
-  const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalSelectedPlanIndex, setModalSelectedPlanIndex] = useState(0);
-  const selectedPlan = plans[selectedPlanIndex];
+  const selectedPlan = plans[0];
 
   const handleBuyNow = () => {
     const planToUse = plans[modalSelectedPlanIndex];
@@ -44,7 +43,6 @@ export default function SubscriptionCard({
   };
 
   const handleAddToCart = () => {
-    setModalSelectedPlanIndex(selectedPlanIndex);
     setIsModalOpen(true);
   };
 
