@@ -144,8 +144,8 @@ export default function Navbar({ onSearch }: NavbarProps) {
 <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
         <DialogPortal>
           <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-          <DialogPrimitive.Content className="fixed left-[50%] top-24 z-50 w-full max-w-2xl translate-x-[-50%] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-top-[10%] data-[state=open]:slide-in-from-top-[10%] duration-200">
-            <div className="bg-background/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-border/50 overflow-hidden">
+          <DialogPrimitive.Content className="fixed left-0 right-0 top-0 z-50 w-full data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top duration-200">
+            <div className="bg-background/95 backdrop-blur-xl shadow-2xl border-b border-border/50 overflow-hidden max-w-2xl mx-auto">
               <div className="p-6">
                 <div className="relative flex items-center gap-3 bg-muted/30 rounded-full px-5 py-3 border border-border/50 focus-within:border-primary transition-all">
                   <Search className="h-5 w-5 text-muted-foreground" />
