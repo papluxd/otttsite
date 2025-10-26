@@ -12,7 +12,7 @@ const slides = [
   },
   {
     image: heroImage3,
-    title: "All Platforms",
+    title: "Unbeatable Combos",
     subtitle: "One Click Away",
   },
 ];
