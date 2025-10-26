@@ -3,7 +3,7 @@ import comboPackIcon from "@assets/generated_images/Simple_Combo_Pack_text_only_
 import adultIcon from "@assets/generated_images/Red_18_plus_icon_12143b59.png";
 import musicIcon from "@assets/generated_images/Music_category_icon_0c07203d.png";
 import softwareIcon from "@assets/generated_images/Software_category_icon_a3fdff93.png";
-import otherItemsIcon from "@assets/generated_images/Other_Items_category_icon_afd5eaa8.png";
+import otherItemsIcon from "@assets/generated_images/Other_Items_category_icon_9014c7a3.png";
 
 interface CategoriesProps {
   onCategoryClick: (category: string) => void;

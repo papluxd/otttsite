@@ -60,7 +60,7 @@ export default function HeroCarousel() {
   return (
     <div 
       id="home" 
-      className="relative h-[60vh] md:h-[70vh] min-h-[450px] overflow-hidden"
+      className="relative h-[45vh] md:h-[70vh] min-h-[350px] md:min-h-[450px] overflow-hidden"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
