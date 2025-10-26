@@ -60,7 +60,14 @@ export class MongoStorage implements IStorage {
 
   async createProduct(insertProduct: InsertProduct): Promise<Product> {
     const id = new ObjectId().toString();
-    const product: Product = { ...insertProduct, id };
+    const product: Product = { 
+      ...insertProduct,
+      id,
+      inStock1Month: insertProduct.inStock1Month ?? true,
+      inStock3Month: insertProduct.inStock3Month ?? true,
+      inStock6Month: insertProduct.inStock6Month ?? true,
+      inStock12Month: insertProduct.inStock12Month ?? true,
+    };
     await this.productsCollection.insertOne(product);
     return product;
   }
