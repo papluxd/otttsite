@@ -14,6 +14,7 @@ interface Plan {
   months: number;
   originalPrice: number;
   discountedPrice: number;
+  inStock: boolean;
 }
 
 interface SubscriptionCardProps {
@@ -31,13 +32,22 @@ export default function SubscriptionCard({
   features,
   popular = false,
 }: SubscriptionCardProps) {
+  const firstInStockIndex = plans.findIndex(plan => plan.inStock);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalSelectedPlanIndex, setModalSelectedPlanIndex] = useState(0);
-  const selectedPlan = plans[0];
+  const [modalSelectedPlanIndex, setModalSelectedPlanIndex] = useState(firstInStockIndex >= 0 ? firstInStockIndex : 0);
+  const selectedPlan = plans[firstInStockIndex >= 0 ? firstInStockIndex : 0];
   const { addToCart } = useCart();
   const { toast } = useToast();
 
   const handleBuyNow = () => {
+    if (modalSelectedPlanIndex < 0 || !plans[modalSelectedPlanIndex]?.inStock) {
+      toast({
+        title: "Product unavailable",
+        description: "The selected plan is currently out of stock.",
+        variant: "destructive",
+      });
+      return;
+    }
     const planToUse = plans[modalSelectedPlanIndex];
     const message = encodeURIComponent(
       `Hi! I want to buy ${platform} ${planToUse.duration} subscription at ₹${planToUse.discountedPrice}`
@@ -51,6 +61,14 @@ export default function SubscriptionCard({
   };
 
   const handleAddToCartFromDrawer = () => {
+    if (modalSelectedPlanIndex < 0 || !plans[modalSelectedPlanIndex]?.inStock) {
+      toast({
+        title: "Product unavailable",
+        description: "The selected plan is currently out of stock.",
+        variant: "destructive",
+      });
+      return;
+    }
     const planToAdd = plans[modalSelectedPlanIndex];
     addToCart({
       platform,
@@ -129,30 +147,58 @@ export default function SubscriptionCard({
           </DrawerHeader>
           
           <div className="px-4 pb-6">
-            <RadioGroup value={modalSelectedPlanIndex.toString()} onValueChange={(value) => setModalSelectedPlanIndex(parseInt(value))}>
+            <RadioGroup value={modalSelectedPlanIndex.toString()} onValueChange={(value) => {
+              const selectedIndex = parseInt(value);
+              if (plans[selectedIndex].inStock) {
+                setModalSelectedPlanIndex(selectedIndex);
+              }
+            }}>
               <div className="space-y-3 mt-4">
                 {plans.map((plan, index) => {
                   const planSavings = Math.round(((plan.originalPrice - plan.discountedPrice) / plan.originalPrice) * 100);
+                  const isOutOfStock = !plan.inStock;
                   return (
                     <div key={index} className="relative">
                       <RadioGroupItem
                         value={index.toString()}
                         id={`plan-${index}`}
                         className="peer sr-only"
+                        disabled={isOutOfStock}
                       />
                       <Label
                         htmlFor={`plan-${index}`}
-                        className="flex items-center justify-between p-4 rounded-lg border-2 cursor-pointer transition-all peer-data-[state=checked]:border-orange-500 peer-data-[state=checked]:bg-orange-50 dark:peer-data-[state=checked]:bg-orange-950/20 hover:bg-accent"
+                        className={`flex items-center justify-between p-4 rounded-lg border-2 transition-all ${
+                          isOutOfStock 
+                            ? 'cursor-not-allowed opacity-50 bg-gray-100 dark:bg-gray-900' 
+                            : 'cursor-pointer peer-data-[state=checked]:border-orange-500 peer-data-[state=checked]:bg-orange-50 dark:peer-data-[state=checked]:bg-orange-950/20 hover:bg-accent'
+                        }`}
                       >
                         <div className="flex-1">
-                          <div className="font-semibold">{plan.duration}</div>
+                          <div className="flex items-center gap-2">
+                            <span className={`font-semibold ${isOutOfStock ? 'text-gray-400' : ''}`}>
+                              {plan.duration}
+                            </span>
+                            {isOutOfStock && (
+                              <span className="text-xs text-gray-400 font-normal">Out of Stock</span>
+                            )}
+                          </div>
                           <div className="flex items-baseline gap-2 mt-1">
-                            <span className="text-lg font-bold">₹{plan.discountedPrice}</span>
-                            <span className="text-sm text-muted-foreground line-through">₹{plan.originalPrice}</span>
+                            <span className={`text-lg font-bold ${isOutOfStock ? 'text-gray-400' : ''}`}>
+                              ₹{plan.discountedPrice}
+                            </span>
+                            <span className={`text-sm line-through ${isOutOfStock ? 'text-gray-300' : 'text-muted-foreground'}`}>
+                              ₹{plan.originalPrice}
+                            </span>
                           </div>
                         </div>
-                        <div className={`relative w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${modalSelectedPlanIndex === index ? 'border-orange-500' : 'border-gray-300'}`}>
-                          <div className={`rounded-full bg-orange-500 transition-all ${modalSelectedPlanIndex === index ? 'w-3 h-3' : 'w-0 h-0'}`} />
+                        <div className={`relative w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${
+                          isOutOfStock 
+                            ? 'border-gray-300' 
+                            : modalSelectedPlanIndex === index ? 'border-orange-500' : 'border-gray-300'
+                        }`}>
+                          <div className={`rounded-full bg-orange-500 transition-all ${
+                            !isOutOfStock && modalSelectedPlanIndex === index ? 'w-3 h-3' : 'w-0 h-0'
+                          }`} />
                         </div>
                       </Label>
                     </div>
@@ -161,23 +207,31 @@ export default function SubscriptionCard({
               </div>
             </RadioGroup>
 
-            <div className="flex gap-3 mt-6">
-              <Button
-                variant="outline"
-                className="flex-1 rounded-lg border-2"
-                onClick={handleAddToCartFromDrawer}
-                data-testid={`button-add-to-cart-drawer-${platform.toLowerCase().replace(/\s+/g, '-')}`}
-              >
-                Add To Cart
-              </Button>
-              <Button
-                className="flex-1 rounded-lg bg-orange-500 hover:bg-orange-600 text-white"
-                onClick={handleBuyNow}
-                data-testid={`button-buy-now-${platform.toLowerCase().replace(/\s+/g, '-')}`}
-              >
-                Buy Now
-              </Button>
-            </div>
+            {firstInStockIndex < 0 ? (
+              <div className="mt-6 p-4 bg-gray-100 dark:bg-gray-900 rounded-lg text-center">
+                <p className="text-sm text-gray-500 dark:text-gray-400">All plans are currently out of stock</p>
+              </div>
+            ) : (
+              <div className="flex gap-3 mt-6">
+                <Button
+                  variant="outline"
+                  className="flex-1 rounded-lg border-2"
+                  onClick={handleAddToCartFromDrawer}
+                  disabled={modalSelectedPlanIndex < 0 || !plans[modalSelectedPlanIndex]?.inStock}
+                  data-testid={`button-add-to-cart-drawer-${platform.toLowerCase().replace(/\s+/g, '-')}`}
+                >
+                  Add To Cart
+                </Button>
+                <Button
+                  className="flex-1 rounded-lg bg-orange-500 hover:bg-orange-600 text-white"
+                  onClick={handleBuyNow}
+                  disabled={modalSelectedPlanIndex < 0 || !plans[modalSelectedPlanIndex]?.inStock}
+                  data-testid={`button-buy-now-${platform.toLowerCase().replace(/\s+/g, '-')}`}
+                >
+                  Buy Now
+                </Button>
+              </div>
+            )}
           </div>
         </DrawerContent>
       </Drawer>

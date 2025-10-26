@@ -24,10 +24,10 @@ export default function SubscriptionsSection({ searchQuery = "" }: Subscriptions
     popular: false,
     features: product.description.split('\n').filter(f => f.trim()),
     plans: [
-      { duration: "1 Month", months: 1, originalPrice: product.price1MonthActual, discountedPrice: product.price1MonthSelling },
-      { duration: "3 Months", months: 3, originalPrice: product.price3MonthActual, discountedPrice: product.price3MonthSelling },
-      { duration: "6 Months", months: 6, originalPrice: product.price6MonthActual, discountedPrice: product.price6MonthSelling },
-      { duration: "12 Months", months: 12, originalPrice: product.price12MonthActual, discountedPrice: product.price12MonthSelling },
+      { duration: "1 Month", months: 1, originalPrice: product.price1MonthActual, discountedPrice: product.price1MonthSelling, inStock: product.inStock1Month },
+      { duration: "3 Months", months: 3, originalPrice: product.price3MonthActual, discountedPrice: product.price3MonthSelling, inStock: product.inStock3Month },
+      { duration: "6 Months", months: 6, originalPrice: product.price6MonthActual, discountedPrice: product.price6MonthSelling, inStock: product.inStock6Month },
+      { duration: "12 Months", months: 12, originalPrice: product.price12MonthActual, discountedPrice: product.price12MonthSelling, inStock: product.inStock12Month },
     ].filter(plan => plan.originalPrice > 0 && plan.discountedPrice > 0),
   }));
 
