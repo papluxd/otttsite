@@ -143,62 +143,77 @@ export default function Navbar({ onSearch }: NavbarProps) {
 
 <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
         <DialogPortal>
-          <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/50 backdrop-blur-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-          <DialogPrimitive.Content className="fixed left-[50%] top-20 z-50 grid w-full max-w-lg translate-x-[-50%] gap-6 border-0 bg-transparent backdrop-blur-xl p-8 shadow-2xl duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top rounded-2xl">
-            <DialogPrimitive.Close className="absolute right-6 top-6 rounded-full opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-muted/50 p-2">
-              <X className="h-4 w-4" />
-              <span className="sr-only">Close</span>
-            </DialogPrimitive.Close>
-            <DialogHeader>
-              <DialogTitle className="text-2xl">Search Subscriptions</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-6">
-              <div className="relative">
-                <Input
-                  placeholder="Search for platforms..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                  className="h-12 text-base rounded-xl border-2 focus:border-primary bg-transparent"
-                  autoFocus
-                />
+          <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+          <DialogPrimitive.Content className="fixed left-[50%] top-24 z-50 w-full max-w-2xl translate-x-[-50%] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-top-[10%] data-[state=open]:slide-in-from-top-[10%] duration-200">
+            <div className="bg-background/95 backdrop-blur-xl rounded-3xl shadow-2xl border border-border/50 overflow-hidden">
+              <div className="p-6">
+                <div className="relative flex items-center gap-3 bg-muted/30 rounded-full px-5 py-3 border border-border/50 focus-within:border-primary transition-all">
+                  <Search className="h-5 w-5 text-muted-foreground" />
+                  <input
+                    type="text"
+                    placeholder="Search for platforms..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                    className="flex-1 bg-transparent border-0 outline-none text-base placeholder:text-muted-foreground"
+                    autoFocus
+                    data-testid="input-search"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={handleClearSearch}
+                      className="p-1 hover:bg-muted rounded-full transition-colors"
+                      data-testid="button-clear-search"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
+                  <button
+                    onClick={() => setSearchOpen(false)}
+                    className="p-1.5 hover:bg-muted rounded-full transition-colors"
+                    data-testid="button-close-search"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                </div>
+              </div>
+              
+              <div className="max-h-96 overflow-y-auto">
                 {searchQuery && filteredSuggestions.length > 0 && (
-                  <div className="absolute top-full left-0 right-0 mt-2 bg-background border-2 border-primary/20 rounded-xl shadow-xl z-10 max-h-64 overflow-y-auto">
+                  <div className="border-t border-border/30">
                     {filteredSuggestions.map((suggestion) => (
                       <button
                         key={suggestion}
                         onClick={() => handleSuggestionClick(suggestion)}
-                        className="w-full text-left px-4 py-3 hover:bg-primary/10 transition-colors text-sm border-b last:border-b-0 border-border/20"
+                        className="w-full text-left px-6 py-3.5 hover:bg-muted/50 transition-colors flex items-center gap-3 border-b border-border/20 last:border-b-0"
+                        data-testid={`suggestion-${suggestion.toLowerCase().replace(/\s+/g, '-')}`}
                       >
-                        {suggestion}
+                        <Search className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-sm">{suggestion}</span>
                       </button>
                     ))}
                   </div>
                 )}
-              </div>
-              
-              {!searchQuery && (
-                <div className="space-y-3">
-                  <p className="text-sm text-muted-foreground font-semibold">Top Searches</p>
-                  <div className="flex flex-col gap-2">
-                    {topSearches.map((search) => (
-                      <button
-                        key={search}
-                        onClick={() => handleSuggestionClick(search)}
-                        className="px-4 py-2 rounded-full bg-primary/10 hover:bg-primary/20 text-sm font-medium transition-all hover:scale-105 text-left"
-                      >
-                        {search}
-                      </button>
-                    ))}
+                
+                {!searchQuery && (
+                  <div className="px-6 py-4 border-t border-border/30">
+                    <p className="text-xs font-semibold text-muted-foreground mb-3 uppercase tracking-wider">Top Searches</p>
+                    <div className="space-y-1">
+                      {topSearches.map((search) => (
+                        <button
+                          key={search}
+                          onClick={() => handleSuggestionClick(search)}
+                          className="w-full text-left px-4 py-2.5 hover:bg-muted/50 rounded-lg transition-colors flex items-center gap-3"
+                          data-testid={`top-search-${search.toLowerCase().replace(/\s+/g, '-')}`}
+                        >
+                          <Search className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-sm">{search}</span>
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
-
-              {searchQuery && (
-                <Button variant="outline" onClick={handleClearSearch} className="w-full h-11 rounded-xl">
-                  Clear Search
-                </Button>
-              )}
+                )}
+              </div>
             </div>
           </DialogPrimitive.Content>
         </DialogPortal>
