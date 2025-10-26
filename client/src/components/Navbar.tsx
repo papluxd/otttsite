@@ -72,14 +72,15 @@ export default function Navbar({ onSearch }: NavbarProps) {
           </div>
 
           {/* Center - Logo */}
-          <div className="absolute left-1/2 transform -translate-x-1/2">
+          <div className="absolute left-1/2 transform -translate-x-1/2 py-1">
             <img 
               src={logoImage} 
               alt="SUBFLIX" 
-              className="h-16 md:h-20 w-auto object-contain mix-blend-darken dark:mix-blend-lighten"
+              className="h-20 md:h-24 w-auto object-contain"
               style={{ 
-                filter: 'brightness(1.1) contrast(1.2)',
-                imageRendering: 'crisp-edges'
+                mixBlendMode: 'multiply',
+                filter: 'contrast(1.3) brightness(1.05)',
+                imageRendering: '-webkit-optimize-contrast'
               }}
               data-testid="img-logo"
             />
@@ -123,10 +124,11 @@ export default function Navbar({ onSearch }: NavbarProps) {
                 <img 
                   src={logoImage} 
                   alt="SUBFLIX" 
-                  className="h-16 w-auto object-contain mix-blend-darken dark:mix-blend-lighten"
+                  className="h-20 w-auto object-contain"
                   style={{ 
-                    filter: 'brightness(1.1) contrast(1.2)',
-                    imageRendering: 'crisp-edges'
+                    mixBlendMode: 'multiply',
+                    filter: 'contrast(1.3) brightness(1.05)',
+                    imageRendering: '-webkit-optimize-contrast'
                   }}
                   data-testid="img-logo-mobile"
                 />
