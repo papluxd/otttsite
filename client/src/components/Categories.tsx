@@ -38,12 +38,13 @@ export default function Categories({ onCategoryClick }: CategoriesProps) {
           <h2 className="text-2xl md:text-3xl font-bold">Categories</h2>
         </div>
         
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-4 md:gap-8">
+        <div className="flex overflow-x-auto gap-6 md:gap-8 pb-4 md:pb-0 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent md:grid md:grid-cols-6" style={{ scrollSnapType: 'x mandatory' }}>
           {categories.map((category) => (
             <button
               key={category.name}
               onClick={() => handleCategoryClick(category.name)}
-              className="flex flex-col items-center gap-3 group flex-shrink-0"
+              className="flex flex-col items-center gap-3 group flex-shrink-0 w-[30%] md:w-auto"
+              style={{ scrollSnapAlign: 'start' }}
               data-testid={`category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
             >
               <div className={`w-20 h-20 md:w-24 md:h-24 rounded-full transition-transform hover:scale-110 shadow-md hover:shadow-lg bg-white flex items-center justify-center overflow-hidden ${category.name === "Adult" ? "border-4 border-white" : ""}`}>

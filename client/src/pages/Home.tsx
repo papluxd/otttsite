@@ -17,7 +17,6 @@ export default function Home() {
       <HeroCarousel />
       <Categories onCategoryClick={setSearchQuery} />
       <SubscriptionsSection searchQuery={searchQuery} />
-      <PopularPlatforms onPlatformClick={setSearchQuery} />
       <HowItWorks />
       <FAQ />
       <Footer />
