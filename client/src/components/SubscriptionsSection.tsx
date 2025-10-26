@@ -7,7 +7,7 @@ import zee5Logo from "@assets/generated_images/Zee5_logo_fixed_1c188143.png";
 import youtubeLogo from "@assets/generated_images/YouTube_Premium_logo_fixed_07e3d842.png";
 
 //todo: remove mock functionality
-const platformsData = [
+export const platformsData = [
   {
     platform: "Netflix",
     logo: netflixLogo,

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { platformsData } from "./SubscriptionsSection";
 
 interface NavbarProps {
   onSearch: (query: string) => void;
@@ -32,7 +33,14 @@ export default function Navbar({ onSearch }: NavbarProps) {
     onSearch("");
   };
 
-  const topSearches = ["YouTube", "Netflix", "Amazon Prime"];
+  const platformNames = platformsData.map(p => p.platform);
+  const topSearches = ["YouTube Premium", "Netflix", "Amazon Prime"];
+  
+  const filteredSuggestions = searchQuery 
+    ? platformNames.filter(name => 
+        name.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : [];
 
   const handleSuggestionClick = (suggestion: string) => {
     setSearchQuery(suggestion);
@@ -132,21 +140,40 @@ export default function Navbar({ onSearch }: NavbarProps) {
         </div>
       )}
 
+{searchOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-md z-50" onClick={() => setSearchOpen(false)} />
+      )}
+
       <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
-        <DialogContent className="sm:max-w-md backdrop-blur-xl">
+        <DialogContent className="sm:max-w-md backdrop-blur-xl z-[60]">
           <DialogHeader>
             <DialogTitle>Search Subscriptions</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="flex gap-2">
-              <Input
-                placeholder="Search for platforms..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                className="flex-1"
-                autoFocus
-              />
+            <div className="flex gap-2 relative">
+              <div className="flex-1 relative">
+                <Input
+                  placeholder="Search for platforms..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                  className="flex-1"
+                  autoFocus
+                />
+                {searchQuery && filteredSuggestions.length > 0 && (
+                  <div className="absolute top-full left-0 right-0 mt-2 bg-background border rounded-lg shadow-lg z-10 max-h-48 overflow-y-auto">
+                    {filteredSuggestions.map((suggestion) => (
+                      <button
+                        key={suggestion}
+                        onClick={() => handleSuggestionClick(suggestion)}
+                        className="w-full text-left px-4 py-2.5 hover:bg-muted/50 transition-colors text-sm border-b last:border-b-0"
+                      >
+                        {suggestion}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
               <Button onClick={handleSearch}>Search</Button>
             </div>
             

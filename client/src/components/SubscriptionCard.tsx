@@ -54,7 +54,7 @@ export default function SubscriptionCard({
           <div className="flex-1">
             <h3 className="text-lg font-bold mb-2" data-testid={`text-platform-${platform.toLowerCase().replace(/\s+/g, '-')}`}>{platform}</h3>
             <Select value={selectedPlanIndex.toString()} onValueChange={(value) => setSelectedPlanIndex(parseInt(value))}>
-              <SelectTrigger className="w-full text-xs h-8">
+              <SelectTrigger className="w-full text-xs h-9 px-3 rounded-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

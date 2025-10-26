@@ -1,16 +1,10 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
-import heroImage1 from "@assets/generated_images/Streaming_devices_hero_banner_db007b8c.png";
 import heroImage2 from "@assets/generated_images/Streaming_entertainment_lifestyle_image_6d64675c.png";
 import heroImage3 from "@assets/generated_images/Multi-device_streaming_concept_b6a5993d.png";
 
 const slides = [
-  {
-    image: heroImage1,
-    title: "Premium Streaming",
-    subtitle: "Unbeatable Prices",
-  },
   {
     image: heroImage2,
     title: "Your Favorites",
