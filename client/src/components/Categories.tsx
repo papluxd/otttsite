@@ -32,13 +32,13 @@ export default function Categories({ onCategoryClick }: CategoriesProps) {
   };
 
   return (
-    <section className="py-12 md:py-16 bg-background">
+    <section className="py-8 md:py-12 bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-10">
+        <div className="text-center mb-8">
           <h2 className="text-2xl md:text-3xl font-bold">Categories</h2>
         </div>
         
-        <div className="md:grid md:grid-cols-6 md:gap-8 flex md:flex-none overflow-x-auto gap-6 pb-4 md:pb-0 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-4 md:gap-8">
           {categories.map((category) => (
             <button
               key={category.name}
