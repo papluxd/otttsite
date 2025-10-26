@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import heroImage2 from "@assets/generated_images/Streaming_entertainment_lifestyle_image_6d64675c.png";
-import heroImage3 from "@assets/generated_images/Multi-device_streaming_concept_b6a5993d.png";
+import heroImage3 from "@assets/WhatsApp Image 2025-10-26 at 16.53.24_45cf7795_1761477866986.jpg";
 
 const slides = [
   {
