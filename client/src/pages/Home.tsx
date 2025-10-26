@@ -2,6 +2,8 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import HeroCarousel from "@/components/HeroCarousel";
 import SubscriptionsSection from "@/components/SubscriptionsSection";
+import HowItWorks from "@/components/HowItWorks";
+import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -12,6 +14,8 @@ export default function Home() {
       <Navbar onSearch={setSearchQuery} />
       <HeroCarousel />
       <SubscriptionsSection searchQuery={searchQuery} />
+      <HowItWorks />
+      <FAQ />
       <Footer />
     </div>
   );
