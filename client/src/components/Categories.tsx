@@ -73,7 +73,7 @@ export default function Categories({ onCategoryClick }: CategoriesProps) {
         
         <div 
           ref={scrollRef}
-          className="flex overflow-x-auto gap-8 md:gap-8 pb-4 md:pb-0 md:justify-center md:flex-wrap categories-scroll px-2 py-4"
+          className="flex overflow-x-auto gap-4 md:gap-6 pb-4 md:pb-0 md:justify-center md:flex-wrap categories-scroll px-2 py-4"
         >
           {categories.map((category) => (
             <button
@@ -82,7 +82,7 @@ export default function Categories({ onCategoryClick }: CategoriesProps) {
               className="flex flex-col items-center gap-3 group flex-shrink-0 min-w-[28%] md:min-w-0"
               data-testid={`category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
             >
-              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full transition-transform hover:scale-110 shadow-lg overflow-hidden">
+              <div className="w-28 h-28 md:w-32 md:h-32 rounded-full transition-transform hover:scale-110 shadow-lg overflow-hidden">
                 <img 
                   src={category.icon} 
                   alt={category.name}
