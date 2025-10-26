@@ -137,7 +137,7 @@ export function initTelegramBot(token: string) {
       await bot.answerCallbackQuery(query.id);
       bot.sendMessage(
         chatId,
-        "Please enter pricing in format:\nduration_actualPrice_sellingPrice\n\nExample: 1 Month_649_149\nExample: 3 Months_699_99"
+        "Please enter pricing in format:\nduration_actualPrice_sellingPrice\n\nExample: 1 Month_649_149\nExample: 3 Months (Netflix)_699_99\nExample: 6 Months_2599_149\n\n✨ You can add custom text in brackets!"
       );
       return;
     }
@@ -491,7 +491,7 @@ Product ID: ${product.id}
         if (parts.length !== 3) {
           bot.sendMessage(
             chatId,
-            "❌ Invalid format. Please use format:\nduration_actualPrice_sellingPrice\n\nExample: 1 Month_649_149"
+            "❌ Invalid format. Please use format:\nduration_actualPrice_sellingPrice\n\nExample: 1 Month_649_149\nExample: 3 Months (Netflix)_699_99"
           );
           return;
         }
@@ -503,7 +503,7 @@ Product ID: ${product.id}
         if (isNaN(actualPrice) || isNaN(sellingPrice)) {
           bot.sendMessage(
             chatId,
-            "❌ Invalid prices. Please enter valid numbers.\n\nExample: 1 Month_649_149"
+            "❌ Invalid prices. Please enter valid numbers.\n\nExample: 1 Month_649_149\nExample: 3 Months (Netflix)_699_99"
           );
           return;
         }
