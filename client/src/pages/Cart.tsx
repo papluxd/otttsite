@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { ChevronLeft, Trash2, ChevronDown, Phone, Minus, Plus, ShoppingBag } from "lucide-react";
+import { ChevronLeft, Trash2, ChevronDown, Phone, Minus, Plus, ShoppingBag, ShieldCheck, BadgeCheck } from "lucide-react";
 import { useLocation } from "wouter";
 import {
   Collapsible,
@@ -225,14 +225,24 @@ export default function Cart() {
 
       {items.length > 0 && (
         <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background to-transparent border-t shadow-2xl p-4 md:p-6">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-4xl mx-auto space-y-3">
             <Button
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-lg md:text-xl font-bold py-6 md:py-7 rounded-full shadow-xl hover:shadow-2xl transition-all hover:scale-[1.02]"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-lg md:text-xl font-semibold py-4 md:py-5 rounded-full shadow-xl hover:shadow-2xl transition-all hover:scale-[1.02]"
               onClick={handleCheckout}
-              data-testid="button-pay-now"
+              data-testid="button-order-now"
             >
-              Pay Now · ₹{grandTotal.toFixed(2)}
+              Order Now · ₹{grandTotal.toFixed(2)}
             </Button>
+            <div className="flex items-center justify-center gap-6 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="h-5 w-5" />
+                <span>Secured Payment</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <BadgeCheck className="h-5 w-5" />
+                <span>Verified Merchant</span>
+              </div>
+            </div>
           </div>
         </div>
       )}
