@@ -188,8 +188,8 @@ export default function Cart() {
               </div>
               <CardContent className="p-5 space-y-4">
                 <div>
-                  <p className="font-bold text-lg">Weewoo</p>
-                  <p className="text-muted-foreground">9437519360</p>
+                  <p className="font-bold text-lg">SUBFLIX</p>
+                  <p className="text-muted-foreground">9433419022</p>
                 </div>
                 <p className="text-sm italic text-muted-foreground bg-muted/30 p-3 rounded-lg">
                   Check with store if pickup is available today
@@ -197,7 +197,7 @@ export default function Cart() {
                 <Button
                   variant="outline"
                   className="w-full rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-                  onClick={() => window.open("tel:9437519360")}
+                  onClick={() => window.open("tel:9433419022")}
                   data-testid="button-call-store"
                 >
                   <Phone className="h-4 w-4 mr-2" />
