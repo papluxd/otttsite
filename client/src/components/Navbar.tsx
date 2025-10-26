@@ -144,7 +144,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
 <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
         <DialogPortal>
           <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/50 backdrop-blur-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-          <DialogPrimitive.Content className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-6 border-0 bg-background/95 backdrop-blur-xl p-8 shadow-2xl duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 rounded-2xl">
+          <DialogPrimitive.Content className="fixed left-[50%] top-20 z-50 grid w-full max-w-lg translate-x-[-50%] gap-6 border-0 bg-transparent backdrop-blur-xl p-8 shadow-2xl duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top rounded-2xl">
             <DialogPrimitive.Close className="absolute right-6 top-6 rounded-full opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 bg-muted/50 p-2">
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>
@@ -159,7 +159,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                  className="h-12 text-base rounded-xl border-2 focus:border-primary"
+                  className="h-12 text-base rounded-xl border-2 focus:border-primary bg-transparent"
                   autoFocus
                 />
                 {searchQuery && filteredSuggestions.length > 0 && (
@@ -180,12 +180,12 @@ export default function Navbar({ onSearch }: NavbarProps) {
               {!searchQuery && (
                 <div className="space-y-3">
                   <p className="text-sm text-muted-foreground font-semibold">Top Searches</p>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-col gap-2">
                     {topSearches.map((search) => (
                       <button
                         key={search}
                         onClick={() => handleSuggestionClick(search)}
-                        className="px-4 py-2 rounded-full bg-primary/10 hover:bg-primary/20 text-sm font-medium transition-all hover:scale-105"
+                        className="px-4 py-2 rounded-full bg-primary/10 hover:bg-primary/20 text-sm font-medium transition-all hover:scale-105 text-left"
                       >
                         {search}
                       </button>
