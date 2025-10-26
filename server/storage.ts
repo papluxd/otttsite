@@ -75,11 +75,9 @@ export class MemStorage implements IStorage {
   }
 }
 
-// Using in-memory storage by default
-// To use MongoDB, set MONGODB_URI environment variable and uncomment the following lines:
-// import { MongoStorage } from "./mongo-storage";
-// const mongoStorage = new MongoStorage();
-// mongoStorage.connect().catch(console.error);
-// export const storage = mongoStorage;
+import { MongoStorage } from "./mongo-storage";
 
-export const storage = new MemStorage();
+const mongoStorage = new MongoStorage();
+mongoStorage.connect().catch(console.error);
+
+export const storage = mongoStorage;
