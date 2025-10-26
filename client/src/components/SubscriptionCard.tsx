@@ -6,6 +6,8 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerClose } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Sparkles, ShoppingCart, X } from "lucide-react";
+import { useCart } from "@/context/CartContext";
+import { useToast } from "@/hooks/use-toast";
 
 interface Plan {
   duration: string;
@@ -32,6 +34,8 @@ export default function SubscriptionCard({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalSelectedPlanIndex, setModalSelectedPlanIndex] = useState(0);
   const selectedPlan = plans[0];
+  const { addToCart } = useCart();
+  const { toast } = useToast();
 
   const handleBuyNow = () => {
     const planToUse = plans[modalSelectedPlanIndex];
@@ -44,6 +48,23 @@ export default function SubscriptionCard({
 
   const handleAddToCart = () => {
     setIsModalOpen(true);
+  };
+
+  const handleAddToCartFromDrawer = () => {
+    const planToAdd = plans[modalSelectedPlanIndex];
+    addToCart({
+      platform,
+      logo,
+      duration: planToAdd.duration,
+      months: planToAdd.months,
+      originalPrice: planToAdd.originalPrice,
+      discountedPrice: planToAdd.discountedPrice,
+    });
+    toast({
+      title: "Added to cart",
+      description: `${platform} ${planToAdd.duration} has been added to your cart.`,
+    });
+    setIsModalOpen(false);
   };
 
   const savings = Math.round(((selectedPlan.originalPrice - selectedPlan.discountedPrice) / selectedPlan.originalPrice) * 100);
@@ -142,7 +163,8 @@ export default function SubscriptionCard({
               <Button
                 variant="outline"
                 className="flex-1 rounded-lg border-2"
-                onClick={() => setIsModalOpen(false)}
+                onClick={handleAddToCartFromDrawer}
+                data-testid={`button-add-to-cart-drawer-${platform.toLowerCase().replace(/\s+/g, '-')}`}
               >
                 Add To Cart
               </Button>
