@@ -7,6 +7,7 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { platformsData } from "./SubscriptionsSection";
 import { useCart } from "@/context/CartContext";
 import { useLocation } from "wouter";
+import logoImage from "@assets/unnamed_1761490359361.jpg";
 
 interface NavbarProps {
   onSearch: (query: string) => void;
@@ -72,10 +73,16 @@ export default function Navbar({ onSearch }: NavbarProps) {
 
           {/* Center - Logo */}
           <div className="absolute left-1/2 transform -translate-x-1/2">
-            <span className="text-xl md:text-2xl font-black tracking-tight whitespace-nowrap">
-              <span className="text-primary">SUB</span>
-              <span className="text-foreground">FLIX</span>
-            </span>
+            <img 
+              src={logoImage} 
+              alt="SUBFLIX" 
+              className="h-12 md:h-14 w-auto object-contain mix-blend-darken dark:mix-blend-lighten"
+              style={{ 
+                filter: 'brightness(1.1) contrast(1.2)',
+                imageRendering: 'crisp-edges'
+              }}
+              data-testid="img-logo"
+            />
           </div>
 
           {/* Right - Search & Cart Icons */}
@@ -113,10 +120,16 @@ export default function Navbar({ onSearch }: NavbarProps) {
           <div className="fixed left-0 top-0 bottom-0 w-64 bg-background border-r border-border z-50 animate-in slide-in-from-left duration-300">
             <div className="px-4 py-6 space-y-2">
               <div className="mb-6">
-                <span className="text-2xl font-black tracking-tight">
-                  <span className="text-primary">SUB</span>
-                  <span className="text-foreground">FLIX</span>
-                </span>
+                <img 
+                  src={logoImage} 
+                  alt="SUBFLIX" 
+                  className="h-14 w-auto object-contain mix-blend-darken dark:mix-blend-lighten"
+                  style={{ 
+                    filter: 'brightness(1.1) contrast(1.2)',
+                    imageRendering: 'crisp-edges'
+                  }}
+                  data-testid="img-logo-mobile"
+                />
               </div>
               <button
                 onClick={() => scrollToSection("subscriptions")}
