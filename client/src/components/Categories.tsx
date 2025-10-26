@@ -38,12 +38,12 @@ export default function Categories({ onCategoryClick }: CategoriesProps) {
           <h2 className="text-2xl md:text-3xl font-bold">Categories</h2>
         </div>
         
-        <div className="flex overflow-x-auto gap-6 md:gap-8 pb-4 md:pb-0 md:justify-center md:flex-wrap categories-scroll">
+        <div className="flex overflow-x-auto gap-8 md:gap-8 pb-4 md:pb-0 md:justify-center md:flex-wrap categories-scroll px-2">
           {categories.map((category) => (
             <button
               key={category.name}
               onClick={() => handleCategoryClick(category.name)}
-              className="flex flex-col items-center gap-3 group flex-shrink-0"
+              className="flex flex-col items-center gap-3 group flex-shrink-0 min-w-[28%] md:min-w-0"
               data-testid={`category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
             >
               <div className="w-20 h-20 md:w-24 md:h-24 rounded-full transition-transform hover:scale-110 shadow-lg overflow-hidden">
@@ -53,7 +53,7 @@ export default function Categories({ onCategoryClick }: CategoriesProps) {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <p className="text-xs md:text-sm font-medium text-center group-hover:text-primary transition-colors">
+              <p className="text-xs md:text-sm font-medium text-center group-hover:text-primary transition-colors whitespace-nowrap">
                 {category.name}
               </p>
             </button>
@@ -62,18 +62,40 @@ export default function Categories({ onCategoryClick }: CategoriesProps) {
       </div>
       
       <style>{`
+        .categories-scroll {
+          scrollbar-width: thin;
+          scrollbar-color: transparent transparent;
+          transition: scrollbar-color 0.3s ease;
+        }
+        
+        .categories-scroll:hover,
+        .categories-scroll:active {
+          scrollbar-color: #ff6b35 rgba(0, 0, 0, 0.05);
+        }
+        
         .categories-scroll::-webkit-scrollbar {
           height: 6px;
         }
         
         .categories-scroll::-webkit-scrollbar-track {
-          background: rgba(0, 0, 0, 0.05);
+          background: transparent;
           border-radius: 10px;
         }
         
         .categories-scroll::-webkit-scrollbar-thumb {
-          background: #ff6b35;
+          background: transparent;
           border-radius: 10px;
+          transition: background 0.3s ease;
+        }
+        
+        .categories-scroll:hover::-webkit-scrollbar-thumb,
+        .categories-scroll:active::-webkit-scrollbar-thumb {
+          background: #ff6b35;
+        }
+        
+        .categories-scroll:hover::-webkit-scrollbar-track,
+        .categories-scroll:active::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.05);
         }
         
         .categories-scroll::-webkit-scrollbar-thumb:hover {
@@ -83,6 +105,9 @@ export default function Categories({ onCategoryClick }: CategoriesProps) {
         @media (min-width: 768px) {
           .categories-scroll::-webkit-scrollbar {
             display: none;
+          }
+          .categories-scroll {
+            scrollbar-width: none;
           }
         }
       `}</style>
