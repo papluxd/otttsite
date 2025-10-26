@@ -38,12 +38,12 @@ export default function Categories({ onCategoryClick }: CategoriesProps) {
           <h2 className="text-2xl md:text-3xl font-bold">Categories</h2>
         </div>
         
-        <div className="flex justify-center items-center gap-6 md:gap-8 flex-wrap">
+        <div className="flex overflow-x-auto gap-6 md:gap-8 pb-4 md:pb-0 md:justify-center md:flex-wrap categories-scroll">
           {categories.map((category) => (
             <button
               key={category.name}
               onClick={() => handleCategoryClick(category.name)}
-              className="flex flex-col items-center gap-3 group"
+              className="flex flex-col items-center gap-3 group flex-shrink-0"
               data-testid={`category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
             >
               <div className="w-20 h-20 md:w-24 md:h-24 rounded-full transition-transform hover:scale-110 shadow-lg overflow-hidden">
@@ -60,6 +60,32 @@ export default function Categories({ onCategoryClick }: CategoriesProps) {
           ))}
         </div>
       </div>
+      
+      <style>{`
+        .categories-scroll::-webkit-scrollbar {
+          height: 6px;
+        }
+        
+        .categories-scroll::-webkit-scrollbar-track {
+          background: rgba(0, 0, 0, 0.05);
+          border-radius: 10px;
+        }
+        
+        .categories-scroll::-webkit-scrollbar-thumb {
+          background: #ff6b35;
+          border-radius: 10px;
+        }
+        
+        .categories-scroll::-webkit-scrollbar-thumb:hover {
+          background: #ff5722;
+        }
+        
+        @media (min-width: 768px) {
+          .categories-scroll::-webkit-scrollbar {
+            display: none;
+          }
+        }
+      `}</style>
     </section>
   );
 }
