@@ -15,7 +15,7 @@ export default function Footer() {
       <div className="absolute inset-0 bg-gradient-to-t from-primary/10 via-transparent to-transparent" />
       
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
           
           <div className="lg:col-span-1">
             <h2 className="text-2xl md:text-3xl font-black mb-4">
@@ -94,42 +94,6 @@ export default function Footer() {
                 <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-terms">
                   <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
                   Terms & Conditions
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="text-lg font-bold mb-6 text-white">Popular Services</h3>
-            <ul className="space-y-3">
-              <li>
-                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-netflix">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                  Netflix Subscriptions
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-prime">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                  Prime Video
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-hotstar">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                  Hotstar
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-sonyliv">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                  Sony LIV
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-slate-300 hover:text-primary transition-colors text-sm flex items-center gap-2 group" data-testid="link-spotify">
-                  <span className="w-1.5 h-1.5 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-                  Spotify Premium
                 </a>
               </li>
             </ul>
