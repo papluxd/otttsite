@@ -82,14 +82,12 @@ export default function Categories({ onCategoryClick }: CategoriesProps) {
               className="flex flex-col items-center gap-3 group flex-shrink-0 min-w-[28%] md:min-w-0"
               data-testid={`category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
             >
-              <div className="gradient-ring">
-                <div className="w-20 h-20 md:w-24 md:h-24 rounded-full transition-transform hover:scale-110 shadow-lg overflow-hidden">
-                  <img 
-                    src={category.icon} 
-                    alt={category.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full transition-transform hover:scale-110 shadow-lg overflow-hidden">
+                <img 
+                  src={category.icon} 
+                  alt={category.name}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <p className="text-xs md:text-sm font-medium text-center group-hover:text-primary transition-colors whitespace-nowrap">
                 {category.name}
@@ -100,27 +98,6 @@ export default function Categories({ onCategoryClick }: CategoriesProps) {
       </div>
       
       <style>{`
-        .gradient-ring {
-          position: relative;
-          padding: 3px;
-          background: linear-gradient(45deg, #ff6b35, #ffd700, #ff8c00, #ff6b35);
-          background-size: 300% 300%;
-          border-radius: 50%;
-          animation: gradientRotate 3s ease infinite;
-        }
-        
-        @keyframes gradientRotate {
-          0% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-          100% {
-            background-position: 0% 50%;
-          }
-        }
-        
         .categories-scroll {
           scrollbar-width: thin;
           scrollbar-color: transparent transparent;
