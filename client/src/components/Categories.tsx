@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import subscriptionsIcon from "@assets/WhatsApp Image 2025-10-26 at 08.19.58_fb1dc434_1761461124963.jpg";
 import comboPackIcon from "@assets/WhatsApp Image 2025-10-26 at 08.19.59_d77a2884_1761461132534.jpg";
 import adultIcon from "@assets/WhatsApp Image 2025-10-26 at 08.19.59_08f2cc8a_1761461142379.jpg";
@@ -19,6 +20,38 @@ const categories = [
 ];
 
 export default function Categories({ onCategoryClick }: CategoriesProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollIndexRef = useRef(0);
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    const autoScroll = () => {
+      const containerWidth = scrollContainer.offsetWidth;
+      const scrollWidth = scrollContainer.scrollWidth;
+      const itemWidth = scrollWidth / categories.length;
+      const itemsPerView = 3;
+      
+      scrollIndexRef.current += 1;
+      
+      if (scrollIndexRef.current * itemsPerView >= categories.length) {
+        scrollIndexRef.current = 0;
+      }
+      
+      const scrollPosition = scrollIndexRef.current * itemWidth * itemsPerView;
+      
+      scrollContainer.scrollTo({
+        left: scrollPosition,
+        behavior: 'smooth'
+      });
+    };
+
+    const interval = setInterval(autoScroll, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const scrollToSubscriptions = () => {
     const element = document.getElementById("subscriptions");
     if (element) {
@@ -38,7 +71,10 @@ export default function Categories({ onCategoryClick }: CategoriesProps) {
           <h2 className="text-2xl md:text-3xl font-bold">Categories</h2>
         </div>
         
-        <div className="flex overflow-x-auto gap-8 md:gap-8 pb-4 md:pb-0 md:justify-center md:flex-wrap categories-scroll px-2">
+        <div 
+          ref={scrollRef}
+          className="flex overflow-x-auto gap-8 md:gap-8 pb-4 md:pb-0 md:justify-center md:flex-wrap categories-scroll px-2"
+        >
           {categories.map((category) => (
             <button
               key={category.name}
