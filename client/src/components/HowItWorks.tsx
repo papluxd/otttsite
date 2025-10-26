@@ -38,7 +38,7 @@ export default function HowItWorks() {
             return (
               <div key={index} className="text-center space-y-4 relative">
                 {index < steps.length - 1 && (
-                  <div className="hidden md:block absolute top-16 left-[60%] w-[80%] h-0.5 bg-border" />
+                  <div className="hidden md:block absolute top-16 left-[65%] w-[70%] h-0.5 bg-border" />
                 )}
                 <div className="text-6xl font-bold text-primary/20">{step.number}</div>
                 <div className="w-16 h-16 mx-auto bg-primary text-primary-foreground rounded-full flex items-center justify-center">

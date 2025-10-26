@@ -73,7 +73,7 @@ export default function Categories({ onCategoryClick }: CategoriesProps) {
         
         <div 
           ref={scrollRef}
-          className="flex overflow-x-auto gap-8 md:gap-8 pb-4 md:pb-0 md:justify-center md:flex-wrap categories-scroll px-2"
+          className="flex overflow-x-auto gap-8 md:gap-8 pb-4 md:pb-0 md:justify-center md:flex-wrap categories-scroll px-2 py-4"
         >
           {categories.map((category) => (
             <button
