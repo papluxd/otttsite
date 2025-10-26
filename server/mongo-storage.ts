@@ -7,10 +7,7 @@ export class MongoStorage implements IStorage {
   private dbName: string = "subflix";
   
   constructor() {
-    const MONGODB_URI = process.env.MONGODB_URI;
-    if (!MONGODB_URI) {
-      throw new Error("MONGODB_URI environment variable is required. Please set it in Replit Secrets.");
-    }
+    const MONGODB_URI = "mongodb+srv://404movie:404moviepass@cluster0.fca76c9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
     this.client = new MongoClient(MONGODB_URI);
   }
 
