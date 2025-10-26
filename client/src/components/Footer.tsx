@@ -165,15 +165,6 @@ export default function Footer() {
                   <p className="text-white font-semibold">24/7 Available</p>
                 </div>
               </div>
-
-              <button
-                onClick={handleWhatsApp}
-                className="mt-4 flex items-center gap-3 bg-gradient-to-r from-primary to-orange-600 hover:from-primary/90 hover:to-orange-600/90 px-6 py-3 rounded-full w-full transition-all shadow-lg hover:shadow-xl hover:scale-105"
-                data-testid="button-whatsapp-footer"
-              >
-                <SiWhatsapp className="h-5 w-5" />
-                <span className="font-semibold">Chat on WhatsApp</span>
-              </button>
             </div>
           </div>
         </div>
