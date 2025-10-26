@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { ChevronLeft, Trash2, ChevronDown, Phone, Minus, Plus, ShoppingBag, ShieldCheck, BadgeCheck } from "lucide-react";
+import { ChevronLeft, Trash2, ChevronDown, Minus, Plus, ShoppingBag, ShieldCheck, BadgeCheck } from "lucide-react";
 import { useLocation } from "wouter";
 import {
   Collapsible,
@@ -181,30 +181,6 @@ export default function Cart() {
                 </CollapsibleContent>
               </Card>
             </Collapsible>
-
-            <Card className="shadow-lg">
-              <div className="p-5 bg-muted/30">
-                <h2 className="text-lg font-bold mb-4">Store Location</h2>
-              </div>
-              <CardContent className="p-5 space-y-4">
-                <div>
-                  <p className="font-bold text-lg">SubFlix</p>
-                  <p className="text-muted-foreground">9433419022</p>
-                </div>
-                <p className="text-sm italic text-muted-foreground bg-muted/30 p-3 rounded-lg">
-                  Check with store if pickup is available today
-                </p>
-                <Button
-                  variant="outline"
-                  className="w-full rounded-full border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground"
-                  onClick={() => window.open("tel:9433419022")}
-                  data-testid="button-call-store"
-                >
-                  <Phone className="h-4 w-4 mr-2" />
-                  Call Store
-                </Button>
-              </CardContent>
-            </Card>
 
             <Card className="shadow-lg">
               <CardContent className="p-6 space-y-4">
