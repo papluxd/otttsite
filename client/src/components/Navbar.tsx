@@ -216,7 +216,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
 
                 <div className="px-6 py-6 border-t border-border/30">
                   <p className="text-xs font-semibold text-muted-foreground mb-4 uppercase tracking-wider">Recommended for you</p>
-                  <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+                  <div className="flex gap-4 overflow-x-auto py-2 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
                     {platformsData.slice(0, 8).map((platform) => (
                       <button
                         key={platform.platform}

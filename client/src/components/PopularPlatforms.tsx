@@ -25,7 +25,7 @@ export default function PopularPlatforms({ onPlatformClick }: PopularPlatformsPr
           <p className="text-muted-foreground">Popular streaming platforms at best prices</p>
         </div>
         
-        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+        <div className="flex gap-4 overflow-x-auto py-4 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
           {platformsData.map((platform) => (
             <button
               key={platform.platform}
