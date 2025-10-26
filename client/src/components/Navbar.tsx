@@ -32,6 +32,15 @@ export default function Navbar({ onSearch }: NavbarProps) {
     onSearch("");
   };
 
+  const topSearches = ["YouTube", "Netflix", "Amazon Prime"];
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setSearchQuery(suggestion);
+    onSearch(suggestion);
+    scrollToSection("subscriptions");
+    setSearchOpen(false);
+  };
+
   return (
     <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -124,11 +133,11 @@ export default function Navbar({ onSearch }: NavbarProps) {
       )}
 
       <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-md backdrop-blur-xl">
           <DialogHeader>
             <DialogTitle>Search Subscriptions</DialogTitle>
           </DialogHeader>
-          <div className="space-y-3">
+          <div className="space-y-4">
             <div className="flex gap-2">
               <Input
                 placeholder="Search for platforms..."
@@ -140,6 +149,24 @@ export default function Navbar({ onSearch }: NavbarProps) {
               />
               <Button onClick={handleSearch}>Search</Button>
             </div>
+            
+            {!searchQuery && (
+              <div className="space-y-2">
+                <p className="text-sm text-muted-foreground font-medium">Top Searches</p>
+                <div className="flex flex-wrap gap-2">
+                  {topSearches.map((search) => (
+                    <button
+                      key={search}
+                      onClick={() => handleSuggestionClick(search)}
+                      className="px-3 py-1.5 rounded-full bg-primary/10 hover:bg-primary/20 text-sm font-medium transition-colors"
+                    >
+                      {search}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {searchQuery && (
               <Button variant="outline" onClick={handleClearSearch} className="w-full">
                 Clear Search
