@@ -1,34 +1,55 @@
-const platforms = [
-  { name: "Netflix", icon: "🎬" },
-  { name: "Prime Video", icon: "📺" },
-  { name: "Disney+ Hotstar", icon: "🏰" },
-  { name: "Sony LIV", icon: "📱" },
-  { name: "Zee5", icon: "🎭" },
-  { name: "Apple TV+", icon: "🍎" },
-  { name: "YouTube Premium", icon: "▶️" },
-  { name: "Voot", icon: "🎪" },
-];
+import { platformsData } from "./SubscriptionsSection";
 
-export default function PopularPlatforms() {
+interface PopularPlatformsProps {
+  onPlatformClick: (platform: string) => void;
+}
+
+export default function PopularPlatforms({ onPlatformClick }: PopularPlatformsProps) {
+  const scrollToSubscriptions = () => {
+    const element = document.getElementById("subscriptions");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const handlePlatformClick = (platformName: string) => {
+    onPlatformClick(platformName);
+    scrollToSubscriptions();
+  };
+
   return (
-    <section className="py-16 md:py-20 bg-muted/30">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Popular Platforms</h2>
-          <p className="text-lg text-muted-foreground">
-            All your favorite streaming services in one place
-          </p>
+    <section className="py-12 md:py-16 bg-muted/30">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-bold mb-2">Recommended for you</h2>
+          <p className="text-muted-foreground">Popular streaming platforms at best prices</p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {platforms.map((platform, index) => (
-            <div
-              key={index}
-              className="bg-background p-6 rounded-lg text-center hover-elevate transition-all"
-              data-testid={`platform-${platform.name.toLowerCase().replace(/\s+/g, '-')}`}
+        
+        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-primary/20 scrollbar-track-transparent">
+          {platformsData.map((platform) => (
+            <button
+              key={platform.platform}
+              onClick={() => handlePlatformClick(platform.platform)}
+              className="flex-shrink-0 w-48 group"
+              data-testid={`popular-${platform.platform.toLowerCase().replace(/\s+/g, '-')}`}
             >
-              <div className="text-5xl mb-3">{platform.icon}</div>
-              <p className="font-semibold">{platform.name}</p>
-            </div>
+              <div className="bg-background hover:bg-muted/50 rounded-xl p-6 transition-all border border-border/50 hover:border-primary/50 hover:scale-105 shadow-sm hover:shadow-md">
+                <div className="flex flex-col items-center gap-4">
+                  <div className="w-20 h-20 rounded-lg bg-muted/30 flex items-center justify-center overflow-hidden">
+                    <img 
+                      src={platform.logo} 
+                      alt={platform.platform}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-base font-semibold mb-1">{platform.platform}</p>
+                    <p className="text-sm text-muted-foreground">Starting at</p>
+                    <p className="text-lg font-bold text-primary">₹{platform.plans[0].discountedPrice}/mo</p>
+                  </div>
+                </div>
+              </div>
+            </button>
           ))}
         </div>
       </div>

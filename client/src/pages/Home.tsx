@@ -2,6 +2,7 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import HeroCarousel from "@/components/HeroCarousel";
 import SubscriptionsSection from "@/components/SubscriptionsSection";
+import PopularPlatforms from "@/components/PopularPlatforms";
 import HowItWorks from "@/components/HowItWorks";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
@@ -14,6 +15,7 @@ export default function Home() {
       <Navbar onSearch={setSearchQuery} />
       <HeroCarousel />
       <SubscriptionsSection searchQuery={searchQuery} />
+      <PopularPlatforms onPlatformClick={setSearchQuery} />
       <HowItWorks />
       <FAQ />
       <Footer />
