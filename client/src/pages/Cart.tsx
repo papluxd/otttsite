@@ -188,7 +188,7 @@ export default function Cart() {
               </div>
               <CardContent className="p-5 space-y-4">
                 <div>
-                  <p className="font-bold text-lg">SUBFLIX</p>
+                  <p className="font-bold text-lg">SubFlix</p>
                   <p className="text-muted-foreground">9433419022</p>
                 </div>
                 <p className="text-sm italic text-muted-foreground bg-muted/30 p-3 rounded-lg">
