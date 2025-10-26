@@ -147,7 +147,7 @@ export default function SubscriptionCard({
                 Add To Cart
               </Button>
               <Button
-                className="flex-1 rounded-lg bg-red-600 hover:bg-red-700 text-white"
+                className="flex-1 rounded-lg bg-orange-500 hover:bg-orange-600 text-white"
                 onClick={handleBuyNow}
                 data-testid={`button-buy-now-${platform.toLowerCase().replace(/\s+/g, '-')}`}
               >
