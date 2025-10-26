@@ -151,7 +151,9 @@ export default function SubscriptionCard({
                             <span className="text-sm text-muted-foreground line-through">₹{plan.originalPrice}</span>
                           </div>
                         </div>
-                        <div className="w-5 h-5 rounded-full border-2 border-gray-300 peer-data-[state=checked]:border-orange-500 peer-data-[state=checked]:border-[6px] transition-all" />
+                        <div className={`relative w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${modalSelectedPlanIndex === index ? 'border-orange-500' : 'border-gray-300'}`}>
+                          <div className={`rounded-full bg-orange-500 transition-all ${modalSelectedPlanIndex === index ? 'w-3 h-3' : 'w-0 h-0'}`} />
+                        </div>
                       </Label>
                     </div>
                   );
