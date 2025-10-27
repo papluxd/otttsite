@@ -108,17 +108,6 @@ export default function HeroCarousel() {
           >
             {slides[currentSlide].subtitle}
           </p>
-          <p 
-            className="text-base md:text-lg lg:text-xl text-white mb-6 md:mb-8 max-w-2xl mx-auto font-medium" 
-            style={{ 
-              fontFamily: 'Inter, sans-serif', 
-              letterSpacing: '0.03em',
-              lineHeight: '1.6',
-              textShadow: '1px 1px 6px rgba(0,0,0,0.6)'
-            }}
-          >
-            Netflix • Prime • Hotstar • Sony LIV & More
-          </p>
           <Button
             variant="default"
             size="sm"
