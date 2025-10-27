@@ -81,9 +81,9 @@ export default function HeroCarousel() {
         </div>
       ))}
 
-      <div className="absolute bottom-16 right-8 md:bottom-20 md:right-12">
+      <div className="absolute bottom-16 right-4 md:bottom-20 md:right-12">
         <h1 
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase" 
+          className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white uppercase text-right" 
           style={{ 
             fontFamily: 'Montserrat, sans-serif', 
             letterSpacing: '0.1em',
