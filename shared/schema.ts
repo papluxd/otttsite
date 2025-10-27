@@ -1,7 +1,17 @@
 import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, integer, boolean } from "drizzle-orm/pg-core";
+import { pgTable, text, varchar, integer, boolean, jsonb } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+
+export const customPricingOptionSchema = z.object({
+  id: z.string(),
+  label: z.string(),
+  actualPrice: z.number(),
+  sellingPrice: z.number(),
+  inStock: z.boolean(),
+});
+
+export type CustomPricingOption = z.infer<typeof customPricingOptionSchema>;
 
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
@@ -35,6 +45,7 @@ export const products = pgTable("products", {
   price12MonthActual: integer("price_12_month_actual").notNull(),
   price12MonthSelling: integer("price_12_month_selling").notNull(),
   inStock12Month: boolean("in_stock_12_month").notNull().default(true),
+  customOptions: jsonb("custom_options").$type<CustomPricingOption[]>().default(sql`'[]'::jsonb`),
 });
 
 export const insertProductSchema = createInsertSchema(products).omit({

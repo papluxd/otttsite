@@ -1,5 +1,5 @@
 import { MongoClient, ObjectId } from "mongodb";
-import { type User, type InsertUser, type Product, type InsertProduct } from "@shared/schema";
+import { type User, type InsertUser, type Product, type InsertProduct, type CustomPricingOption } from "@shared/schema";
 import type { IStorage } from "./storage";
 
 export class MongoStorage implements IStorage {
@@ -60,6 +60,7 @@ export class MongoStorage implements IStorage {
 
   async createProduct(insertProduct: InsertProduct): Promise<Product> {
     const id = new ObjectId().toString();
+    const customOptions: CustomPricingOption[] = (insertProduct.customOptions ?? []) as CustomPricingOption[];
     const product: Product = { 
       ...insertProduct,
       id,
@@ -67,15 +68,20 @@ export class MongoStorage implements IStorage {
       inStock3Month: insertProduct.inStock3Month ?? true,
       inStock6Month: insertProduct.inStock6Month ?? true,
       inStock12Month: insertProduct.inStock12Month ?? true,
+      customOptions,
     };
     await this.productsCollection.insertOne(product);
     return product;
   }
 
   async updateProduct(id: string, updates: Partial<InsertProduct>): Promise<Product | undefined> {
+    const updateData: any = { ...updates };
+    if (updates.customOptions !== undefined) {
+      updateData.customOptions = updates.customOptions as CustomPricingOption[];
+    }
     const result = await this.productsCollection.findOneAndUpdate(
       { id },
-      { $set: updates },
+      { $set: updateData },
       { returnDocument: "after" }
     );
     return result || undefined;

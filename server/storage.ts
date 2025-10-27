@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Product, type InsertProduct } from "@shared/schema";
+import { type User, type InsertUser, type Product, type InsertProduct, type CustomPricingOption } from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -56,6 +56,7 @@ export class MemStorage implements IStorage {
 
   async createProduct(insertProduct: InsertProduct): Promise<Product> {
     const id = randomUUID();
+    const customOptions: CustomPricingOption[] = (insertProduct.customOptions ?? []) as CustomPricingOption[];
     const product: Product = { 
       ...insertProduct,
       id,
@@ -63,6 +64,7 @@ export class MemStorage implements IStorage {
       inStock3Month: insertProduct.inStock3Month ?? true,
       inStock6Month: insertProduct.inStock6Month ?? true,
       inStock12Month: insertProduct.inStock12Month ?? true,
+      customOptions,
     };
     this.products.set(id, product);
     return product;
@@ -72,7 +74,11 @@ export class MemStorage implements IStorage {
     const product = this.products.get(id);
     if (!product) return undefined;
     
-    const updatedProduct = { ...product, ...updates };
+    const customOptions = updates.customOptions !== undefined 
+      ? (updates.customOptions as CustomPricingOption[])
+      : product.customOptions;
+    
+    const updatedProduct: Product = { ...product, ...updates, customOptions };
     this.products.set(id, updatedProduct);
     return updatedProduct;
   }

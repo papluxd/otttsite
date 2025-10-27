@@ -43,7 +43,7 @@ export function initTelegramBot(token: string) {
     const chatId = msg.chat.id;
     bot.sendMessage(
       chatId,
-      "Welcome to SubFlix Product Manager! 🎬\n\nCommands:\n/newpost - Add a new product\n/showall - View and edit all products\n/delpost - Delete a product\n/changeimg - Change product image\n/changedescription - Change product description"
+      "Welcome to SubFlix Product Manager! 🎬\n\nCommands:\n/newpost - Add a new product\n/showall - View all products with numbers\n/setnewoption - Add new pricing option to product\n/deloption - Delete pricing option from product\n/delpost - Delete a product\n/changeimg - Change product image\n/changedescription - Change product description"
     );
   });
 
@@ -84,8 +84,8 @@ export function initTelegramBot(token: string) {
 
       const keyboard = {
         reply_markup: {
-          inline_keyboard: products.map(product => [{
-            text: `${product.name} (${product.category})`,
+          inline_keyboard: products.map((product, index) => [{
+            text: `${String(index + 1).padStart(4, '0')} - ${product.name} (${product.category})`,
             callback_data: `view_${product.id}`
           }])
         }
@@ -93,7 +93,7 @@ export function initTelegramBot(token: string) {
 
       bot.sendMessage(
         chatId,
-        "Select a product to view and edit pricing:",
+        "📋 All Products:\n\nSelect a product to view details:",
         keyboard
       );
     } catch (error) {
@@ -184,6 +184,66 @@ export function initTelegramBot(token: string) {
       bot.sendMessage(
         chatId,
         "Select a product to change description:",
+        keyboard
+      );
+    } catch (error) {
+      bot.sendMessage(chatId, "❌ Error fetching products.");
+    }
+  });
+
+  bot.onText(/\/setnewoption/, async (msg) => {
+    const chatId = msg.chat.id;
+    
+    try {
+      const products = await storage.getProducts();
+      
+      if (products.length === 0) {
+        bot.sendMessage(chatId, "No products found. Use /newpost to add a product.");
+        return;
+      }
+
+      const keyboard = {
+        reply_markup: {
+          inline_keyboard: products.map((product, index) => [{
+            text: `${String(index + 1).padStart(4, '0')} - ${product.name}`,
+            callback_data: `addoption_${product.id}`
+          }])
+        }
+      };
+
+      bot.sendMessage(
+        chatId,
+        "➕ Select a product to add new pricing option:",
+        keyboard
+      );
+    } catch (error) {
+      bot.sendMessage(chatId, "❌ Error fetching products.");
+    }
+  });
+
+  bot.onText(/\/deloption/, async (msg) => {
+    const chatId = msg.chat.id;
+    
+    try {
+      const products = await storage.getProducts();
+      
+      if (products.length === 0) {
+        bot.sendMessage(chatId, "No products found. Use /newpost to add a product.");
+        return;
+      }
+
+      const keyboard = {
+        reply_markup: {
+          inline_keyboard: products.map((product, index) => [{
+            text: `${String(index + 1).padStart(4, '0')} - ${product.name}`,
+            callback_data: `deloption_${product.id}`
+          }])
+        }
+      };
+
+      bot.sendMessage(
+        chatId,
+        "🗑️ Select a product to delete pricing option:",
         keyboard
       );
     } catch (error) {
@@ -654,6 +714,100 @@ Product ID: ${product.id}
       return;
     }
 
+    if (data.startsWith("addoption_")) {
+      const productId = data.replace("addoption_", "");
+      const product = await storage.getProduct(productId);
+      
+      if (!product) {
+        await bot.answerCallbackQuery(query.id, { text: "Product not found" });
+        return;
+      }
+
+      sessions.set(chatId, {
+        step: "adding_custom_option",
+        data: {},
+        editingProductId: productId
+      });
+
+      await bot.editMessageText(
+        `➕ Add new pricing option for: ${product.name}\n\nFormat: label_(actual_price)_(our_price)\n\nExamples:\n1 Month_649_149\nNetflix Premium_999_199\n3 Months Special_1999_299\n\nNote: Label can be anything you want!`,
+        {
+          chat_id: chatId,
+          message_id: messageId
+        }
+      );
+      
+      await bot.answerCallbackQuery(query.id);
+      return;
+    }
+
+    if (data.startsWith("deloption_")) {
+      const productId = data.replace("deloption_", "");
+      const product = await storage.getProduct(productId);
+      
+      if (!product) {
+        await bot.answerCallbackQuery(query.id, { text: "Product not found" });
+        return;
+      }
+
+      const customOptions = product.customOptions || [];
+      
+      if (customOptions.length === 0) {
+        await bot.answerCallbackQuery(query.id, { text: "No custom options to delete" });
+        bot.sendMessage(chatId, "❌ This product has no custom pricing options.");
+        return;
+      }
+
+      const optionButtons = customOptions.map(option => [{
+        text: `${option.label}: ₹${option.actualPrice} → ₹${option.sellingPrice}`,
+        callback_data: `confirmdeloption_${productId}_${option.id}`
+      }]);
+
+      await bot.editMessageText(
+        `🗑️ Select pricing option to delete from: ${product.name}`,
+        {
+          chat_id: chatId,
+          message_id: messageId,
+          reply_markup: {
+            inline_keyboard: optionButtons
+          }
+        }
+      );
+      
+      await bot.answerCallbackQuery(query.id);
+      return;
+    }
+
+    if (data.startsWith("confirmdeloption_")) {
+      const parts = data.replace("confirmdeloption_", "").split("_");
+      const productId = parts[0];
+      const optionId = parts[1];
+      
+      const product = await storage.getProduct(productId);
+      
+      if (!product) {
+        await bot.answerCallbackQuery(query.id, { text: "Product not found" });
+        return;
+      }
+
+      const customOptions = (product.customOptions || []).filter(
+        option => option.id !== optionId
+      );
+
+      await storage.updateProduct(productId, { customOptions });
+
+      await bot.editMessageText(
+        `✅ Pricing option deleted successfully from ${product.name}!`,
+        {
+          chat_id: chatId,
+          message_id: messageId
+        }
+      );
+      
+      await bot.answerCallbackQuery(query.id, { text: "Option deleted!" });
+      return;
+    }
+
     if (data === "noop") {
       await bot.answerCallbackQuery(query.id);
       return;
@@ -793,6 +947,59 @@ Product ID: ${product.id}
         bot.sendMessage(
           chatId,
           `✅ Description updated successfully!\n\nNew description: ${text}\n\nUse /showall to view the product.`
+        );
+        
+        sessions.delete(chatId);
+        break;
+      }
+
+      case "adding_custom_option": {
+        const productId = session.editingProductId;
+        if (!productId) return;
+
+        const parts = text.split("_");
+        
+        if (parts.length !== 3) {
+          bot.sendMessage(
+            chatId,
+            "❌ Invalid format. Please use format:\nlabel_(actual_price)_(our_price)\n\nExamples:\n1 Month_649_149\nNetflix Premium_999_199\n3 Months Special_1999_299"
+          );
+          return;
+        }
+
+        const label = parts[0].trim();
+        const actualPrice = Number(parts[1]);
+        const sellingPrice = Number(parts[2]);
+
+        if (isNaN(actualPrice) || isNaN(sellingPrice)) {
+          bot.sendMessage(
+            chatId,
+            "❌ Invalid prices. Please enter valid numbers.\n\nExample: 1 Month_649_149"
+          );
+          return;
+        }
+
+        const product = await storage.getProduct(productId);
+        if (!product) {
+          bot.sendMessage(chatId, "❌ Product not found.");
+          sessions.delete(chatId);
+          return;
+        }
+
+        const newOption = {
+          id: `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          label,
+          actualPrice,
+          sellingPrice,
+          inStock: true
+        };
+
+        const customOptions = [...(product.customOptions || []), newOption];
+        await storage.updateProduct(productId, { customOptions });
+
+        bot.sendMessage(
+          chatId,
+          `✅ New pricing option added successfully!\n\n${label}: ₹${actualPrice} → ₹${sellingPrice}\n\nUse /showall to view the product.`
         );
         
         sessions.delete(chatId);

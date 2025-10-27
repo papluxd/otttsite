@@ -18,18 +18,30 @@ export default function SubscriptionsSection({ searchQuery = "" }: Subscriptions
       )
     : products;
 
-  const transformedProducts = filteredProducts.map(product => ({
-    platform: product.name,
-    logo: product.image,
-    popular: false,
-    features: product.description.split('\n').filter(f => f.trim()),
-    plans: [
+  const transformedProducts = filteredProducts.map(product => {
+    const fixedPlans = [
       { duration: "1 Month", months: 1, originalPrice: product.price1MonthActual, discountedPrice: product.price1MonthSelling, inStock: product.inStock1Month },
       { duration: "3 Months", months: 3, originalPrice: product.price3MonthActual, discountedPrice: product.price3MonthSelling, inStock: product.inStock3Month },
       { duration: "6 Months", months: 6, originalPrice: product.price6MonthActual, discountedPrice: product.price6MonthSelling, inStock: product.inStock6Month },
       { duration: "12 Months", months: 12, originalPrice: product.price12MonthActual, discountedPrice: product.price12MonthSelling, inStock: product.inStock12Month },
-    ].filter(plan => plan.originalPrice > 0 && plan.discountedPrice > 0),
-  }));
+    ].filter(plan => plan.originalPrice > 0 && plan.discountedPrice > 0);
+
+    const customPlans = (product.customOptions || []).map(option => ({
+      duration: option.label,
+      months: 0,
+      originalPrice: option.actualPrice,
+      discountedPrice: option.sellingPrice,
+      inStock: option.inStock,
+    }));
+
+    return {
+      platform: product.name,
+      logo: product.image,
+      popular: false,
+      features: product.description.split('\n').filter(f => f.trim()),
+      plans: [...fixedPlans, ...customPlans],
+    };
+  });
 
   if (isLoading) {
     return (
