@@ -2,11 +2,12 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import type { Product } from "@shared/schema";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Search, Eraser, ShoppingCart } from "lucide-react";
+import { Menu, X, Search, Eraser, ShoppingCart, Sun, Moon } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogPortal, DialogOverlay } from "@/components/ui/dialog";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { useCart } from "@/context/CartContext";
+import { useTheme } from "@/context/ThemeContext";
 import { useLocation } from "wouter";
 import logoImage from "@assets/20251026_205921_1761492762838.png";
 
@@ -19,6 +20,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const { getTotalItems } = useCart();
+  const { theme, toggleTheme } = useTheme();
   const [, setLocation] = useLocation();
   const cartItemCount = getTotalItems();
 
@@ -76,14 +78,26 @@ export default function Navbar({ onSearch }: NavbarProps) {
             </button>
           </div>
 
-          {/* Center - Logo */}
-          <div className="absolute left-1/2 transform -translate-x-1/2">
+          {/* Center - Logo with Dark Mode Toggle */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center gap-3">
             <img 
               src={logoImage} 
               alt="SUBFLIX" 
               className="h-12 md:h-14 w-auto object-contain"
               data-testid="img-logo"
             />
+            <button
+              onClick={toggleTheme}
+              className="p-2 hover:bg-muted rounded-full transition-all hover:scale-110"
+              data-testid="button-theme-toggle"
+              aria-label="Toggle dark mode"
+            >
+              {theme === "light" ? (
+                <Moon className="h-5 w-5 text-foreground" />
+              ) : (
+                <Sun className="h-5 w-5 text-foreground" />
+              )}
+            </button>
           </div>
 
           {/* Right - Search & Cart Icons */}
