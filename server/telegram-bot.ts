@@ -899,39 +899,51 @@ Product ID: ${product.id}
     }
 
     if (data.startsWith("deloption_")) {
-      const productId = data.replace("deloption_", "");
-      const product = await storage.getProduct(productId);
-      
-      if (!product) {
-        await bot.answerCallbackQuery(query.id, { text: "Product not found" });
-        return;
-      }
-
-      const customOptions = product.customOptions || [];
-      
-      if (customOptions.length === 0) {
-        await bot.answerCallbackQuery(query.id, { text: "No custom options to delete" });
-        bot.sendMessage(chatId, "❌ This product has no custom pricing options.");
-        return;
-      }
-
-      const optionButtons = customOptions.map(option => [{
-        text: `${option.label}: ₹${option.actualPrice} → ₹${option.sellingPrice}`,
-        callback_data: `confirmdeloption_${productId}_${option.id}`
-      }]);
-
-      await bot.editMessageText(
-        `🗑️ Select pricing option to delete from: ${product.name}`,
-        {
-          chat_id: chatId,
-          message_id: messageId,
-          reply_markup: {
-            inline_keyboard: optionButtons
-          }
+      try {
+        const productId = data.replace("deloption_", "");
+        console.log("deloption_ - productId:", productId);
+        
+        const product = await storage.getProduct(productId);
+        
+        if (!product) {
+          console.error("Product not found:", productId);
+          await bot.answerCallbackQuery(query.id, { text: "Product not found" });
+          return;
         }
-      );
-      
-      await bot.answerCallbackQuery(query.id);
+
+        const customOptions = product.customOptions || [];
+        console.log("Product custom options:", customOptions);
+        
+        if (customOptions.length === 0) {
+          await bot.answerCallbackQuery(query.id, { text: "No custom options to delete" });
+          bot.sendMessage(chatId, "❌ This product has no custom pricing options.");
+          return;
+        }
+
+        const optionButtons = customOptions.map(option => [{
+          text: `${option.label}: ₹${option.actualPrice} → ₹${option.sellingPrice}`,
+          callback_data: `confirmdeloption_${productId}_${option.id}`
+        }]);
+
+        console.log("Creating delete buttons with callback_data:", optionButtons.map(b => b[0].callback_data));
+
+        await bot.editMessageText(
+          `🗑️ Select pricing option to delete from: ${product.name}`,
+          {
+            chat_id: chatId,
+            message_id: messageId,
+            reply_markup: {
+              inline_keyboard: optionButtons
+            }
+          }
+        );
+        
+        await bot.answerCallbackQuery(query.id);
+      } catch (error) {
+        console.error("Error in deloption_ handler:", error);
+        await bot.answerCallbackQuery(query.id, { text: "Error loading options" });
+        bot.sendMessage(chatId, `❌ Error: ${error instanceof Error ? error.message : String(error)}`);
+      }
       return;
     }
 
