@@ -46,16 +46,28 @@ export class MongoStorage implements IStorage {
   }
 
   async getProducts(): Promise<Product[]> {
-    return await this.productsCollection.find({}).toArray();
+    const products = await this.productsCollection.find({}).toArray();
+    return products.map(product => ({
+      ...product,
+      customOptions: product.customOptions || []
+    }));
   }
 
   async getProduct(id: string): Promise<Product | undefined> {
     const product = await this.productsCollection.findOne({ id });
-    return product || undefined;
+    if (!product) return undefined;
+    return {
+      ...product,
+      customOptions: product.customOptions || []
+    };
   }
 
   async getProductsByCategory(category: string): Promise<Product[]> {
-    return await this.productsCollection.find({ category }).toArray();
+    const products = await this.productsCollection.find({ category }).toArray();
+    return products.map(product => ({
+      ...product,
+      customOptions: product.customOptions || []
+    }));
   }
 
   async createProduct(insertProduct: InsertProduct): Promise<Product> {
