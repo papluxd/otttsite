@@ -96,9 +96,9 @@ export default function HeroCarousel() {
           </h1>
           <Button
             variant="default"
-            size="lg"
+            size="sm"
             onClick={scrollToSubscriptions}
-            className="px-8 py-6 text-base shadow-xl hover:shadow-2xl rounded-full"
+            className="px-6 shadow-xl hover:shadow-2xl rounded-full"
             data-testid="button-browse-plans"
           >
             View Plans
