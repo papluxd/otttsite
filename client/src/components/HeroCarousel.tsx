@@ -81,44 +81,18 @@ export default function HeroCarousel() {
         </div>
       ))}
 
-      <div className="absolute inset-0 flex items-center justify-center">
-        <div className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/20 backdrop-blur-xl border border-primary/30 mb-4 md:mb-6">
-            <Sparkles className="h-3 w-3 text-primary" />
-            <span className="text-xs font-semibold text-white">2000+ Customers</span>
-          </div>
-          <h1 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 md:mb-4 uppercase" 
-            style={{ 
-              fontFamily: 'Montserrat, sans-serif', 
-              letterSpacing: '0.1em',
-              lineHeight: '1.1',
-              textShadow: '2px 4px 12px rgba(0,0,0,0.7)'
-            }}
-          >
-            {slides[currentSlide].title}
-          </h1>
-          <p 
-            className="text-base sm:text-lg md:text-xl lg:text-2xl font-medium text-primary mb-7 md:mb-8" 
-            style={{ 
-              fontFamily: 'Inter, sans-serif',
-              lineHeight: '1.3',
-              letterSpacing: '0.02em',
-              textShadow: '1px 2px 6px rgba(0,0,0,0.6)'
-            }}
-          >
-            {slides[currentSlide].subtitle}
-          </p>
-          <Button
-            variant="default"
-            size="sm"
-            onClick={scrollToSubscriptions}
-            className="px-6 shadow-xl hover:shadow-2xl rounded-full"
-            data-testid="button-browse-plans"
-          >
-            View Plans
-          </Button>
-        </div>
+      <div className="absolute bottom-16 right-8 md:bottom-20 md:right-12">
+        <h1 
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase" 
+          style={{ 
+            fontFamily: 'Montserrat, sans-serif', 
+            letterSpacing: '0.1em',
+            lineHeight: '1.1',
+            textShadow: '2px 4px 12px rgba(0,0,0,0.7)'
+          }}
+        >
+          {slides[currentSlide].title}
+        </h1>
       </div>
 
       <button
