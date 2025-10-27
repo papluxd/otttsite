@@ -19,7 +19,7 @@ export default function Footer() {
           
           <div className="lg:col-span-1">
             <h2 className="text-2xl md:text-3xl font-black mb-4">
-              <span className="text-primary">SUB</span>
+              <span className="text-primary dark:text-white">SUB</span>
               <span className="text-white">FLIX</span>
             </h2>
             <p className="text-slate-300 text-sm leading-relaxed mb-6">

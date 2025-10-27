@@ -148,15 +148,15 @@ export default function Navbar({ onSearch }: NavbarProps) {
                 <span>Dark Mode</span>
                 <button
                   onClick={toggleTheme}
-                  className="relative p-2.5 bg-primary/10 hover:bg-primary/20 rounded-lg transition-all duration-300 hover:scale-105 active:scale-95"
+                  className="relative p-1.5 bg-primary/10 hover:bg-primary/20 rounded-lg transition-all duration-300 hover:scale-105 active:scale-95"
                   data-testid="button-theme-toggle-mobile"
                   aria-label="Toggle dark mode"
                 >
                   <div className="relative">
                     {theme === "light" ? (
-                      <Moon className="h-5 w-5 text-primary animate-in fade-in spin-in-180 duration-300" />
+                      <Moon className="h-4 w-4 text-primary animate-in fade-in spin-in-180 duration-300" />
                     ) : (
-                      <Sun className="h-5 w-5 text-primary animate-in fade-in spin-in-180 duration-300" />
+                      <Sun className="h-4 w-4 text-primary animate-in fade-in spin-in-180 duration-300" />
                     )}
                   </div>
                 </button>
