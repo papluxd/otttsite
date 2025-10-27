@@ -87,13 +87,13 @@ export default function HeroCarousel() {
             <Sparkles className="h-3 w-3 text-primary" />
             <span className="text-xs font-semibold text-white">2000+ Customers</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-3 md:mb-4 leading-tight uppercase">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-wider text-white mb-3 md:mb-4 leading-tight uppercase" style={{ fontFamily: 'system-ui, -apple-system, sans-serif', letterSpacing: '0.05em' }}>
             {slides[currentSlide].title}
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary mb-4 md:mb-6">
+          <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-primary mb-4 md:mb-6" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
             {slides[currentSlide].subtitle}
           </p>
-          <p className="text-sm md:text-base lg:text-lg text-white/90 mb-6 md:mb-8 max-w-xl mx-auto font-light">
+          <p className="text-base md:text-lg lg:text-xl text-white/95 mb-6 md:mb-8 max-w-xl mx-auto font-medium" style={{ fontFamily: 'system-ui, -apple-system, sans-serif', letterSpacing: '0.02em' }}>
             Netflix • Prime • Hotstar • Sony LIV & More
           </p>
           <Button
