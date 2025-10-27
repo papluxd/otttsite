@@ -936,32 +936,45 @@ Product ID: ${product.id}
     }
 
     if (data.startsWith("confirmdeloption_")) {
-      const parts = data.replace("confirmdeloption_", "").split("_");
-      const productId = parts[0];
-      const optionId = parts.slice(1).join("_");
-      
-      const product = await storage.getProduct(productId);
-      
-      if (!product) {
-        await bot.answerCallbackQuery(query.id, { text: "Product not found" });
-        return;
-      }
-
-      const customOptions = (product.customOptions || []).filter(
-        option => option.id !== optionId
-      );
-
-      await storage.updateProduct(productId, { customOptions });
-
-      await bot.editMessageText(
-        `✅ Pricing option deleted successfully from ${product.name}!`,
-        {
-          chat_id: chatId,
-          message_id: messageId
+      try {
+        const parts = data.replace("confirmdeloption_", "").split("_");
+        const productId = parts[0];
+        const optionId = parts.slice(1).join("_");
+        
+        console.log("Deleting option - productId:", productId, "optionId:", optionId);
+        
+        const product = await storage.getProduct(productId);
+        
+        if (!product) {
+          console.error("Product not found:", productId);
+          await bot.answerCallbackQuery(query.id, { text: "Product not found" });
+          return;
         }
-      );
-      
-      await bot.answerCallbackQuery(query.id, { text: "Option deleted!" });
+
+        console.log("Product found. Current custom options:", product.customOptions);
+        
+        const customOptions = (product.customOptions || []).filter(
+          option => option.id !== optionId
+        );
+
+        console.log("Options after filter:", customOptions);
+        
+        await storage.updateProduct(productId, { customOptions });
+
+        await bot.editMessageText(
+          `✅ Pricing option deleted successfully from ${product.name}!`,
+          {
+            chat_id: chatId,
+            message_id: messageId
+          }
+        );
+        
+        await bot.answerCallbackQuery(query.id, { text: "Option deleted!" });
+      } catch (error) {
+        console.error("Error in confirmdeloption handler:", error);
+        await bot.answerCallbackQuery(query.id, { text: "Error deleting option" });
+        bot.sendMessage(chatId, `❌ Error: ${error instanceof Error ? error.message : String(error)}`);
+      }
       return;
     }
 
