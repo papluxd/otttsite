@@ -76,7 +76,6 @@ Preferred communication style: Simple, everyday language.
 - Product model with:
   - Multi-duration pricing (1, 3, 6, 12 months)
   - Per-duration stock availability flags (inStock1Month, inStock3Month, inStock6Month, inStock12Month)
-  - Custom pricing options (stored as JSONB array) for flexible pricing beyond standard durations
   - Category and description fields
 - Migration support via drizzle-kit
 - Storage interface abstraction for easy swapping between in-memory and database implementations
@@ -92,14 +91,12 @@ Preferred communication style: Simple, everyday language.
   - ✏️ Edit pricing for any duration
   - ✅/🙅🏻‍♂️ Toggle stock availability per duration
   - Stock status syncs with frontend in real-time
-- **Custom Pricing Options** (NEW):
-  - `/setnewoption` - Add custom pricing options to products with format: label_(actual_price)_(our_price)
-  - `/deloption` - Delete custom pricing options from products
-  - Labels can be any text (e.g., "Netflix Premium", "3 Months Special", "Annual Deal")
-  - Custom options display alongside standard pricing options on the frontend
-  - Each custom option has its own stock availability status
+  - `/changeimg` - Change product image
+  - `/changedescription` - Change product description
+  - `/delpost` - Delete a product
 - Supported categories: Subscriptions, Combo Pack, Adult, Music, Software, Other Items
 - Direct integration with backend storage via API
+- **Note**: Custom pricing options feature was removed due to Telegram's 64-byte callback_data limit causing crashes with MongoDB ObjectIds
 
 ### Design Patterns
 
