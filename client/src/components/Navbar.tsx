@@ -10,7 +10,7 @@ import { useCart } from "@/context/CartContext";
 import { useTheme } from "@/context/ThemeContext";
 import { useLocation } from "wouter";
 import logoImage from "@assets/20251026_205921_1761492762838.png";
-import darkLogoImage from "@assets/20251026_205921_1761566557714.png";
+import darkLogoImage from "@assets/20251026_205921_1761567811548.png";
 
 interface NavbarProps {
   onSearch: (query: string) => void;
@@ -126,7 +126,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
             <div className="px-4 py-6 space-y-2">
               <div className="mb-6">
                 <img 
-                  src={logoImage} 
+                  src={theme === "dark" ? darkLogoImage : logoImage} 
                   alt="SUBFLIX" 
                   className="h-14 w-auto object-contain"
                   data-testid="img-logo-mobile"
