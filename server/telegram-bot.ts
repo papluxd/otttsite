@@ -43,7 +43,7 @@ export function initTelegramBot(token: string) {
     const chatId = msg.chat.id;
     bot.sendMessage(
       chatId,
-      "Welcome to SubFlix Product Manager! 🎬\n\nCommands:\n/newpost - Add a new product\n/showall - View and edit all products\n/delpost - Delete a product"
+      "Welcome to SubFlix Product Manager! 🎬\n\nCommands:\n/newpost - Add a new product\n/showall - View and edit all products\n/delpost - Delete a product\n/changeimg - Change product image\n/changedescription - Change product description"
     );
   });
 
@@ -124,6 +124,66 @@ export function initTelegramBot(token: string) {
       bot.sendMessage(
         chatId,
         "⚠️ Select a product to DELETE:\n(This action cannot be undone!)",
+        keyboard
+      );
+    } catch (error) {
+      bot.sendMessage(chatId, "❌ Error fetching products.");
+    }
+  });
+
+  bot.onText(/\/changeimg/, async (msg) => {
+    const chatId = msg.chat.id;
+    
+    try {
+      const products = await storage.getProducts();
+      
+      if (products.length === 0) {
+        bot.sendMessage(chatId, "No products found. Use /newpost to add a product.");
+        return;
+      }
+
+      const keyboard = {
+        reply_markup: {
+          inline_keyboard: products.map(product => [{
+            text: `🖼️ ${product.name} (${product.category})`,
+            callback_data: `changeimg_${product.id}`
+          }])
+        }
+      };
+
+      bot.sendMessage(
+        chatId,
+        "Select a product to change image:",
+        keyboard
+      );
+    } catch (error) {
+      bot.sendMessage(chatId, "❌ Error fetching products.");
+    }
+  });
+
+  bot.onText(/\/changedescription/, async (msg) => {
+    const chatId = msg.chat.id;
+    
+    try {
+      const products = await storage.getProducts();
+      
+      if (products.length === 0) {
+        bot.sendMessage(chatId, "No products found. Use /newpost to add a product.");
+        return;
+      }
+
+      const keyboard = {
+        reply_markup: {
+          inline_keyboard: products.map(product => [{
+            text: `📝 ${product.name} (${product.category})`,
+            callback_data: `changedesc_${product.id}`
+          }])
+        }
+      };
+
+      bot.sendMessage(
+        chatId,
+        "Select a product to change description:",
         keyboard
       );
     } catch (error) {
@@ -540,6 +600,60 @@ Product ID: ${product.id}
       return;
     }
 
+    if (data.startsWith("changeimg_")) {
+      const productId = data.replace("changeimg_", "");
+      const product = await storage.getProduct(productId);
+      
+      if (!product) {
+        await bot.answerCallbackQuery(query.id, { text: "Product not found" });
+        return;
+      }
+
+      sessions.set(chatId, {
+        step: "changing_image",
+        data: {},
+        editingProductId: productId
+      });
+
+      await bot.editMessageText(
+        `🖼️ Change image for: ${product.name}\n\nCurrent image: ${product.image}\n\nPlease send new image URL or photo:`,
+        {
+          chat_id: chatId,
+          message_id: messageId
+        }
+      );
+      
+      await bot.answerCallbackQuery(query.id);
+      return;
+    }
+
+    if (data.startsWith("changedesc_")) {
+      const productId = data.replace("changedesc_", "");
+      const product = await storage.getProduct(productId);
+      
+      if (!product) {
+        await bot.answerCallbackQuery(query.id, { text: "Product not found" });
+        return;
+      }
+
+      sessions.set(chatId, {
+        step: "changing_description",
+        data: {},
+        editingProductId: productId
+      });
+
+      await bot.editMessageText(
+        `📝 Change description for: ${product.name}\n\nCurrent: ${product.description}\n\nPlease enter new description:`,
+        {
+          chat_id: chatId,
+          message_id: messageId
+        }
+      );
+      
+      await bot.answerCallbackQuery(query.id);
+      return;
+    }
+
     if (data === "noop") {
       await bot.answerCallbackQuery(query.id);
       return;
@@ -655,6 +769,36 @@ Product ID: ${product.id}
         break;
       }
 
+      case "changing_image": {
+        const productId = session.editingProductId;
+        if (!productId) return;
+
+        await storage.updateProduct(productId, { image: text });
+        
+        bot.sendMessage(
+          chatId,
+          `✅ Image updated successfully!\n\nNew image URL: ${text}\n\nUse /showall to view the product.`
+        );
+        
+        sessions.delete(chatId);
+        break;
+      }
+
+      case "changing_description": {
+        const productId = session.editingProductId;
+        if (!productId) return;
+
+        await storage.updateProduct(productId, { description: text });
+        
+        bot.sendMessage(
+          chatId,
+          `✅ Description updated successfully!\n\nNew description: ${text}\n\nUse /showall to view the product.`
+        );
+        
+        sessions.delete(chatId);
+        break;
+      }
+
       default:
         if (session.step.startsWith("editing_")) {
           const duration = session.currentDuration;
@@ -730,7 +874,7 @@ Product ID: ${product.id}
     const chatId = msg.chat.id;
     const session = sessions.get(chatId);
 
-    if (!session || session.step !== "image") return;
+    if (!session) return;
 
     const photo = msg.photo?.[msg.photo.length - 1];
     if (!photo) return;
@@ -739,22 +883,36 @@ Product ID: ${product.id}
     const file = await bot.getFile(fileId);
     const imageUrl = `https://api.telegram.org/file/bot${token}/${file.file_path}`;
 
-    session.data.image = imageUrl;
-    session.step = "pricing";
-    
-    const addOptionsKeyboard = {
-      reply_markup: {
-        inline_keyboard: [
-          [{ text: "+ Add Options", callback_data: "add_options" }]
-        ]
-      }
-    };
-    
-    bot.sendMessage(
-      chatId,
-      "Click below to add pricing options:",
-      addOptionsKeyboard
-    );
+    if (session.step === "image") {
+      session.data.image = imageUrl;
+      session.step = "pricing";
+      
+      const addOptionsKeyboard = {
+        reply_markup: {
+          inline_keyboard: [
+            [{ text: "+ Add Options", callback_data: "add_options" }]
+          ]
+        }
+      };
+      
+      bot.sendMessage(
+        chatId,
+        "Click below to add pricing options:",
+        addOptionsKeyboard
+      );
+    } else if (session.step === "changing_image") {
+      const productId = session.editingProductId;
+      if (!productId) return;
+
+      await storage.updateProduct(productId, { image: imageUrl });
+      
+      bot.sendMessage(
+        chatId,
+        `✅ Image updated successfully!\n\nNew image uploaded.\n\nUse /showall to view the product.`
+      );
+      
+      sessions.delete(chatId);
+    }
   });
 
   console.log("Telegram bot initialized successfully!");
