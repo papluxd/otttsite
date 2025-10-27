@@ -87,13 +87,36 @@ export default function HeroCarousel() {
             <Sparkles className="h-3 w-3 text-primary" />
             <span className="text-xs font-semibold text-white">2000+ Customers</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-wider text-white mb-3 md:mb-4 leading-tight uppercase" style={{ fontFamily: 'system-ui, -apple-system, sans-serif', letterSpacing: '0.05em' }}>
+          <h1 
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold text-white mb-4 md:mb-5 uppercase" 
+            style={{ 
+              fontFamily: 'Montserrat, sans-serif', 
+              letterSpacing: '0.08em',
+              lineHeight: '1.05',
+              textShadow: '2px 4px 12px rgba(0,0,0,0.6), 0px 2px 4px rgba(0,0,0,0.3)'
+            }}
+          >
             {slides[currentSlide].title}
           </h1>
-          <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-primary mb-4 md:mb-6" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+          <p 
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-primary mb-5 md:mb-6" 
+            style={{ 
+              fontFamily: 'Montserrat, sans-serif',
+              lineHeight: '1.2',
+              textShadow: '1px 2px 8px rgba(0,0,0,0.5)'
+            }}
+          >
             {slides[currentSlide].subtitle}
           </p>
-          <p className="text-base md:text-lg lg:text-xl text-white/95 mb-6 md:mb-8 max-w-xl mx-auto font-medium" style={{ fontFamily: 'system-ui, -apple-system, sans-serif', letterSpacing: '0.02em' }}>
+          <p 
+            className="text-base md:text-lg lg:text-xl text-white mb-6 md:mb-8 max-w-2xl mx-auto font-medium" 
+            style={{ 
+              fontFamily: 'Inter, sans-serif', 
+              letterSpacing: '0.03em',
+              lineHeight: '1.6',
+              textShadow: '1px 1px 6px rgba(0,0,0,0.6)'
+            }}
+          >
             Netflix • Prime • Hotstar • Sony LIV & More
           </p>
           <Button
