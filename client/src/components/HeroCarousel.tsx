@@ -88,22 +88,23 @@ export default function HeroCarousel() {
             <span className="text-xs font-semibold text-white">2000+ Customers</span>
           </div>
           <h1 
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold text-white mb-4 md:mb-5 uppercase" 
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-3 md:mb-4 uppercase" 
             style={{ 
               fontFamily: 'Montserrat, sans-serif', 
-              letterSpacing: '0.08em',
-              lineHeight: '1.05',
-              textShadow: '2px 4px 12px rgba(0,0,0,0.6), 0px 2px 4px rgba(0,0,0,0.3)'
+              letterSpacing: '0.1em',
+              lineHeight: '1.1',
+              textShadow: '2px 4px 12px rgba(0,0,0,0.7)'
             }}
           >
             {slides[currentSlide].title}
           </h1>
           <p 
-            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-semibold text-primary mb-5 md:mb-6" 
+            className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-medium text-primary mb-6 md:mb-7" 
             style={{ 
-              fontFamily: 'Montserrat, sans-serif',
-              lineHeight: '1.2',
-              textShadow: '1px 2px 8px rgba(0,0,0,0.5)'
+              fontFamily: 'Inter, sans-serif',
+              lineHeight: '1.3',
+              letterSpacing: '0.02em',
+              textShadow: '1px 2px 6px rgba(0,0,0,0.6)'
             }}
           >
             {slides[currentSlide].subtitle}
