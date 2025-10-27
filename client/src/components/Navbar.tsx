@@ -2,7 +2,16 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import type { Product } from "@shared/schema";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Search, Eraser, ShoppingCart, Sun, Moon } from "lucide-react";
+import { Menu, X, Search, Eraser, ShoppingCart, Sun, Moon, ChevronDown, ChevronRight } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogPortal, DialogOverlay } from "@/components/ui/dialog";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
@@ -16,10 +25,21 @@ interface NavbarProps {
   onSearch: (query: string) => void;
 }
 
+const categories = [
+  "Subscriptions",
+  "Combo Pack",
+  "Adult",
+  "Music",
+  "Software",
+  "Other Items"
+];
+
 export default function Navbar({ onSearch }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [categoriesOpen, setCategoriesOpen] = useState(false);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
   const { getTotalItems } = useCart();
   const { theme, toggleTheme } = useTheme();
   const [, setLocation] = useLocation();
@@ -132,16 +152,86 @@ export default function Navbar({ onSearch }: NavbarProps) {
                   data-testid="img-logo-mobile"
                 />
               </div>
+              
+              <div className="space-y-1">
+                <button
+                  onClick={() => setCategoriesOpen(!categoriesOpen)}
+                  className="flex items-center justify-between w-full text-left px-4 py-3 rounded-lg font-medium hover:bg-muted/50"
+                  data-testid="button-categories-mobile"
+                >
+                  <span>Categories</span>
+                  <ChevronRight className={`h-4 w-4 transition-transform ${categoriesOpen ? 'rotate-90' : ''}`} />
+                </button>
+                {categoriesOpen && (
+                  <div className="pl-4 space-y-1">
+                    {categories.map((category) => (
+                      <button
+                        key={category}
+                        onClick={() => {
+                          onSearch(category);
+                          scrollToSection("subscriptions");
+                          setMobileMenuOpen(false);
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted/50"
+                        data-testid={`category-${category.toLowerCase().replace(/\s+/g, '-')}-mobile`}
+                      >
+                        {category}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               <button
                 onClick={() => scrollToSection("subscriptions")}
-                className="block w-full text-left px-4 py-3 rounded-lg font-medium"
-                data-testid="link-subscriptions-mobile"
+                className="block w-full text-left px-4 py-3 rounded-lg font-medium hover:bg-muted/50"
+                data-testid="link-pricing-mobile"
               >
-                Plans
+                Pricing
               </button>
+              
+              <div className="space-y-1">
+                <button
+                  onClick={() => setPrivacyOpen(!privacyOpen)}
+                  className="flex items-center justify-between w-full text-left px-4 py-3 rounded-lg font-medium hover:bg-muted/50"
+                  data-testid="button-privacy-mobile"
+                >
+                  <span>Privacy & Policies</span>
+                  <ChevronRight className={`h-4 w-4 transition-transform ${privacyOpen ? 'rotate-90' : ''}`} />
+                </button>
+                {privacyOpen && (
+                  <div className="pl-4 space-y-1">
+                    <button
+                      className="block w-full text-left px-4 py-2 text-sm text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted/50"
+                      data-testid="link-terms-mobile"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Terms and Conditions
+                    </button>
+                    <button
+                      className="block w-full text-left px-4 py-2 text-sm text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted/50"
+                      data-testid="link-store-policies-mobile"
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Store Policies
+                    </button>
+                    <button
+                      onClick={() => {
+                        setLocation("/faq");
+                        setMobileMenuOpen(false);
+                      }}
+                      className="block w-full text-left px-4 py-2 text-sm text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted/50"
+                      data-testid="link-faq-mobile"
+                    >
+                      FAQ
+                    </button>
+                  </div>
+                )}
+              </div>
+
               <button
                 onClick={() => scrollToSection("contact")}
-                className="block w-full text-left px-4 py-3 rounded-lg font-medium"
+                className="block w-full text-left px-4 py-3 rounded-lg font-medium hover:bg-muted/50"
                 data-testid="link-contact-mobile"
               >
                 Contact
