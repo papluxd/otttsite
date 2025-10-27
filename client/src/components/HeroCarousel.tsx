@@ -84,7 +84,7 @@ export default function HeroCarousel() {
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="text-center px-4">
           <h1 
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase mb-6 md:mb-8" 
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase mb-4 md:mb-5" 
             style={{ 
               fontFamily: 'Montserrat, sans-serif', 
               letterSpacing: '0.1em',
@@ -94,6 +94,16 @@ export default function HeroCarousel() {
           >
             {slides[currentSlide].title}
           </h1>
+          <p 
+            className="text-base sm:text-lg md:text-xl text-white/90 mb-8 md:mb-10 max-w-2xl mx-auto"
+            style={{
+              fontFamily: 'Inter, sans-serif',
+              letterSpacing: '0.02em',
+              textShadow: '1px 2px 6px rgba(0,0,0,0.6)'
+            }}
+          >
+            Stream unlimited entertainment at unbeatable prices
+          </p>
           <Button
             variant="default"
             size="sm"
