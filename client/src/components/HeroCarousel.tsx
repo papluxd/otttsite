@@ -7,7 +7,7 @@ import heroImage3 from "@assets/WhatsApp Image 2025-10-26 at 16.53.24_45cf7795_1
 const slides = [
   {
     image: heroImage2,
-    title: "Your Favorites",
+    title: "UNBELIEVABLE OFFERS",
     subtitle: "Always Affordable",
   },
   {
