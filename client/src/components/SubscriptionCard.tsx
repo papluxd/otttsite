@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerClose } from "@/components/ui/drawer";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Sparkles, ShoppingCart, X } from "lucide-react";
+import { Sparkles, ShoppingCart, X, Check } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { useToast } from "@/hooks/use-toast";
 
@@ -119,9 +119,12 @@ export default function SubscriptionCard({
 
           <div className="border-t pt-3 space-y-1.5 flex-1">
             {features.map((feature, index) => (
-              <p key={index} className="text-xs text-muted-foreground">
-                {feature}
-              </p>
+              <div key={index} className="flex items-center justify-between gap-2">
+                <p className="text-xs text-muted-foreground">
+                  {feature}
+                </p>
+                <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
+              </div>
             ))}
           </div>
 
