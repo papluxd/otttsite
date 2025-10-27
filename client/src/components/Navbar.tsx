@@ -132,23 +132,23 @@ export default function Navbar({ onSearch }: NavbarProps) {
               </div>
               <button
                 onClick={() => scrollToSection("subscriptions")}
-                className="block w-full text-left px-4 py-3 rounded-lg hover:bg-muted font-medium transition-all"
+                className="block w-full text-left px-4 py-3 rounded-lg font-medium"
                 data-testid="link-subscriptions-mobile"
               >
                 Plans
               </button>
               <button
                 onClick={() => scrollToSection("contact")}
-                className="block w-full text-left px-4 py-3 rounded-lg hover:bg-muted font-medium transition-all"
+                className="block w-full text-left px-4 py-3 rounded-lg font-medium"
                 data-testid="link-contact-mobile"
               >
                 Contact
               </button>
-              <div className="flex items-center justify-between px-4 py-3 rounded-lg hover:bg-muted font-medium transition-all">
+              <div className="flex items-center justify-between px-4 py-3 rounded-lg font-medium">
                 <span>Dark Mode</span>
                 <button
                   onClick={toggleTheme}
-                  className="p-2 hover:bg-background rounded-full transition-all hover:scale-110"
+                  className="p-2 rounded-full"
                   data-testid="button-theme-toggle-mobile"
                   aria-label="Toggle dark mode"
                 >
@@ -159,6 +159,14 @@ export default function Navbar({ onSearch }: NavbarProps) {
                   )}
                 </button>
               </div>
+              <Button
+                variant="default"
+                className="w-full mt-4 rounded-full"
+                onClick={() => scrollToSection("subscriptions")}
+                data-testid="button-get-started-mobile"
+              >
+                Get Started
+              </Button>
             </div>
           </div>
         </>
