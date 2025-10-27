@@ -83,6 +83,10 @@ export default function HeroCarousel() {
 
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="text-center px-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/20 backdrop-blur-xl border border-primary/30 mb-5 md:mb-6">
+            <Sparkles className="h-3 w-3 text-primary" />
+            <span className="text-xs font-semibold text-white">2000+ Customers</span>
+          </div>
           <h1 
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase mb-4 md:mb-5" 
             style={{ 
