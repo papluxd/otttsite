@@ -95,10 +95,10 @@ export default function HeroCarousel() {
             {slides[currentSlide].title}
           </h1>
           <p 
-            className="text-base sm:text-lg md:text-xl text-white/90 mb-8 md:mb-10 max-w-2xl mx-auto"
+            className="text-sm sm:text-base md:text-lg text-white/80 mb-8 md:mb-10 max-w-xl mx-auto font-light"
             style={{
               fontFamily: 'Inter, sans-serif',
-              letterSpacing: '0.02em',
+              letterSpacing: '0.01em',
               textShadow: '1px 2px 6px rgba(0,0,0,0.6)'
             }}
           >
