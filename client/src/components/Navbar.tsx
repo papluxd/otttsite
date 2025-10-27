@@ -82,9 +82,10 @@ export default function Navbar({ onSearch }: NavbarProps) {
           {/* Center - Logo */}
           <div className="absolute left-1/2 transform -translate-x-1/2">
             <img 
+              key={theme}
               src={theme === "dark" ? darkLogoImage : logoImage} 
               alt="SUBFLIX" 
-              className="h-12 md:h-14 w-auto object-contain"
+              className="h-12 md:h-14 w-auto object-contain transition-opacity duration-200"
               data-testid="img-logo"
             />
           </div>
