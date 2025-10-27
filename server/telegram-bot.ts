@@ -43,7 +43,7 @@ export function initTelegramBot(token: string) {
     const chatId = msg.chat.id;
     bot.sendMessage(
       chatId,
-      "Welcome to SubFlix Product Manager! 🎬\n\nCommands:\n/newpost - Add a new product\n/showall - View all products with numbers\n/setnewoption - Add new pricing option to product\n/deloption - Delete pricing option from product\n/delpost - Delete a product\n/changeimg - Change product image\n/changedescription - Change product description"
+      "Welcome to SubFlix Product Manager! 🎬\n\nCommands:\n/newpost - Add a new product\n/showall - View all products with numbers\n/delpost - Delete a product\n/changeimg - Change product image\n/changedescription - Change product description"
     );
   });
 
@@ -191,65 +191,6 @@ export function initTelegramBot(token: string) {
     }
   });
 
-  bot.onText(/\/setnewoption/, async (msg) => {
-    const chatId = msg.chat.id;
-    
-    try {
-      const products = await storage.getProducts();
-      
-      if (products.length === 0) {
-        bot.sendMessage(chatId, "No products found. Use /newpost to add a product.");
-        return;
-      }
-
-      const keyboard = {
-        reply_markup: {
-          inline_keyboard: products.map((product, index) => [{
-            text: `${String(index + 1).padStart(4, '0')} - ${product.name}`,
-            callback_data: `addoption_${product.id}`
-          }])
-        }
-      };
-
-      bot.sendMessage(
-        chatId,
-        "➕ Select a product to add new pricing option:",
-        keyboard
-      );
-    } catch (error) {
-      bot.sendMessage(chatId, "❌ Error fetching products.");
-    }
-  });
-
-  bot.onText(/\/deloption/, async (msg) => {
-    const chatId = msg.chat.id;
-    
-    try {
-      const products = await storage.getProducts();
-      
-      if (products.length === 0) {
-        bot.sendMessage(chatId, "No products found. Use /newpost to add a product.");
-        return;
-      }
-
-      const keyboard = {
-        reply_markup: {
-          inline_keyboard: products.map((product, index) => [{
-            text: `${String(index + 1).padStart(4, '0')} - ${product.name}`,
-            callback_data: `deloption_${product.id}`
-          }])
-        }
-      };
-
-      bot.sendMessage(
-        chatId,
-        "🗑️ Select a product to delete pricing option:",
-        keyboard
-      );
-    } catch (error) {
-      bot.sendMessage(chatId, "❌ Error fetching products.");
-    }
-  });
 
   bot.on("callback_query", async (query) => {
     const chatId = query.message!.chat.id;
@@ -369,21 +310,6 @@ export function initTelegramBot(token: string) {
             callback_data: `toggle_12_months_${productId}`
           }
         ]);
-      }
-
-      if (product.customOptions && product.customOptions.length > 0) {
-        product.customOptions.forEach(option => {
-          priceOptions.push([
-            {
-              text: `${option.label}: ₹${option.actualPrice} → ₹${option.sellingPrice}`,
-              callback_data: `noop`
-            },
-            {
-              text: option.inStock ? "✅" : "🙅🏻‍♂️",
-              callback_data: `toggle_custom_${productId}_${option.id}`
-            }
-          ]);
-        });
       }
 
       await bot.editMessageText(
@@ -521,21 +447,6 @@ export function initTelegramBot(token: string) {
         ]);
       }
 
-      if (updatedProduct.customOptions && updatedProduct.customOptions.length > 0) {
-        updatedProduct.customOptions.forEach(option => {
-          priceOptions.push([
-            {
-              text: `${option.label}: ₹${option.actualPrice} → ₹${option.sellingPrice}`,
-              callback_data: `noop`
-            },
-            {
-              text: option.inStock ? "✅" : "🙅🏻‍♂️",
-              callback_data: `toggle_custom_${productId}_${option.id}`
-            }
-          ]);
-        });
-      }
-
       await bot.editMessageReplyMarkup(
         {
           inline_keyboard: priceOptions
@@ -552,132 +463,6 @@ export function initTelegramBot(token: string) {
       return;
     }
 
-    if (data.startsWith("toggle_custom_")) {
-      const parts = data.replace("toggle_custom_", "").split("_");
-      const productId = parts[0];
-      const optionId = parts.slice(1).join("_");
-      
-      const product = await storage.getProduct(productId);
-      if (!product) {
-        await bot.answerCallbackQuery(query.id, { text: "Product not found" });
-        return;
-      }
-
-      const customOptions = (product.customOptions || []).map(option => {
-        if (option.id === optionId) {
-          return { ...option, inStock: !option.inStock };
-        }
-        return option;
-      });
-
-      await storage.updateProduct(productId, { customOptions });
-      
-      const updatedProduct = await storage.getProduct(productId);
-      if (!updatedProduct) {
-        await bot.answerCallbackQuery(query.id, { text: "Error updating" });
-        return;
-      }
-
-      const priceOptions = [];
-      
-      if (updatedProduct.price1MonthActual > 0 && updatedProduct.price1MonthSelling > 0) {
-        priceOptions.push([
-          {
-            text: `1 Month: ₹${updatedProduct.price1MonthActual} → ₹${updatedProduct.price1MonthSelling}`,
-            callback_data: `noop`
-          },
-          {
-            text: "✏️",
-            callback_data: `edit_1_month_${productId}`
-          },
-          {
-            text: updatedProduct.inStock1Month ? "✅" : "🙅🏻‍♂️",
-            callback_data: `toggle_1_month_${productId}`
-          }
-        ]);
-      }
-      
-      if (updatedProduct.price3MonthActual > 0 && updatedProduct.price3MonthSelling > 0) {
-        priceOptions.push([
-          {
-            text: `3 Months: ₹${updatedProduct.price3MonthActual} → ₹${updatedProduct.price3MonthSelling}`,
-            callback_data: `noop`
-          },
-          {
-            text: "✏️",
-            callback_data: `edit_3_months_${productId}`
-          },
-          {
-            text: updatedProduct.inStock3Month ? "✅" : "🙅🏻‍♂️",
-            callback_data: `toggle_3_months_${productId}`
-          }
-        ]);
-      }
-      
-      if (updatedProduct.price6MonthActual > 0 && updatedProduct.price6MonthSelling > 0) {
-        priceOptions.push([
-          {
-            text: `6 Months: ₹${updatedProduct.price6MonthActual} → ₹${updatedProduct.price6MonthSelling}`,
-            callback_data: `noop`
-          },
-          {
-            text: "✏️",
-            callback_data: `edit_6_months_${productId}`
-          },
-          {
-            text: updatedProduct.inStock6Month ? "✅" : "🙅🏻‍♂️",
-            callback_data: `toggle_6_months_${productId}`
-          }
-        ]);
-      }
-      
-      if (updatedProduct.price12MonthActual > 0 && updatedProduct.price12MonthSelling > 0) {
-        priceOptions.push([
-          {
-            text: `12 Months: ₹${updatedProduct.price12MonthActual} → ₹${updatedProduct.price12MonthSelling}`,
-            callback_data: `noop`
-          },
-          {
-            text: "✏️",
-            callback_data: `edit_12_months_${productId}`
-          },
-          {
-            text: updatedProduct.inStock12Month ? "✅" : "🙅🏻‍♂️",
-            callback_data: `toggle_12_months_${productId}`
-          }
-        ]);
-      }
-
-      if (updatedProduct.customOptions && updatedProduct.customOptions.length > 0) {
-        updatedProduct.customOptions.forEach(option => {
-          priceOptions.push([
-            {
-              text: `${option.label}: ₹${option.actualPrice} → ₹${option.sellingPrice}`,
-              callback_data: `noop`
-            },
-            {
-              text: option.inStock ? "✅" : "🙅🏻‍♂️",
-              callback_data: `toggle_custom_${productId}_${option.id}`
-            }
-          ]);
-        });
-      }
-
-      await bot.editMessageReplyMarkup(
-        {
-          inline_keyboard: priceOptions
-        },
-        {
-          chat_id: chatId,
-          message_id: messageId
-        }
-      );
-      
-      await bot.answerCallbackQuery(query.id, { 
-        text: `Stock status updated!` 
-      });
-      return;
-    }
 
     if (data === "create_product") {
       const session = sessions.get(chatId);
@@ -871,124 +656,6 @@ Product ID: ${product.id}
       return;
     }
 
-    if (data.startsWith("addoption_")) {
-      const productId = data.replace("addoption_", "");
-      const product = await storage.getProduct(productId);
-      
-      if (!product) {
-        await bot.answerCallbackQuery(query.id, { text: "Product not found" });
-        return;
-      }
-
-      sessions.set(chatId, {
-        step: "adding_custom_option",
-        data: {},
-        editingProductId: productId
-      });
-
-      await bot.editMessageText(
-        `➕ Add new pricing option for: ${product.name}\n\nFormat: label_(actual_price)_(our_price)\n\nExamples:\n1 Month_649_149\nNetflix Premium_999_199\n3 Months Special_1999_299\n\nNote: Label can be anything you want!`,
-        {
-          chat_id: chatId,
-          message_id: messageId
-        }
-      );
-      
-      await bot.answerCallbackQuery(query.id);
-      return;
-    }
-
-    if (data.startsWith("deloption_")) {
-      try {
-        const productId = data.replace("deloption_", "");
-        console.log("deloption_ - productId:", productId);
-        
-        const product = await storage.getProduct(productId);
-        
-        if (!product) {
-          console.error("Product not found:", productId);
-          await bot.answerCallbackQuery(query.id, { text: "Product not found" });
-          return;
-        }
-
-        const customOptions = product.customOptions || [];
-        console.log("Product custom options:", customOptions);
-        
-        if (customOptions.length === 0) {
-          await bot.answerCallbackQuery(query.id, { text: "No custom options to delete" });
-          bot.sendMessage(chatId, "❌ This product has no custom pricing options.");
-          return;
-        }
-
-        const optionButtons = customOptions.map(option => [{
-          text: `${option.label}: ₹${option.actualPrice} → ₹${option.sellingPrice}`,
-          callback_data: `confirmdeloption_${productId}_${option.id}`
-        }]);
-
-        console.log("Creating delete buttons with callback_data:", optionButtons.map(b => b[0].callback_data));
-
-        await bot.editMessageText(
-          `🗑️ Select pricing option to delete from: ${product.name}`,
-          {
-            chat_id: chatId,
-            message_id: messageId,
-            reply_markup: {
-              inline_keyboard: optionButtons
-            }
-          }
-        );
-        
-        await bot.answerCallbackQuery(query.id);
-      } catch (error) {
-        console.error("Error in deloption_ handler:", error);
-        await bot.answerCallbackQuery(query.id, { text: "Error loading options" });
-        bot.sendMessage(chatId, `❌ Error: ${error instanceof Error ? error.message : String(error)}`);
-      }
-      return;
-    }
-
-    if (data.startsWith("confirmdeloption_")) {
-      try {
-        const parts = data.replace("confirmdeloption_", "").split("_");
-        const productId = parts[0];
-        const optionId = parts.slice(1).join("_");
-        
-        console.log("Deleting option - productId:", productId, "optionId:", optionId);
-        
-        const product = await storage.getProduct(productId);
-        
-        if (!product) {
-          console.error("Product not found:", productId);
-          await bot.answerCallbackQuery(query.id, { text: "Product not found" });
-          return;
-        }
-
-        console.log("Product found. Current custom options:", product.customOptions);
-        
-        const customOptions = (product.customOptions || []).filter(
-          option => option.id !== optionId
-        );
-
-        console.log("Options after filter:", customOptions);
-        
-        await storage.updateProduct(productId, { customOptions });
-
-        await bot.editMessageText(
-          `✅ Pricing option deleted successfully from ${product.name}!`,
-          {
-            chat_id: chatId,
-            message_id: messageId
-          }
-        );
-        
-        await bot.answerCallbackQuery(query.id, { text: "Option deleted!" });
-      } catch (error) {
-        console.error("Error in confirmdeloption handler:", error);
-        await bot.answerCallbackQuery(query.id, { text: "Error deleting option" });
-        bot.sendMessage(chatId, `❌ Error: ${error instanceof Error ? error.message : String(error)}`);
-      }
-      return;
-    }
 
     if (data === "noop") {
       await bot.answerCallbackQuery(query.id);
@@ -1129,59 +796,6 @@ Product ID: ${product.id}
         bot.sendMessage(
           chatId,
           `✅ Description updated successfully!\n\nNew description: ${text}\n\nUse /showall to view the product.`
-        );
-        
-        sessions.delete(chatId);
-        break;
-      }
-
-      case "adding_custom_option": {
-        const productId = session.editingProductId;
-        if (!productId) return;
-
-        const parts = text.split("_");
-        
-        if (parts.length !== 3) {
-          bot.sendMessage(
-            chatId,
-            "❌ Invalid format. Please use format:\nlabel_(actual_price)_(our_price)\n\nExamples:\n1 Month_649_149\nNetflix Premium_999_199\n3 Months Special_1999_299"
-          );
-          return;
-        }
-
-        const label = parts[0].trim();
-        const actualPrice = Number(parts[1]);
-        const sellingPrice = Number(parts[2]);
-
-        if (isNaN(actualPrice) || isNaN(sellingPrice)) {
-          bot.sendMessage(
-            chatId,
-            "❌ Invalid prices. Please enter valid numbers.\n\nExample: 1 Month_649_149"
-          );
-          return;
-        }
-
-        const product = await storage.getProduct(productId);
-        if (!product) {
-          bot.sendMessage(chatId, "❌ Product not found.");
-          sessions.delete(chatId);
-          return;
-        }
-
-        const newOption = {
-          id: `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-          label,
-          actualPrice,
-          sellingPrice,
-          inStock: true
-        };
-
-        const customOptions = [...(product.customOptions || []), newOption];
-        await storage.updateProduct(productId, { customOptions });
-
-        bot.sendMessage(
-          chatId,
-          `✅ New pricing option added successfully!\n\n${label}: ₹${actualPrice} → ₹${sellingPrice}\n\nUse /showall to view the product.`
         );
         
         sessions.delete(chatId);
