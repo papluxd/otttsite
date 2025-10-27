@@ -119,11 +119,11 @@ export default function SubscriptionCard({
 
           <div className="border-t pt-3 space-y-1.5 flex-1">
             {features.map((feature, index) => (
-              <div key={index} className="flex items-center justify-between gap-2">
+              <div key={index} className="flex items-start gap-2">
+                <Check className="h-4 w-4 text-orange-500 flex-shrink-0 mt-0.5" />
                 <p className="text-xs text-muted-foreground">
                   {feature}
                 </p>
-                <Check className="h-4 w-4 text-green-500 flex-shrink-0" />
               </div>
             ))}
           </div>
