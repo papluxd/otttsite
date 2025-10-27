@@ -82,17 +82,28 @@ export default function HeroCarousel() {
       ))}
 
       <div className="absolute inset-0 flex items-center justify-center">
-        <h1 
-          className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white uppercase text-center" 
-          style={{ 
-            fontFamily: 'Montserrat, sans-serif', 
-            letterSpacing: '0.1em',
-            lineHeight: '1.1',
-            textShadow: '2px 4px 12px rgba(0,0,0,0.7)'
-          }}
-        >
-          {slides[currentSlide].title}
-        </h1>
+        <div className="text-center px-4">
+          <h1 
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white uppercase mb-6 md:mb-8" 
+            style={{ 
+              fontFamily: 'Montserrat, sans-serif', 
+              letterSpacing: '0.1em',
+              lineHeight: '1.1',
+              textShadow: '2px 4px 12px rgba(0,0,0,0.7)'
+            }}
+          >
+            {slides[currentSlide].title}
+          </h1>
+          <Button
+            variant="default"
+            size="lg"
+            onClick={scrollToSubscriptions}
+            className="px-8 py-6 text-base shadow-xl hover:shadow-2xl rounded-full"
+            data-testid="button-browse-plans"
+          >
+            View Plans
+          </Button>
+        </div>
       </div>
 
       <button
