@@ -43,7 +43,7 @@ export function initTelegramBot(token: string) {
     const chatId = msg.chat.id;
     bot.sendMessage(
       chatId,
-      "Welcome to SubFlix Product Manager! 🎬\n\nCommands:\n/newpost - Add a new product\n/showall - View and edit all products"
+      "Welcome to SubFlix Product Manager! 🎬\n\nCommands:\n/newpost - Add a new product\n/showall - View and edit all products\n/delpost - Delete a product"
     );
   });
 
@@ -94,6 +94,36 @@ export function initTelegramBot(token: string) {
       bot.sendMessage(
         chatId,
         "Select a product to view and edit pricing:",
+        keyboard
+      );
+    } catch (error) {
+      bot.sendMessage(chatId, "❌ Error fetching products.");
+    }
+  });
+
+  bot.onText(/\/delpost/, async (msg) => {
+    const chatId = msg.chat.id;
+    
+    try {
+      const products = await storage.getProducts();
+      
+      if (products.length === 0) {
+        bot.sendMessage(chatId, "No products found. Use /newpost to add a product.");
+        return;
+      }
+
+      const keyboard = {
+        reply_markup: {
+          inline_keyboard: products.map(product => [{
+            text: `🗑️ ${product.name} (${product.category})`,
+            callback_data: `delete_${product.id}`
+          }])
+        }
+      };
+
+      bot.sendMessage(
+        chatId,
+        "⚠️ Select a product to DELETE:\n(This action cannot be undone!)",
         keyboard
       );
     } catch (error) {
@@ -430,6 +460,83 @@ Product ID: ${product.id}
       }
       
       await bot.answerCallbackQuery(query.id);
+      return;
+    }
+
+    if (data.startsWith("delete_")) {
+      const productId = data.replace("delete_", "");
+      const product = await storage.getProduct(productId);
+      
+      if (!product) {
+        await bot.answerCallbackQuery(query.id, { text: "Product not found" });
+        return;
+      }
+
+      const confirmKeyboard = {
+        reply_markup: {
+          inline_keyboard: [
+            [
+              { text: "✅ Yes, Delete", callback_data: `confirm_delete_${productId}` },
+              { text: "❌ Cancel", callback_data: "cancel_delete" }
+            ]
+          ]
+        }
+      };
+
+      await bot.editMessageText(
+        `⚠️ Are you sure you want to DELETE this product?\n\n📦 ${product.name}\nCategory: ${product.category}\n\n⚠️ This action cannot be undone!`,
+        {
+          chat_id: chatId,
+          message_id: messageId,
+          reply_markup: confirmKeyboard.reply_markup
+        }
+      );
+      
+      await bot.answerCallbackQuery(query.id);
+      return;
+    }
+
+    if (data.startsWith("confirm_delete_")) {
+      const productId = data.replace("confirm_delete_", "");
+      const product = await storage.getProduct(productId);
+      
+      if (!product) {
+        await bot.answerCallbackQuery(query.id, { text: "Product not found" });
+        return;
+      }
+
+      const productName = product.name;
+      
+      try {
+        await storage.deleteProduct(productId);
+        
+        await bot.editMessageText(
+          `✅ Product deleted successfully!\n\n🗑️ Deleted: ${productName}`,
+          {
+            chat_id: chatId,
+            message_id: messageId
+          }
+        );
+        
+        await bot.answerCallbackQuery(query.id, { text: "Product deleted!" });
+      } catch (error) {
+        await bot.answerCallbackQuery(query.id, { text: "Error deleting product" });
+        bot.sendMessage(chatId, "❌ Error deleting product. Please try again.");
+      }
+      
+      return;
+    }
+
+    if (data === "cancel_delete") {
+      await bot.editMessageText(
+        "❌ Deletion cancelled.",
+        {
+          chat_id: chatId,
+          message_id: messageId
+        }
+      );
+      
+      await bot.answerCallbackQuery(query.id, { text: "Cancelled" });
       return;
     }
 
