@@ -144,18 +144,18 @@ export default function Navbar({ onSearch }: NavbarProps) {
               >
                 Contact
               </button>
-              <div className="flex items-center justify-between px-4 py-3 rounded-lg font-medium">
+              <div className="flex items-center justify-between px-4 py-3 font-medium">
                 <span>Dark Mode</span>
                 <button
                   onClick={toggleTheme}
-                  className="p-2 rounded-full"
+                  className="p-2"
                   data-testid="button-theme-toggle-mobile"
                   aria-label="Toggle dark mode"
                 >
                   {theme === "light" ? (
-                    <Moon className="h-5 w-5 text-foreground" />
+                    <Moon className="h-5 w-5" />
                   ) : (
-                    <Sun className="h-5 w-5 text-foreground" />
+                    <Sun className="h-5 w-5" />
                   )}
                 </button>
               </div>
