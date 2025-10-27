@@ -10,6 +10,7 @@ import { useCart } from "@/context/CartContext";
 import { useTheme } from "@/context/ThemeContext";
 import { useLocation } from "wouter";
 import logoImage from "@assets/20251026_205921_1761492762838.png";
+import logoImageDark from "@assets/generated_images/SUBFLIX_logo_white_SUB_version_a3dde709.png";
 
 interface NavbarProps {
   onSearch: (query: string) => void;
@@ -81,7 +82,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
           {/* Center - Logo */}
           <div className="absolute left-1/2 transform -translate-x-1/2">
             <img 
-              src={logoImage} 
+              src={theme === "dark" ? logoImageDark : logoImage} 
               alt="SUBFLIX" 
               className="h-12 md:h-14 w-auto object-contain"
               data-testid="img-logo"
@@ -124,7 +125,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
             <div className="px-4 py-6 space-y-2">
               <div className="mb-6">
                 <img 
-                  src={logoImage} 
+                  src={theme === "dark" ? logoImageDark : logoImage} 
                   alt="SUBFLIX" 
                   className="h-14 w-auto object-contain"
                   data-testid="img-logo-mobile"
