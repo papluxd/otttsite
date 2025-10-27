@@ -160,7 +160,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
                   data-testid="button-categories-mobile"
                 >
                   <span>Categories</span>
-                  <ChevronRight className={`h-4 w-4 transition-transform ${categoriesOpen ? 'rotate-90' : ''}`} />
+                  <ChevronDown className={`h-4 w-4 transition-transform ${categoriesOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {categoriesOpen && (
                   <div className="pl-4 space-y-1">
@@ -197,7 +197,7 @@ export default function Navbar({ onSearch }: NavbarProps) {
                   data-testid="button-privacy-mobile"
                 >
                   <span>Privacy & Policies</span>
-                  <ChevronRight className={`h-4 w-4 transition-transform ${privacyOpen ? 'rotate-90' : ''}`} />
+                  <ChevronDown className={`h-4 w-4 transition-transform ${privacyOpen ? 'rotate-180' : ''}`} />
                 </button>
                 {privacyOpen && (
                   <div className="pl-4 space-y-1">
