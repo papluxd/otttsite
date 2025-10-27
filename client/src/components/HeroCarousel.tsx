@@ -87,7 +87,7 @@ export default function HeroCarousel() {
             <Sparkles className="h-3 w-3 text-primary" />
             <span className="text-xs font-semibold text-white">2000+ Customers</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-3 md:mb-4 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-3 md:mb-4 leading-tight uppercase">
             {slides[currentSlide].title}
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-primary mb-4 md:mb-6">
